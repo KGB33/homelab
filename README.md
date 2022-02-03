@@ -2,7 +2,7 @@
 
 Run 
 ```console
-ansible-playbook local.yml
+ansible-playbook local.yml -i inventory.yml
 ```
 
 # Pull from remote git
