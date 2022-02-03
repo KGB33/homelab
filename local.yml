@@ -1,8 +1,10 @@
 - hosts: localhost
-  become: true
   tasks:
     - name: Install Packages
-      pacman: name={{item}}
+      become: yes
+      package:
+        name: "{{item}}"
+        state: present
       with_items:
         - htop
         - tmux
