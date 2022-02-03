@@ -1,5 +1,5 @@
 - hosts: localhost
   become: true
   tasks:
-    - name: Install htop
-      pacman: name=htop
+    - name: Install Packages
+      paru: name=htop
