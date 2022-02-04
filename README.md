@@ -10,3 +10,14 @@ Run
 ```console
 ansible-pull -U https://git.kgb33.dev/kgb33/ansible.git
 ```
+
+# Generate Package Lists
+Arch Repos
+```console
+paru -Qqe | rg -v '$(pacman -Qqm)'
+```
+
+AUR
+```console
+paru -Qqm
+```

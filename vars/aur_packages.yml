@@ -1,0 +1,7 @@
+aur_packages:
+  - hugo-extended-bin
+  - paru
+  - python-launcher
+  - spotify-tui
+  - sway-launcher-desktop
+  - tectonic
