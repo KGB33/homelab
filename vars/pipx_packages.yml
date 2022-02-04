@@ -1,0 +1,4 @@
+pipx_packages:
+  - glances
+  - poetry
+  - pre-commit

@@ -2,6 +2,7 @@
   vars_files:
     - vars/pacman_packages.yml
     - vars/aur_packages.yml
+    - vars/pipx_packages.yml
   tasks:
     - name: Update pacman.conf Settings
       lineinfile:
@@ -66,3 +67,9 @@
         name: "{{aur_packages}}"
         state: present
         executable: paru
+
+    - name: Install pipx Packages
+      community.general.pipx:
+        name: "{{ item }}"
+      with_items:
+        - "{{ pipx_packages }}"
