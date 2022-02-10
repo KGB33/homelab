@@ -73,3 +73,22 @@
         name: "{{ item }}"
       with_items:
         - "{{ pipx_packages }}"
+
+    - name: Give kgb33 sudo rights
+      lineinfile:
+        path: /etc/sudoers.d/kgb33-sudo
+        state: present
+        line: "kgb33 ALL=(ALL) ALL"
+        validate: /usr/sbin/visudo -cf %s
+        create: yes
+
+    - name: Ensure Docker Group Exists
+      group:
+        name: docker
+        state: present
+
+    - name: Add kgb33 to the docker role
+      user:
+        name: kgb33
+        groups: docker
+        append: yes
