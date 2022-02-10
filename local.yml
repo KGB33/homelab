@@ -92,3 +92,13 @@
         name: kgb33
         groups: docker
         append: yes
+
+    - name: Install dotfiles
+      become: yes
+      become_user: kgb33
+      args:
+        creates: /home/kgb33/.dotfiles/
+      shell: |
+        cd $HOME 
+        git clone --bare git@github.com:KGB33/.dotfiles.git $HOME/.dotfiles
+        /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
