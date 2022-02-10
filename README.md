@@ -1,3 +1,12 @@
+# Account creation
+Unfortunately `homectl` does not seem to be script-able at the moment.
+As a result, before running this playbook create a user account. 
+
+```
+homectl create --idet=./vars/kgb33.identity
+```
+
+
 # Local Testing
 
 Run 
