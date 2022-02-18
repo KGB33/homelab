@@ -102,3 +102,12 @@
         cd $HOME 
         git clone --bare git@github.com:KGB33/.dotfiles.git $HOME/.dotfiles
         /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME checkout
+
+    - name: Enable custom pipxUpdater
+      become: yes
+      become_user: kgb33 
+      systemd:
+        name: pipxUpdate.timer
+        enabled: yes
+        scope: user
+
