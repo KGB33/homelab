@@ -1,15 +1,15 @@
 pacman_packages:
   - alacritty
   - ansible
+  - ansible-core
   - autoconf
   - automake
   - base
-  - bash-language-server
   - bat
-  - binutils
+  - bc
   - bison
-  - ccls
-  - cmake
+  - codespell
+  - cpio
   - direnv
   - discord-canary
   - docker
@@ -18,34 +18,35 @@ pacman_packages:
   - fd
   - firefox
   - flex
+  - fwupd
+  - fzf
   - gcc
   - git
-  - gnu-netcat
+  - github-cli
+  - gnome-keyring
   - go
   - gopls
-  - gradle
   - grim
-  - groff
-  - htop
   - hunspell-en_us
-  - imagemagick
   - intel-ucode
+  - irssi
   - iwd
   - jdk11-openjdk
   - kitty
   - kitty-terminfo
-  - libreoffice-fresh
-  - libtool
   - linux
   - linux-firmware
+  - linux-headers
   - m4
   - make
   - man-db
-  - mpv
+  - man-pages
+  - mariadb-clients
+  - mysql-workbench
   - neovim
   - nmap
   - noto-fonts-emoji
-  - npm
+  - openconnect
   - openssh
   - patch
   - pipewire
@@ -58,23 +59,23 @@ pacman_packages:
   - ranger
   - reflector
   - ripgrep
+  - rust
   - slurp
   - spotifyd
   - starship
   - sudo
   - sway
-  - terraform
-  - texinfo
+  - swaybg
+  - tectonic
   - texlab
   - tldr
   - tmux
   - ttf-fira-code
-  - ttf-nerd-fonts-symbols
   - unzip
+  - vim
   - waybar
   - which
   - xorg-xwayland
-  - youtube-dl
   - zathura
   - zathura-pdf-mupdf
   - zip

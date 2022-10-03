@@ -1,7 +1,6 @@
 aur_packages:
-  - hugo-extended-bin
+  - gp-saml-gui-git
+  - libvterm01
+  - pandoc-bin
   - paru
-  - python-launcher
-  - spotify-tui
   - sway-launcher-desktop
-  - tectonic
