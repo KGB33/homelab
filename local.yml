@@ -54,6 +54,7 @@
       args:
         creates: /usr/bin/paru
       shell: |
+        cd ~
         git clone https://aur.archlinux.org/paru.git 
         cd paru 
         yes | makepkg -si 
@@ -96,6 +97,8 @@
     - name: Install dotfiles
       become: yes
       become_user: kgb33
+      tags:
+        - dots
       args:
         creates: /home/kgb33/.dotfiles/
       shell: |
