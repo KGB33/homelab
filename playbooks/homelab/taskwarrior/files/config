@@ -1,0 +1,20 @@
+# Taskd configuration
+#
+# See http://taskwarrior.org/docs/taskserver/configure.html
+# or man taskdrc
+confirmation=1
+extensions=/usr/libexec/taskd
+ip.log=off
+pid.file=/run/taskd.pid
+queue.size=10
+request.limit=1048576
+root=/var/lib/taskd
+server=taskd:5358
+trust=strict
+verbose=0
+client.cert=/var/lib/taskd/client.cert.pem
+client.key=/var/lib/taskd/client.key.pem
+server.cert=/var/lib/taskd/server.cert.pem
+server.key=/var/lib/taskd/server.key.pem
+server.crl=/var/lib/taskd/server.crl.pem
+ca.cert=/var/lib/taskd/ca.cert.pem

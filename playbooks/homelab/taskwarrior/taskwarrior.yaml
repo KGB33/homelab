@@ -1,0 +1,56 @@
+- name: Install & configure taskd
+  hosts: taskd
+  vars:
+    taskddata: "/var/lib/taskd"
+    pkidir: "/usr/share/taskd/pki" # Default location on Ubuntu
+  tasks:
+    - name: Install taskd
+      become: true
+      ansible.builtin.package:
+        name: taskd
+        state: present
+
+    - name: Copy config file
+      become: true
+      ansible.builtin.copy:
+        dest: "{{ taskddata }}/config"
+        src: "./files/config"
+
+    - name: Copy cert vars
+      become: true
+      ansible.builtin.copy:
+        dest: "{{ pkidir }}/vars"
+        src: "./files/pkiVars"
+
+    - name: Create Certs
+      become: true
+      ansible.builtin.command:
+        cmd: "./generate"
+        creates: "*.pem"
+        chdir: "{{ pkidir }}"
+
+    - name: Copy Generated Certs
+      become: true
+      ansible.builtin.shell:
+        cmd: "cp {{ pkidir }}/*.pem {{ taskddata }}/"
+        creates: "{{ taskddata }}/*.pem"
+
+    - name: Make certs readable
+      become: true
+      ansible.builtin.file:
+        path: "{{ taskddata }}/{{ item }}"
+        mode: "664"
+      loop:
+        - "config"
+        - "ca.cert.pem"
+        - "ca.key.pem"
+        - "server.cert.pem"
+        - "server.key.pem"
+        - "server.crl.pem"
+
+    - name: Start server
+      become: true
+      ansible.builtin.systemd:
+        name: taskd
+        enabled: true
+        state: started
