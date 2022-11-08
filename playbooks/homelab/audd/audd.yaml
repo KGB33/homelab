@@ -1,0 +1,24 @@
+- name: Create user, add roles, and pull ssh keys.
+  hosts: all
+  vars:
+    username: kgb33
+    github_user: KGB33
+    user_groups: ["sudo", "docker"]
+  tasks:
+    - name: Ensure Groups Exist
+      ansible.builtin.group:
+        name: "{{ item }}"
+      loop: "{{ user_groups }}"
+      become: True
+
+    - name: Create User
+      ansible.builtin.user:
+        name: "{{ username }}"
+        groups: "{{ user_groups }}"
+      become: True
+
+    - name: Pull SSH keys
+      ansible.posix.authorized_key:
+        comment: "Fetched from GH using audd"
+        user: "{{ username }}"
+        key: "https://github.com/{{ github_user }}.keys"
