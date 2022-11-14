@@ -1,0 +1,24 @@
+- hosts: mastodon
+  vars:
+    install_dir: "/home/kgb33/mastodon/"
+
+  tasks:
+    - name: Make Directory
+      ansible.builtin.file:
+        path: "{{ install_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy Docker Compose Definition
+      ansible.builtin.copy:
+        dest: "{{ install_dir }}/docker-compose.yaml"
+        src: "./files/docker-compose.yaml"
+
+    - name: Copy Production Configuration
+      ansible.builtin.copy:
+        dest: "{{ install_dir }}/.env.production"
+        src: "./files/.env.production" # TODO: SOAP & add to git
+
+    - name: Start Mastodon Server
+      community.docker.docker_compose:
+        project_src: "{{ install_dir }}"
