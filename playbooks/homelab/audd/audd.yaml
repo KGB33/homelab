@@ -15,6 +15,7 @@
       ansible.builtin.user:
         name: "{{ username }}"
         groups: "{{ user_groups }}"
+        append: True
       become: True
 
     - name: Pull SSH keys
