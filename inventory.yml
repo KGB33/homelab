@@ -2,5 +2,3 @@ all:
   hosts:
     taskd:
       ansible_host: 10.0.0.162
-localhost:
-  ansible_connection: local
