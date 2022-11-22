@@ -19,6 +19,7 @@
       become: True
 
     - name: Pull SSH keys
+      become: True
       ansible.posix.authorized_key:
         comment: "Fetched from GH using audd"
         user: "{{ username }}"
