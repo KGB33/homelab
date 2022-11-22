@@ -1,0 +1,20 @@
+- hosts: rpi-1
+  vars:
+    install_dir: "/home/kgb33/roboshpee/"
+
+  tasks:
+    - name: Make Directory
+      ansible.builtin.file:
+        path: "{{ install_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Clone Docker Compose Definition
+      ansible.builtin.git:
+        repo: "https://github.com/KGB33/RoboShpee.git"
+        dest: "{{ install_dir }}"
+        force: yes
+
+    - name: Start RoboShpee
+      community.docker.docker_compose:
+        project_src: "{{ install_dir }}"
