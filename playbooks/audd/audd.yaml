@@ -15,6 +15,7 @@
       ansible.builtin.user:
         name: "{{ username }}"
         groups: "{{ user_groups }}"
+        shell: "/bin/bash"
         append: True
       become: True
 

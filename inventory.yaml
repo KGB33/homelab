@@ -1,4 +1,13 @@
-all:
+pve:
+  hosts:
+    targe.pve.kgb33.dev:
+      ansible_host: 10.0.0.101
+    sundace:
+      ansible_host: 10.0.0.100
+    glint.pve.kgb33.dev:
+      ansible_host: 10.0.0.167
+
+vms:
   hosts:
     taskd:
       ansible_host: 10.0.0.162
