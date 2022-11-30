@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - vars.yaml
+
+  tasks:
+    - name: Install Aptitude
+      ansible.builtin.apt:
+        name: aptitude
+        update_cache: true
+
+    - name: Install Base Packages
+      ansible.builtin.apt:
+        pkg: "{{ base_packages }}"
+        update_cache: true
