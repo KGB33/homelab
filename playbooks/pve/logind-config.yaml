@@ -12,8 +12,8 @@
     - name: Update file
       ansible.builtin.lineinfile:
         path: "/etc/systemd/logind.conf"
-        line: "{{ item }}ignore"
-        regex: "^#{{ item }}"
+        line: "{{ item }}lock"
+        regex: "^#?{{ item }}"
       with_items:
         - "HandleLidSwitch="
         - "HandleLidSwitchExternalPower="
