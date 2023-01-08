@@ -9,18 +9,18 @@
       ansible.builtin.group:
         name: "{{ item }}"
       loop: "{{ user_groups }}"
-      become: True
+      become: true
 
     - name: Create User
       ansible.builtin.user:
         name: "{{ username }}"
         groups: "{{ user_groups }}"
         shell: "/bin/bash"
-        append: True
-      become: True
+        append: true
+      become: true
 
     - name: Pull SSH keys
-      become: True
+      become: true
       ansible.posix.authorized_key:
         comment: "Fetched from GH using audd"
         user: "{{ username }}"

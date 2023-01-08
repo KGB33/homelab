@@ -13,7 +13,7 @@
       ansible.builtin.git:
         repo: "https://github.com/KGB33/RoboShpee.git"
         dest: "{{ install_dir }}"
-        force: yes
+        force: true
 
     - name: Start RoboShpee
       community.docker.docker_compose:
