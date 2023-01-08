@@ -1,1 +1,7 @@
 .env*
+
+
+# Terraform
+.terraform*
+terraform.*
+!.terraform.lock.hcl

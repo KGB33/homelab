@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: Set Hostname
+      ansible.builtin.hostname:
+        name: tftest.kgb33.dev
+        use: systemd
+
+    - name: Install Aptitude
+      ansible.builtin.apt:
+        name: aptitude
+        update_cache: true
