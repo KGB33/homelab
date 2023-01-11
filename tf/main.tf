@@ -1,33 +1,32 @@
-terraform {
-  required_version = "v1.3.7"
-  required_providers {
-    proxmox = {
-      source  = "Telmate/proxmox"
-      version = "2.9.11"
+# VM-1
+resource "proxmox_vm_qemu" "cloudinit-test" {
+  for_each = {
+    foo = {
+      ip      = "10.0.0.112",
+      macaddr = "22:d4:92:84:f1:bb",
+      id      = 501,
+    },
+    bar = {
+      ip      = "10.0.0.113",
+      macaddr = "22:d4:92:84:f1:cc",
+      id      = 502,
     }
   }
-}
 
-provider "proxmox" {
-  pm_api_url = "https://10.0.0.101:8006/api2/json"
-  pm_timeout = 10000
-}
-
-resource "proxmox_vm_qemu" "cloudinit-test" {
-  name        = "tftest1.kgb33.dev"
-  desc        = "tf description"
+  name        = "${each.key}.kgb33.dev"
+  desc        = "K8s Node #1 \n ${each.key}.kgb33.dev \n IP: ${each.value.ip}"
   target_node = "glint"
   clone       = "ubuntu22.04-template"
-  vmid        = 501
+  vmid        = each.value.id
   memory      = 4096
   sockets     = 2
   scsihw      = "virtio-scsi-single"
 
-  // TODO: Create Static IPs
-  ipconfig0 = "ip=dhcp,gw=10.0.0.1"
+  ipconfig0 = "ip=${each.value.ip}/24,gw=10.0.0.1"
   network {
-    model  = "virtio"
-    bridge = "vmbr0"
+    model   = "virtio"
+    bridge  = "vmbr0"
+    macaddr = each.value.macaddr
   }
 
   timeouts {
@@ -35,15 +34,14 @@ resource "proxmox_vm_qemu" "cloudinit-test" {
   }
 
   connection {
-    # TODO: Static IPs (Again)
-    host  = "10.0.0.112"
+    host  = each.value.ip
     type  = "ssh"
     user  = "kgb33"
     agent = true
   }
 
   provisioner "file" {
-    source      = "./provisioners/highstate-template.yaml"
+    source      = "./provisioners/highstate-${each.key}.yaml"
     destination = "highstate.yaml"
   }
 
