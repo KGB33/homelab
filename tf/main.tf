@@ -5,17 +5,25 @@ resource "proxmox_vm_qemu" "cloudinit-test" {
       ip      = "10.0.0.112",
       macaddr = "22:d4:92:84:f1:bb",
       id      = 501,
+      node    = "glint"
     },
     bar = {
       ip      = "10.0.0.113",
       macaddr = "22:d4:92:84:f1:cc",
       id      = 502,
+      node    = "glint"
+    },
+    baz = {
+      ip      = "10.0.0.114",
+      macaddr = "22:d4:92:84:f1:dd",
+      id      = 503,
+      node    = "targe"
     }
   }
 
   name        = "${each.key}.kgb33.dev"
   desc        = "K8s Node #1 \n ${each.key}.kgb33.dev \n IP: ${each.value.ip}"
-  target_node = "glint"
+  target_node = each.value.node
   clone       = "ubuntu22.04-template"
   vmid        = each.value.id
   memory      = 4096
@@ -48,6 +56,10 @@ resource "proxmox_vm_qemu" "cloudinit-test" {
   provisioner "remote-exec" {
     inline = [
       "ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 highstate.yaml -e 'ansible_become_password=${var.become_password}'",
+    ]
+  }
+  provisioner "remote-exec" {
+    inline = [
       "hostname -f",
       "ip addr"
     ]
