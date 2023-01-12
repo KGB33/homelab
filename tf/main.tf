@@ -1,33 +1,60 @@
-terraform {
-  required_version = "v1.3.7"
-  required_providers {
-    proxmox = {
-      source  = "Telmate/proxmox"
-      version = "2.9.11"
+resource "proxmox_vm_qemu" "k8s-VMs" {
+  for_each = {
+    # Glint
+    gnar = {
+      ip      = "10.0.0.112",
+      macaddr = "22:d4:92:84:f1:bb",
+      id      = 501,
+      node    = "glint"
+    },
+    gwen = {
+      ip      = "10.0.0.113",
+      macaddr = "22:d4:92:84:f1:cc",
+      id      = 502,
+      node    = "glint"
+    },
+    # Sundance
+    sion = {
+      ip      = "10.0.0.114",
+      macaddr = "22:d4:92:84:f1:dd",
+      id      = 503,
+      node    = "sundance"
+    },
+    shen = {
+      ip      = "10.0.0.115",
+      macaddr = "22:d4:92:84:f1:ee",
+      id      = 504,
+      node    = "sundance"
+    },
+    # Targe
+    teemo = {
+      ip      = "10.0.0.116",
+      macaddr = "22:d4:92:84:f1:ff",
+      id      = 505,
+      node    = "targe"
+    },
+    twitch = {
+      ip      = "10.0.0.117",
+      macaddr = "22:d4:92:84:f1:11",
+      id      = 506,
+      node    = "targe"
     }
   }
-}
 
-provider "proxmox" {
-  pm_api_url = "https://10.0.0.101:8006/api2/json"
-  pm_timeout = 10000
-}
-
-resource "proxmox_vm_qemu" "cloudinit-test" {
-  name        = "tftest1.kgb33.dev"
-  desc        = "tf description"
-  target_node = "glint"
+  name        = "${each.key}.kgb33.dev"
+  desc        = "K8s Node #1 \n ${each.key}.kgb33.dev \n IP: ${each.value.ip}"
+  target_node = each.value.node
   clone       = "ubuntu22.04-template"
-  vmid        = 501
+  vmid        = each.value.id
   memory      = 4096
   sockets     = 2
   scsihw      = "virtio-scsi-single"
 
-  // TODO: Create Static IPs
-  ipconfig0 = "ip=dhcp,gw=10.0.0.1"
+  ipconfig0 = "ip=${each.value.ip}/24,gw=10.0.0.1"
   network {
-    model  = "virtio"
-    bridge = "vmbr0"
+    model   = "virtio"
+    bridge  = "vmbr0"
+    macaddr = each.value.macaddr
   }
 
   timeouts {
@@ -35,21 +62,24 @@ resource "proxmox_vm_qemu" "cloudinit-test" {
   }
 
   connection {
-    # TODO: Static IPs (Again)
-    host  = "10.0.0.112"
+    host  = each.value.ip
     type  = "ssh"
     user  = "kgb33"
     agent = true
   }
 
   provisioner "file" {
-    source      = "./provisioners/highstate-template.yaml"
+    source      = "./provisioners/highstate.yaml"
     destination = "highstate.yaml"
   }
 
   provisioner "remote-exec" {
     inline = [
-      "ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 highstate.yaml -e 'ansible_become_password=${var.become_password}'",
+      "ansible-playbook --connection=local --inventory 127.0.0.1, --limit 127.0.0.1 highstate.yaml -e 'ansible_become_password=${var.become_password}' --extra-vars 'host=${each.key}'",
+    ]
+  }
+  provisioner "remote-exec" {
+    inline = [
       "hostname -f",
       "ip addr"
     ]

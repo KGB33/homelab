@@ -5,7 +5,7 @@
   tasks:
     - name: Set Hostname
       ansible.builtin.hostname:
-        name: tftest.kgb33.dev
+        name: "{{ host }}.kgb33.dev"
         use: systemd
 
     - name: Install Aptitude
