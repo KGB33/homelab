@@ -7,6 +7,16 @@ pve:
     glint.pve.kgb33.dev:
       ansible_host: 10.0.0.167
 
+k8s:
+  hosts:
+    gnar.kgb33.dev:
+    gwen.kgb33.dev:
+    sion.kgb33.dev:
+    shen.kgb33.dev:
+    teemo.kgb33.dev:
+    twitch.kgb33.dev:
+
+
 vms:
   hosts:
     minecraft.kgb33.dev:
@@ -17,7 +27,10 @@ vms:
       ansible_host: 10.0.0.162
     mastodon:
       ansible_host: 10.0.0.166
-    rpi-1:
-      ansible_host: 10.0.3.159
     blog.kgb33.dev:
       ansible_host: 10.0.0.106
+
+rpi:
+  hosts:
+    rpi-1:
+      ansible_host: 10.0.3.159
