@@ -1,4 +1,6 @@
-- hosts: rpi-1
+# vim: ft=yaml.ansible
+---
+- hosts: rpi-1.kgb33.dev
   vars:
     install_dir: "/home/kgb33/roboshpee/"
 

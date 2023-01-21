@@ -21,7 +21,7 @@ vms:
   hosts:
     minecraft.kgb33.dev:
       ansible_host: 10.0.0.147
-    vh3.minecraft.kgb33.dev:
+    mmc.kgb33.dev:
       ansible_host: 10.0.0.168
     taskd:
       ansible_host: 10.0.0.162
@@ -32,5 +32,4 @@ vms:
 
 rpi:
   hosts:
-    rpi-1:
-      ansible_host: 10.0.3.159
+    rpi-1.kgb33.dev:
