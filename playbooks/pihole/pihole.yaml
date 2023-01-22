@@ -1,0 +1,37 @@
+# vim: ft=yaml.ansible
+---
+- hosts: rpi-1
+  vars:
+    run_dir: "/home/kgb33/pihole/"
+
+  tasks:
+    - name: Create directory
+      ansible.builtin.file:
+        path: "{{ run_dir }}"
+        state: directory
+        mode: 0755
+
+    - name: Load WEBPASSWORD from SOPS
+      community.sops.load_vars:
+        file: ./files/pihole.yaml.enc
+
+    - name: Start PiHole
+      community.docker.docker_compose:
+        project_name: PiHole
+        definition:
+          version: "3"
+          services:
+            pihole:
+              container_name: pihole
+              image: pihole/pihole:latest
+              ports:
+                - "53:53/tcp"
+                - "53:53/udp"
+                - "80:80/tcp"
+              environment:
+                TZ: 'America/Los_Angeles'
+                WEBPASSWORD: '{{ web_password }}'
+              volumes:
+                - '{{run_dir}}/etc-pihole:/etc/pihole'
+                - '{{run_dir}}/etc-dnsmasq.d:/etc/dnsmasq.d'
+              restart: unless-stopped
