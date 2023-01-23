@@ -33,3 +33,4 @@ vms:
 rpi:
   hosts:
     rpi-1.kgb33.dev:
+      ansible_host: 10.0.3.159
