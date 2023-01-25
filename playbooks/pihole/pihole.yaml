@@ -23,7 +23,7 @@
           services:
             pihole:
               container_name: pihole
-              image: pihole/pihole:2023.01.8
+              image: pihole/pihole:2023.01.9
               # docker internal IP - Prevents reply from unexpeted source.
               dns: 172.18.0.1
               ports:
