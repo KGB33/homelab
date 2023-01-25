@@ -1,22 +1,21 @@
 # vim: ft=yaml.ansible
 ---
 - hosts: rpi-1.kgb33.dev
-  vars:
-    install_dir: "/home/kgb33/roboshpee/"
 
   tasks:
-    - name: Make Directory
-      ansible.builtin.file:
-        path: "{{ install_dir }}"
-        state: directory
-        mode: '0755'
-
-    - name: Clone Docker Compose Definition
-      ansible.builtin.git:
-        repo: "https://github.com/KGB33/RoboShpee.git"
-        dest: "{{ install_dir }}"
-        force: true
+    - name: Load DISCORD_TOKEN from SOPS
+      community.sops.load_vars:
+        file: ./files/roboshpee.yaml.enc
 
     - name: Start RoboShpee
       community.docker.docker_compose:
-        project_src: "{{ install_dir }}"
+        project_name: RoboShpee
+        definition:
+          version: "3"
+          services:
+            roboshpee:
+              image: "ghcr.io/kgb33/roboshpee:latest"
+              network_mode: host # Required b/c PiHole is on the same host
+              environment:
+                DISCORD_TOKEN: '{{ DISCORD_TOKEN}}'
+              restart: unless-stopped
