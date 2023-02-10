@@ -1,0 +1,50 @@
+# vim: ft=yaml.ansible
+---
+# See https://docs.vyos.io/en/latest/configexamples/autotest/Wireguard/Wireguard.html
+- name: Setup Wireguard VPN to HOMELAB
+  hosts: vyos.kgb33.dev
+  vars:
+    vpn_network: "10.10.10.0/24"
+    interface: "wg0"
+
+  tasks:
+    - name: Load PKI Keys
+      community.sops.load_vars:
+        file: ./files/wg.yaml
+
+    - name: Create WG Interface
+      vyos.vyos.vyos_config:
+        lines:
+          - "set interfaces wireguard {{ interface }} private-key '{{ vyos.prv }}'"
+          - "set interfaces wireguard {{ interface }} address 10.10.10.1/24"
+          - "set interfaces wireguard {{ interface }} description 'VPN-to-HOMELAB'"
+          - "set interfaces wireguard {{ interface }} port 51820"
+          - "set interfaces wireguard {{ interface }} peer {{ item.name }} allowed-ips {{ vpn_network }}"
+          - "set interfaces wireguard {{ interface }} peer {{ item.name }} address {{ item.addr }}"
+          - "set interfaces wireguard {{ interface }} peer {{ item.name }} port 51820"
+          - "set interfaces wireguard {{ interface }} peer {{ item.name }} public-key {{ item.pub }}"
+          - "set interfaces wireguard {{ interface }} peer {{ item.name }} preshared-key {{ item.psk }}"
+      no_log: true
+      with_items:
+        - "{{ peers }}"
+
+    - name: Define WG Route
+      vyos.vyos.vyos_config:
+        lines:
+          - "set protocols static route {{ vpn_network }} interface {{ interface }}"
+
+    - name: Create Firewall port rules
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall name WAN-IN rule 51820 description 'Allow Wireguard'"
+          - "set firewall name WAN-IN rule 51820 action accept"
+          - "set firewall name WAN-IN rule 51820 destination port 51820"
+          - "set firewall name WAN-IN rule 51820 protocol udp"
+
+    - name: Create WG-HOMELAB firewall
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall name WG-HOMELAB default-action drop"
+          - "set firewall name WG-HOMELAB rule 10 action accept"
+          - "set firewall name WG-HOMELAB rule 10 source address {{ vpn_network }}"
+          - "set firewall interface eth2 in name WG-HOMELAB"
