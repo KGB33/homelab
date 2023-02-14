@@ -5,6 +5,7 @@
   hosts: vyos.kgb33.dev
   vars:
     vpn_network: "10.10.10.0/24"
+    homelab_network: "10.0.0.0/24"
     interface: "wg0"
 
   tasks:
@@ -20,6 +21,7 @@
           - "set interfaces wireguard {{ interface }} description 'VPN-to-HOMELAB'"
           - "set interfaces wireguard {{ interface }} port 51820"
           - "set interfaces wireguard {{ interface }} peer {{ item.name }} allowed-ips {{ vpn_network }}"
+          - "set interfaces wireguard {{ interface }} peer {{ item.name }} allowed-ips {{ homelab_network }}"
           - "set interfaces wireguard {{ interface }} peer {{ item.name }} address {{ item.addr }}"
           - "set interfaces wireguard {{ interface }} peer {{ item.name }} port 51820"
           - "set interfaces wireguard {{ interface }} peer {{ item.name }} public-key {{ item.pub }}"
@@ -32,6 +34,37 @@
       vyos.vyos.vyos_config:
         lines:
           - "set protocols static route {{ vpn_network }} interface {{ interface }}"
+          - "set protocols static route {{ homelab_network }} interface {{ interface }}"
+
+
+    - name: Create base WG-IN Firewall rules
+      vyos.vyos.vyos_config:
+        lines:
+          - set firewall name WG-IN default-action drop
+          - set firewall name WG-IN rule 10 action accept
+          - set firewall name WG-IN rule 10 state established enable
+          - set firewall name WG-IN rule 10 state related enable
+
+          - set firewall name WG-IN rule 20 action accept
+          - set firewall name WG-IN rule 20 source address 10.10.10.0/24
+          - set firewall name WG-IN rule 20 state new enable
+
+          - set firewall interface wg0 in name WG-IN
+
+    - name: Create base WG-LOCAL Firewall rules
+      vyos.vyos.vyos_config:
+        lines:
+          - set firewall name WG-LOCAL default-action drop
+          - set firewall name WG-LOCAL rule 10 action accept
+          - set firewall name WG-LOCAL rule 10 state established enable
+          - set firewall name WG-LOCAL rule 10 state related enable
+
+          - set firewall name WG-LOCAL rule 20 action accept
+          - set firewall name WG-LOCAL rule 20 icmp type-name echo-request
+          - set firewall name WG-LOCAL rule 20 protocol icmp
+          - set firewall name WG-LOCAL rule 20 state new enable
+
+          - set firewall interface wg0 local name WG-LOCAL
 
     - name: Create Firewall port rules
       vyos.vyos.vyos_config:
@@ -40,11 +73,3 @@
           - "set firewall name WAN-IN rule 51820 action accept"
           - "set firewall name WAN-IN rule 51820 destination port 51820"
           - "set firewall name WAN-IN rule 51820 protocol udp"
-
-    - name: Create WG-HOMELAB firewall
-      vyos.vyos.vyos_config:
-        lines:
-          - "set firewall name WG-HOMELAB default-action drop"
-          - "set firewall name WG-HOMELAB rule 10 action accept"
-          - "set firewall name WG-HOMELAB rule 10 source address {{ vpn_network }}"
-          - "set firewall interface eth2 in name WG-HOMELAB"
