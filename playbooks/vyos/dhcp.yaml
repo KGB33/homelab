@@ -1,0 +1,43 @@
+# vim: ft=yaml.ansible
+---
+- name: Configure DHCP servers
+  hosts: vyos.kgb33.dev
+  vars:
+    lan:
+      name: "LAN"
+      subnet: "10.0.3.0/24"
+    homelab:
+      name: "HOMELAB"
+      subnet: "10.0.0.0/24"
+
+  tasks:
+    - name: Create LAN dhcp Server
+      vars:
+        edit_prefix: "set service dhcp-server shared-network-name '{{ lan.name }}'"
+      vyos.vyos.vyos_config:
+        lines:
+          - "{{ edit_prefix }} subnet {{ lan.subnet }} default-router '10.0.0.1'"
+          - "{{ edit_prefix }} subnet {{ lan.subnet }} lease '86400'"
+          - "{{ edit_prefix }} subnet {{ lan.subnet }} name-server '10.0.3.53'"
+          - "{{ edit_prefix }} subnet {{ lan.subnet }} range 0 start '10.0.3.100'"
+          - "{{ edit_prefix }} subnet {{ lan.subnet }} range 0 stop '10.0.3.254'"
+
+    - name: Set LAN Static Addresses
+      vars:
+        edit_prefix: "set service dhcp-server shared-network-name '{{ lan.name }}' subnet {{ lan.subnet }}"
+      vyos.vyos.vyos_config:
+        lines:
+          # PiHole
+          - "{{ edit_prefix }} static-mapping pihole ip-address 10.0.3.53"
+          - "{{ edit_prefix }} static-mapping pihole mac-address b8:27:eb:2d:95:74"
+
+    - name: Create HOMELAB dhcp Server
+      vars:
+        edit_prefix: "set service dhcp-server shared-network-name '{{ homelab.name }}'"
+      vyos.vyos.vyos_config:
+        lines:
+          - "{{ edit_prefix }} subnet {{ homelab.subnet }} default-router '10.0.0.1'"
+          - "{{ edit_prefix }} subnet {{ homelab.subnet }} lease '86400'"
+          - "{{ edit_prefix }} subnet {{ homelab.subnet }} name-server '1.1.1.1'"
+          - "{{ edit_prefix }} subnet {{ homelab.subnet }} range 0 start '10.0.0.5'"
+          - "{{ edit_prefix }} subnet {{ homelab.subnet }} range 0 stop '10.0.0.99'"
