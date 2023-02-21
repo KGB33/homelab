@@ -38,6 +38,6 @@
         lines:
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} default-router '10.0.0.1'"
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} lease '86400'"
-          - "{{ edit_prefix }} subnet {{ homelab.subnet }} name-server '1.1.1.1'"
+          - "{{ edit_prefix }} subnet {{ homelab.subnet }} name-server '10.0.3.53'"
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} range 0 start '10.0.0.5'"
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} range 0 stop '10.0.0.99'"
