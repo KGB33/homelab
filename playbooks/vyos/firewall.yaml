@@ -1,0 +1,72 @@
+# vim: ft=yaml.ansible
+---
+- name: Configure Firewall
+  hosts: vyos.kgb33.dev
+
+  tasks:
+    - name: Create Base Firewalls
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall name {{ item }}-IN default-action 'drop'"
+          - "set firewall name {{ item }}-IN rule 10 action 'accept'"
+          - "set firewall name {{ item }}-IN rule 10 state established 'enable'"
+          - "set firewall name {{ item }}-IN rule 10 state related 'enable'"
+          - "set firewall name {{ item }}-LOCAL default-action 'drop'"
+          - "set firewall name {{ item }}-LOCAL rule 10 action 'accept'"
+          - "set firewall name {{ item }}-LOCAL rule 10 state established 'enable'"
+          - "set firewall name {{ item }}-LOCAL rule 10 state related 'enable'"
+          - "set firewall name {{ item }}-LOCAL rule 20 action 'accept'"
+          - "set firewall name {{ item }}-LOCAL rule 20 icmp type-name 'echo-request'"
+          - "set firewall name {{ item }}-LOCAL rule 20 protocol 'icmp'"
+          - "set firewall name {{ item }}-LOCAL rule 20 state new 'enable'"
+      loop:
+        - "WAN"
+          # - "LAN"
+          # - "HOMELAB"
+          # - "WG"
+
+    - name: Apply Firewalls to Interfaces.
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall interface {{ item.if }} in name '{{ item.name }}-IN'"
+          - "set firewall interface {{ item.if }} local name '{{ item.name }}-LOCAL'"
+      loop:
+        - {if: "pppoe0", name: "WAN"}
+          # - {if: "eth1", name: "LAN"}
+          # - {if: "eth2", name: "HOMELAB"}
+          # - {if: "wg0", name: "WG"}
+
+    - name: Allow trafic from LAN -> HOMELAB
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall name HOMELAB-IN rule 20 action 'accept'"
+          - "set firewall name HOMELAB-IN rule 20 source address 10.0.3.0/24"
+          - "set firewall name HOMELAB-IN rule 20 state new 'enable'"
+          - "set firewall name HOMELAB-IN rule 20 state related 'enable'"
+          - "set firewall name HOMELAB-IN rule 20 state established 'enable'"
+
+    - name: Allow trafic to PiHole
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall name LAN-IN rule 53 action 'accept'"
+          - "set firewall name LAN-IN rule 53 destination address 10.0.3.53"
+          - "set firewall name LAN-IN rule 53 destination port 53"
+          - "set firewall name LAN-IN rule 53 protocol 'tcp_udp'"
+          - "set firewall name LAN-IN rule 53 state new 'enable'"
+          - "set firewall name LAN-IN rule 53 state related 'enable'"
+          - "set firewall name LAN-IN rule 53 state established 'enable'"
+
+
+    - name: Configure Forwared Ports
+      vyos.vyos.vyos_config:
+        lines:
+          - "set firewall name WAN-IN rule {{ item.port }} action 'accept'"
+          - "set firewall name WAN-IN rule {{ item.port }} description '{{ item.desc }}'"
+          - "set firewall name WAN-IN rule {{ item.port }} destination address '{{ item.addr }}'"
+          - "set firewall name WAN-IN rule {{ item.port }} destination port {{ item.port }}"
+          - "set firewall name WAN-IN rule {{ item.port }} protocol '{{ item.proto }}'"
+          - "set firewall name WAN-IN rule {{ item.port }} state new 'enable'"
+      loop:
+        - { desc: "Allow HTTPs to Nginx", addr: "10.0.0.6", port: 443, proto: "tcp"}
+        - { desc: "Allow HTTP to Nginx", addr: "10.0.0.6", port: 80, proto: "tcp"}
+        - { desc: "Allow access to modded minecraft server", addr: "10.0.0.11", port: 25566, proto: "tcp_udp"}
