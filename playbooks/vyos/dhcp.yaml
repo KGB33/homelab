@@ -27,9 +27,10 @@
         edit_prefix: "set service dhcp-server shared-network-name '{{ lan.name }}' subnet {{ lan.subnet }}"
       vyos.vyos.vyos_config:
         lines:
-          # PiHole
-          - "{{ edit_prefix }} static-mapping pihole ip-address 10.0.3.53"
-          - "{{ edit_prefix }} static-mapping pihole mac-address b8:27:eb:2d:95:74"
+          - "{{ edit_prefix }} static-mapping {{ item.name }} ip-address {{ item.ip }}"
+          - "{{ edit_prefix }} static-mapping {{ item.name }} mac-address {{ item.mac }}"
+      loop:
+        - {name: "pihole", ip: "10.0.3.53", mac: "b8:27:eb:2d:95:74"}
 
     - name: Create HOMELAB dhcp Server
       vars:
@@ -41,3 +42,16 @@
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} name-server '10.0.3.53'"
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} range 0 start '10.0.0.5'"
           - "{{ edit_prefix }} subnet {{ homelab.subnet }} range 0 stop '10.0.0.99'"
+
+    - name: Set HOMELAB Static Addresses
+      vars:
+        edit_prefix: "set service dhcp-server shared-network-name '{{ homelab.name }}' subnet {{ homelab.subnet }}"
+      vyos.vyos.vyos_config:
+        lines:
+          - "{{ edit_prefix }} static-mapping {{ item.name }} ip-address {{ item.ip }}"
+          - "{{ edit_prefix }} static-mapping {{ item.name }} mac-address {{ item.mac }}"
+      loop:
+        - {name: "targe", ip: "10.0.0.101", mac: "98:28:a6:25:89:51"}
+        - {name: "sundance", ip: "10.0.0.100", mac: "c4:54:44:c3:37:db"}
+        - {name: "glint", ip: "10.0.0.167", mac: "7c:c2:c6:44:8c:7c"} # Ethernet dongle
+        - {name: "unifi", ip: "10.0.0.165", mac: "7A:53:81:9D:B7:7D"}
