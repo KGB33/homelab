@@ -56,7 +56,6 @@
           - "set firewall name LAN-IN rule 53 state related 'enable'"
           - "set firewall name LAN-IN rule 53 state established 'enable'"
 
-
     - name: Configure Forwared Ports
       vyos.vyos.vyos_config:
         lines:
