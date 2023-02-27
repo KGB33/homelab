@@ -31,6 +31,9 @@
           - "{{ edit_prefix }} static-mapping {{ item.name }} mac-address {{ item.mac }}"
       loop:
         - {name: "pihole", ip: "10.0.3.53", mac: "b8:27:eb:2d:95:74"}
+        - {name: "USW-24-PoE", ip: "10.0.3.154", mac: "60:22:32:a0:74:d3"}
+        - {name: "Rack-AP", ip: "10.0.3.155", mac: "d0:21:f9:ea:6f:a8"}
+        - {name: "Laundry-Room-AP", ip: "10.0.3.156", mac: "d0:21:f9:e6:bb:94"}
 
     - name: Create HOMELAB dhcp Server
       vars:
