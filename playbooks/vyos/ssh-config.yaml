@@ -1,0 +1,14 @@
+# vim: ft=yaml.ansible
+---
+- name: Load SSH Configuration file
+  hosts: vyos.kgb33.dev
+
+  tasks:
+    - name: Load Configuration file
+      vyos.vyos.vyos_config:
+        src: ./files/ssh-config.cfg
+
+    - name: Remove Default User
+      vyos.vyos.vyos_config:
+        lines:
+          - "delete system login user vyos"
