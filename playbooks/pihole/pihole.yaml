@@ -1,6 +1,7 @@
 # vim: ft=yaml.ansible
 ---
-- hosts: rpi-1.kgb33.dev
+- name: Install PiHole using Docker Compose
+  hosts: rpi-1.kgb33.dev
   vars:
     run_dir: "/home/kgb33/pihole/"
 
@@ -9,7 +10,7 @@
       ansible.builtin.file:
         path: "{{ run_dir }}"
         state: directory
-        mode: 0755
+        mode: '0o755'
 
     - name: Load WEBPASSWORD from SOPS
       community.sops.load_vars:
@@ -23,7 +24,7 @@
           services:
             pihole:
               container_name: pihole
-              image: pihole/pihole:2023.01.10
+              image: pihole/pihole:2023.02.2
               # docker internal IP - Prevents reply from unexpeted source.
               dns: 172.18.0.1
               ports:
@@ -34,6 +35,6 @@
                 TZ: 'America/Los_Angeles'
                 WEBPASSWORD: '{{ web_password }}'
               volumes:
-                - '{{run_dir}}/etc-pihole:/etc/pihole'
-                - '{{run_dir}}/etc-dnsmasq.d:/etc/dnsmasq.d'
+                - '{{  run_dir }}/etc-pihole:/etc/pihole'
+                - '{{  run_dir }}/etc-dnsmasq.d:/etc/dnsmasq.d'
               restart: unless-stopped
