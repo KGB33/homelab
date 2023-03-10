@@ -1,0 +1,37 @@
+# vim: ft=yaml.ansible
+---
+- name: Install required system packages
+  ansible.builtin.apt:
+    pkg:
+      - ca-certificates
+      - python3-pip
+      - python3
+      - virtualenv
+      - python3-setuptools
+    state: latest
+    update_cache: true
+
+- name: Add Docker GPG apt Key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+
+- name: Install Docker Module for Python
+  ansible.builtin.pip:
+    name: docker
+
+# Ansible docker-compose community module does not yet support v2
+- name: Update apt and install docker-ce
+  ansible.builtin.apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - docker-compose # Needs < v2  i.e. the python module
+      - containerd.io
+    state: latest
+    update_cache: true
