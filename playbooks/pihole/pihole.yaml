@@ -2,6 +2,8 @@
 ---
 - name: Install PiHole using Docker Compose
   hosts: rpi-1.kgb33.dev
+  roles:
+    - docker
   vars:
     run_dir: "/home/kgb33/pihole/"
 
