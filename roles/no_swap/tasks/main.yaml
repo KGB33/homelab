@@ -1,0 +1,18 @@
+# vim: ft=yaml.ansible
+---
+- name: Manage swap file entry in fstab.
+  ansible.posix.mount:
+    name: none
+    src: "{{ swap_file_path }}"
+    fstype: swap
+    opts: sw
+    state: "absent"
+
+- name: Disable swap.
+  ansible.builtin.command: swapoff -a
+  tags: ['skip_ansible_lint']
+
+- name: Ensure swap file doesn't exist.
+  ansible.builtin.file:
+    path: "{{ swap_file_path }}"
+    state: absent
