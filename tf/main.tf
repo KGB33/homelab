@@ -48,11 +48,19 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
   vmid        = each.value.id
   memory      = 4096
   sockets     = 2
+  scsihw      = "virtio-scsi-single"
 
   network {
     model   = "virtio"
     bridge  = "vmbr0"
     macaddr = each.value.macaddr
+  }
+
+  disk {
+    type     = "scsi"
+    storage  = "cPool01"
+    size     = "8G"
+    iothread = 1
   }
 
   timeouts {
