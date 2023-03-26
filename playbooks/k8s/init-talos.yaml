@@ -1,0 +1,7 @@
+# vim: ft=ansible.yaml
+---
+- name: Initalize Talos cluster
+  connection: local
+  hosts: k8s
+  roles:
+    - talos
