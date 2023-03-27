@@ -11,3 +11,4 @@ kubeconfig
 talosconfig
 controlplane.yaml
 worker.yaml
+cilium.yaml
