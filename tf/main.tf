@@ -13,19 +13,19 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       id      = 502,
       node    = "glint"
     },
-    # Sundance
-    sion = {
-      ip      = "10.0.0.114",
-      macaddr = "22:d4:92:84:f1:dd",
-      id      = 503,
-      node    = "sundance"
-    },
-    shen = {
-      ip      = "10.0.0.115",
-      macaddr = "22:d4:92:84:f1:ee",
-      id      = 504,
-      node    = "sundance"
-    },
+    ## Sundance
+    #sion = {
+    #  ip      = "10.0.0.114",
+    #  macaddr = "22:d4:92:84:f1:dd",
+    #  id      = 503,
+    #  node    = "sundance"
+    #},
+    #shen = {
+    #  ip      = "10.0.0.115",
+    #  macaddr = "22:d4:92:84:f1:ee",
+    #  id      = 504,
+    #  node    = "sundance"
+    #},
     # Targe
     teemo = {
       ip      = "10.0.0.116",
@@ -49,6 +49,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
   memory      = 4096
   sockets     = 2
   scsihw      = "virtio-scsi-single"
+  onboot      = true
 
   network {
     model   = "virtio"
