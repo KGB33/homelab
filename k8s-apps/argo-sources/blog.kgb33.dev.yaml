@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: blog.kgb33.dev
+spec:
+  destination:
+    namespace: blog.kgb33.dev
+    server: https://kubernetes.default.svc
+  project: blog.kgb33.dev
+  source:
+    path: k8s-apps/blog.kgb33.dev/
+    repoURL: https://github.com/KGB33/ansible.git
+    targetRevision: HEAD
