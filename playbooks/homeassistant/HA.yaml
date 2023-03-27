@@ -1,0 +1,29 @@
+# vim: ft=yaml.ansible
+---
+- name: Install HomeAsssistant Using Docker Compose
+  hosts: rpi-1.kgb33.dev
+  vars:
+    data_dir: "/home/kgb33/HomeAsssistant/"
+
+  tasks:
+    - name: Create Data Dir
+      ansible.builtin.file:
+        path: "{{ data_dir }}"
+        state: directory
+        mode: '0o755'
+
+    - name: Start HomeAsssistant
+      community.docker.docker_compose:
+        project_name: HomeAsssistant
+        definition:
+          version: '3'
+          services:
+            homeassistant:
+              container_name: homeassistant
+              image: "ghcr.io/home-assistant/home-assistant:stable"
+              volumes:
+                - "{{ data_dir }}:/config"
+                - /etc/localtime:/etc/localtime:ro
+              restart: unless-stopped
+              privileged: true
+              network_mode: host
