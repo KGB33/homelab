@@ -6,3 +6,9 @@
 terraform.*
 !.terraform.lock.hcl
 !*.enc
+
+kubeconfig
+talosconfig
+controlplane.yaml
+worker.yaml
+cilium.yaml
