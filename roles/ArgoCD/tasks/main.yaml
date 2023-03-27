@@ -1,0 +1,14 @@
+# vim: ft=yaml.ansible
+# https://argo-cd.readthedocs.io/en/stable/getting_started/
+---
+- name: Create 'argocd' Namespace.
+  kubernetes.core.k8s:
+    name: argocd
+    kind: Namespace
+    state: present
+
+- name: Apply Argo CD Install Yaml.
+  kubernetes.core.k8s:
+    namespace: argocd
+    src: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    apply: true
