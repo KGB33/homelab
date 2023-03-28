@@ -1,13 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argoCD-meta
+  name: argocd-meta
+  namespace: argocd
 spec:
   destination:
+    name: argocd-meta
     namespace: argocd
-    server: https://kubernetes.default.svc
-  project: argoCD-meta
+    server: 'https://kubernetes.default.svc'
   source:
     path: k8s-apps/argo-sources
-    repoURL: https://github.com/KGB33/ansible.git
+    repoURL: 'https://github.com/KGB33/ansible.git'
     targetRevision: HEAD
+  project: argocd-meta
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
