@@ -11,8 +11,6 @@ spec:
     path: k8s-apps/metalLB
     repoURL: https://github.com/KGB33/ansible.git
     targetRevision: HEAD
-    kustomize:
-      version: v5.0.1
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
