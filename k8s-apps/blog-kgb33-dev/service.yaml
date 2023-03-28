@@ -5,8 +5,8 @@ metadata:
   labels:
     app: blog-kgb33-dev
 spec:
+  type: LoadBalancer
   ports:
-    - name: web
-      port: 1313
+    - port: 1313
   selector:
     app: blog-kgb33-dev
