@@ -11,3 +11,6 @@ spec:
     path: k8s-apps/blog.kgb33.dev/
     repoURL: https://github.com/KGB33/ansible.git
     targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
