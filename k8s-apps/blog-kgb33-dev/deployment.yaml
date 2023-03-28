@@ -7,7 +7,7 @@ metadata:
 spec:
   replicas: 1
   selector:
-    matchlables:
+    matchLabels:
       app: blog-kgb33-dev
   template:
     metadata:
