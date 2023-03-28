@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: blog-kgb33-dev-ingress
+  namespace: blog-kgb33-dev
+spec:
+  rules:
+  - host: "blog.kgb33.dev"
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: blog-kgb33-dev
+            port:
+              name: web

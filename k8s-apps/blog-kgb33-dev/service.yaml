@@ -6,6 +6,7 @@ metadata:
     app: blog-kgb33-dev
 spec:
   ports:
-  - port: 1313
+    - name: web
+      port: 1313
   selector:
     app: blog-kgb33-dev
