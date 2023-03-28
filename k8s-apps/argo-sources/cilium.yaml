@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cilium-app
+spec:
+  destination:
+    namespace: kube-system
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s-apps/cilium
+    repoURL: https://github.com/KGB33/ansible.git
+    targetRevision: HEAD
