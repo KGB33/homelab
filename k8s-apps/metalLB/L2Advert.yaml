@@ -3,3 +3,6 @@ kind: L2Advertisement
 metadata:
   name: layer2-advertisment
   namespace: metallb-system
+spec:
+  ipAddressPools:
+  - default-pool
