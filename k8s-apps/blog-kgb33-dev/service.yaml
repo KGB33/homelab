@@ -8,5 +8,6 @@ spec:
   type: LoadBalancer
   ports:
     - port: 1313
+      name: web
   selector:
     app: blog-kgb33-dev
