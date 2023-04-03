@@ -1,2 +1,2 @@
 resources:
-  - github.com/bitnami-labs/sealed-secrets/releases/download/v0.20.2/controller.yaml
+  - ./controller_v0.20.2.yaml
