@@ -1,0 +1,12 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: bitnami-sealed-secrets
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s-apps/bitnami-sealed-secrets
+    repoURL: https://github.com/KGB33/ansible.git
+    targetRevision: HEAD
