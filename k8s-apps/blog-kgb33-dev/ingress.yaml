@@ -1,17 +1,16 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
 metadata:
   name: blog-kgb33-dev-ingress
   namespace: blog-kgb33-dev
 spec:
-  rules:
-  - host: "blog.kgb33.dev"
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: blog-kgb33-dev
-            port:
-              name: web
+  entryPoints:
+    - websecure
+  routes:
+  - match: Host(`blog.kgb33.dev`)
+    kind: Rule
+    services:
+    - name: blog-kgb33-dev
+      port: 1313
+  tls:
+    certResolver: letsencrypt
