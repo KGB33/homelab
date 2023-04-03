@@ -18,7 +18,7 @@ spec:
     spec:
       serviceAccountName: traefik-account
       volumes:
-        - name: cfToken
+        - name: cf-token
           secret:
             secretName: cloudflare-api-token
       containers:
@@ -49,5 +49,5 @@ spec:
               containerPort: 8080
           volumeMounts:
             - mountPath: "/letsencrypt/cf_token"
-              name: cfToken
+              name: cf-token
               readOnly: true
