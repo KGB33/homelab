@@ -17,10 +17,6 @@ spec:
         app: traefik
     spec:
       serviceAccountName: traefik-account
-      volumes:
-        - name: cf-token
-          secret:
-            secretName: cloudflare-api-token
       containers:
         - name: traefik
           image: traefik:v2.9
@@ -36,8 +32,6 @@ spec:
             - --certificatesresolvers.letsencrypt.acme.dnschallenge=true
             - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare
             - --certificatesresolvers.letsencrypt.acme.email=keltonbassingthwaite@gmail.com
-            - --certificatesresolvers.letsencrypt.acme.CF_DNS_API_TOKEN_FILE=/letsencrypt/cf_token
-            - --certificatesresolvers.letsencrypt.acme.CF_ZONE_API_TOKEN_FILE=/letsencrypt/cf_token
             # Staging LetsEncrypt Server
             - --certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
           ports:
@@ -47,7 +41,12 @@ spec:
               containerPort: 443
             - name: dashboard
               containerPort: 8080
-          volumeMounts:
-            - mountPath: "/letsencrypt/cf_token"
-              name: cf-token
-              readOnly: true
+          env:
+           - name: CF_DNS_API_TOKEN
+             valueFrom:
+               secret:
+                 secretName: cloudflare-api-token
+           - name: CF_ZONE_API_TOKEN
+             valueFrom:
+               secret:
+                 secretName: cloudflare-api-token
