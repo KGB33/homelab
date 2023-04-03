@@ -19,7 +19,8 @@ spec:
       serviceAccountName: traefik-account
       volumes:
         - name: cf_token
-          secret: cloudflare-api-token
+          secret:
+            secretName: cloudflare-api-token
       containers:
         - name: traefik
           image: traefik:v2.9
