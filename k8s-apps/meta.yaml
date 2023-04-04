@@ -5,14 +5,13 @@ metadata:
   namespace: argocd
 spec:
   destination:
-    name: argocd-meta
     namespace: argocd
     server: 'https://kubernetes.default.svc'
   source:
     path: k8s-apps/argo-sources
     repoURL: 'https://github.com/KGB33/homelab.git'
     targetRevision: HEAD
-  project: argocd-meta
+  project: default
   syncPolicy:
     automated:
       prune: true
