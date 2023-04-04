@@ -23,6 +23,7 @@ spec:
           args:
             - --api.insecure
             - --providers.kubernetesingress
+            - --providers.kubernetescrd
             # Redirect all traffic to TLS
             - --entrypoints.web.address=:80
             - --entrypoints.web.http.redirections.entrypoint.to=websecure
