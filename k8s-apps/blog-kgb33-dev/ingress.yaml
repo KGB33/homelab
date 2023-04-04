@@ -8,7 +8,7 @@ spec:
   entryPoints:
     - websecure
   routes:
-  - match: Host(`blog.kgb33.dev`)
+  - match: Host(`blog.kgb33.dev`) && Host(`blog-test.local`)
     kind: Rule
     services:
     - name: blog-kgb33-dev
