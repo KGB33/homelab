@@ -9,7 +9,7 @@ spec:
   project: default
   source:
     path: k8s-apps/metalLB
-    repoURL: https://github.com/KGB33/ansible.git
+    repoURL: https://github.com/KGB33/homelab.git
     targetRevision: HEAD
   syncPolicy:
     syncOptions:

@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: k8s-apps/argo-sources
-    repoURL: 'https://github.com/KGB33/ansible.git'
+    repoURL: 'https://github.com/KGB33/homelab.git'
     targetRevision: HEAD
   project: argocd-meta
   syncPolicy:
