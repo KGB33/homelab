@@ -66,6 +66,6 @@
           - "set firewall name WAN-IN rule {{ item.port }} protocol '{{ item.proto }}'"
           - "set firewall name WAN-IN rule {{ item.port }} state new 'enable'"
       loop:
-        - { desc: "Allow HTTPs to Nginx", addr: "10.0.0.6", port: 443, proto: "tcp"}
-        - { desc: "Allow HTTP to Nginx", addr: "10.0.0.6", port: 80, proto: "tcp"}
+        - { desc: "Allow HTTPs to Traefik", addr: "10.0.8.138", port: 443, proto: "tcp"}
+        - { desc: "Allow HTTP to Traefik", addr: "10.0.8.138", port: 80, proto: "tcp"}
         - { desc: "Allow access to modded minecraft server", addr: "10.0.0.11", port: 25566, proto: "tcp_udp"}

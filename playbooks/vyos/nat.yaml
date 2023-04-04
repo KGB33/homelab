@@ -21,5 +21,5 @@
           - "set nat destination rule {{ item.port }} protocol '{{ item.proto }}'"
           - "set nat destination rule {{ item.port }} translation address '{{ item.address }}'"
       loop:
-        - { port: 443, description: "Forward HTTPs to Nginx", proto: "'tcp_udp'", address: "10.0.0.6"}
+        - { port: 443, description: "Forward HTTPs to Traefik", proto: "'tcp_udp'", address: "10.0.8.138"}
         - { port: 25566, description: "Forward to modded Minecraft", proto: "'tcp_udp'", address: "10.0.0.11"}
