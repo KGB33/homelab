@@ -34,7 +34,7 @@ spec:
             - --certificatesresolvers.letsencrypt.acme.dnschallenge.provider=cloudflare
             - --certificatesresolvers.letsencrypt.acme.email=keltonbassingthwaite@gmail.com
             # Staging LetsEncrypt Server
-            - --certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
+            # - --certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory
             - --log
             - --log.level=DEBUG
           ports:
