@@ -69,3 +69,4 @@
         - { desc: "Allow HTTPs to Traefik", addr: "10.0.8.138", port: 443, proto: "tcp"}
         - { desc: "Allow HTTP to Traefik", addr: "10.0.8.138", port: 80, proto: "tcp"}
         - { desc: "Allow access to modded minecraft server", addr: "10.0.0.11", port: 25566, proto: "tcp_udp"}
+        - { desc: "Allow access to regualr minecraft server", addr: "10.0.0.11", port: 25565, proto: "tcp_udp"}

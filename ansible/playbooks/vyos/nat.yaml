@@ -23,3 +23,4 @@
       loop:
         - { port: 443, description: "Forward HTTPs to Traefik", proto: "'tcp_udp'", address: "10.0.8.138"}
         - { port: 25566, description: "Forward to modded Minecraft", proto: "'tcp_udp'", address: "10.0.0.11"}
+        - { port: 25565, description: "Forward to regualar Minecraft", proto: "'tcp_udp'", address: "10.0.0.11"}
