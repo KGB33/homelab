@@ -59,7 +59,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
 
   disk {
     type     = "scsi"
-    storage  = "cPool01"
+    storage  = "local-lvm"
     size     = "8G"
     iothread = 1
   }
