@@ -10,12 +10,12 @@
     "template": {
       "metadata": {
         "name": "discord-token",
-        "namespace": "default",
+        "namespace": "roboshpee",
         "creationTimestamp": null
       }
     },
     "encryptedData": {
-      "discord-token": "AgBs/U5k0N+nrNhU2DLktJwnUlcVs5NJrJ0AQBkM7FQ3jEifOa+NZdFIRkBN7gkpFnFJtQ2dY2YHryFpgdF8E0bMZZ/fchaKf4rUZ9gR9DcxCKwX3CNKXlSEJt2c71fDf6mP76dFZhakMcVt35fmnjtxsl5M9C8yXdYd5iEdg6W5Go+1ylFsHBICQUWlYuOggcMIwoi0p6DFqjm0mxRCWZtXIoGpgZx8v53dqLm4r8N7Oh35+eAIXoltNlHl3svlbYO1jcCDei1cTB0guCqwwjel8tpTswk3Phvn9a2dVe390vI8qPgQjOG2vS57wWRL5+qXHDPfEiaeUg036NdTKX0A5npVW+ZSQA1f3Tl52VPJbIQK3fF7dondiuj3X1h933HVpmj8hXWWDaYYRWOr1fKd/2+2z4N+EM2ZRN1sj5rcEUw4dDidSxMMa3/zDdWgGSTExIOla9ETCQ4uxN7x9GJTztEh8GjXex0aL4ZsRb/0A/+F1B21REGJ7WqiZcLqcBD6pS6Q2TaTzu3TGPwnQ6Mi52HDxYTFbal5jj6p0q8LMkBpGJOvEmiXg+DRoJv6SnJ/SQ/ztlCaqNZojdZEiBVxsbV8Iup0N+SSb20bJCEILXobB5V3Tx+VXH42+q4mcDN897b8yNBVZw+QgttPxKpMKbJpWEFWTqdVeieoFRtnCVCj0bwIIRSwNzNbKqS6xQENbGM6o1eXh7yCNX/vn7B3ygidROUeLDUWewbiDIVrtunqj4qti9zSrwaSPON4wKoCmSUioONYVN/Nbrtw5UdBNfb1pmsZ"
+      "discord-token": "AgAbIKE/c3QajfyKSBG64gEXbBiF6jqFo8FOmps3cU550Ky5ibuRtI83+sZj818y9pWfGVRbqk4yuYXV80ARtZeO7JzsKwzMmLUxOqZlSRuSVl2yOl9za7mSSOYLEP0SpulbXYD2Cu6AHAmENZR90qLZQviTJmOU/J+VPVKVokDHnUeIlHNPUo3qbYJroyXh0h0Eqc4WO52n6fYbS3+LQB1RpSavuvmeZtFmu+uxQeKqHgyCFqYAc2d4OUcZ5LWT+dKcnEjTpYReCNLQs1FOWorD/zR0qDgcadapjGpmGC0GIZTpDtH/hZ5UJ8IAIS+y1N3rbSKPs8JvJG+10tZGGcjDjpTa+7NVGik12F/wMruJf0YzdvczQ3csp+CZ1jT0cBkKMy0A7c647Fe8a1mI80quK+0s1pm1mX64HiQpSPTWxdlamM07byV5aDdnbIKjVa/IM9JEuLcBUOqKMfSLboZtZssfreW0/C7tItxmCvFyJMlR7MGR21GRDR69Y8/3uCaeXp/xRWkBqjUkzoVjqcGC9F21G6uxS96ocleic0sZOfkMknT9ItxLB0ilCg1pZYtyGyS2pWoeofcoDM3aqaFiGTsI1S1pXH3Ek8Cf57w+GNJKmZ+a/bXQ59qr+k0dtpwReIjzbEy/cUNHvQS+FMkhIs3wNv5TszTw9tsMWVS4r9Giy83d5gfNwT4VWG9PMvSRMC+DU++Xvv4fZ1aeC7sutoEPJkOrTmIk6wbCUtMgT1KOsJFEE6+QflB9Hn9rjj0tRRqoEAJCyEBycNXT6qagtCNHvhF6"
     }
   }
 }
