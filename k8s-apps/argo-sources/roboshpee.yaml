@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: roboshpee
+spec:
+  destination:
+    namespace: roboshpee
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: k8s-apps/roboshpee/
+    repoURL: https://github.com/KGB33/homelab.git
+    targetRevision: HEAD
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true

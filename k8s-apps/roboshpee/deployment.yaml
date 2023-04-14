@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: roboshpee
+  namespace: roboshpee
+  labels:
+    app: roboshpee
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: roboshpee
+  template:
+    metadata:
+      labels:
+        app: roboshpee
+    spec:
+      containers:
+      - image: ghcr.io/kgb33/roboshpee:latest
+        name: roboshpee
+        env:
+          - name: DISCORD_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: discord-token
+                key: prod-token
+
