@@ -23,5 +23,4 @@ spec:
             valueFrom:
               secretKeyRef:
                 name: discord-token
-                key: prod-token
-
+                key: discord-token
