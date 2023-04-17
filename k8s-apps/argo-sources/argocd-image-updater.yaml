@@ -1,17 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: blog-kgb33-dev
-  annotations: 
-  argocd-image-updater.argoproj.io/image-list: "blogimg=ghcr.io/kgb33/blog.kgb33.dev:latest"
-  argocd-image-updater.argoproj.io/blogimg.update-strategy: digest
+  name: argocd-image-updater
 spec:
   destination:
-    namespace: blog-kgb33-dev
+    namespace: argocd
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: k8s-apps/blog-kgb33-dev/
+    path: k8s-apps/argocd-image-updater/
     repoURL: https://github.com/KGB33/homelab.git
     targetRevision: HEAD
   syncPolicy:

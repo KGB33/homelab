@@ -1,0 +1,6 @@
+namespace: blog-kgb33-dev 
+
+resources:
+  - ./ingress.yaml
+  - ./service.yaml
+  - ./deployment.yaml
