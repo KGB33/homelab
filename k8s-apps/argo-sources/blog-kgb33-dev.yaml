@@ -3,8 +3,8 @@ kind: Application
 metadata:
   name: blog-kgb33-dev
   annotations: 
-  argocd-image-updater.argoproj.io/image-list: "blogimg=ghcr.io/kgb33/blog.kgb33.dev:latest"
-  argocd-image-updater.argoproj.io/blogimg.update-strategy: digest
+    argocd-image-updater.argoproj.io/image-list: "blogimg=ghcr.io/kgb33/blog.kgb33.dev:latest"
+    argocd-image-updater.argoproj.io/blogimg.update-strategy: digest
 spec:
   destination:
     namespace: blog-kgb33-dev
