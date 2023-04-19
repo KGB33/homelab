@@ -1,21 +1,15 @@
-{
-  "kind": "SealedSecret",
-  "apiVersion": "bitnami.com/v1alpha1",
-  "metadata": {
-    "name": "discord-token",
-    "namespace": "roboshpee",
-    "creationTimestamp": null
-  },
-  "spec": {
-    "template": {
-      "metadata": {
-        "name": "discord-token",
-        "namespace": "roboshpee",
-        "creationTimestamp": null
-      }
-    },
-    "encryptedData": {
-      "discord-token": "AgAbIKE/c3QajfyKSBG64gEXbBiF6jqFo8FOmps3cU550Ky5ibuRtI83+sZj818y9pWfGVRbqk4yuYXV80ARtZeO7JzsKwzMmLUxOqZlSRuSVl2yOl9za7mSSOYLEP0SpulbXYD2Cu6AHAmENZR90qLZQviTJmOU/J+VPVKVokDHnUeIlHNPUo3qbYJroyXh0h0Eqc4WO52n6fYbS3+LQB1RpSavuvmeZtFmu+uxQeKqHgyCFqYAc2d4OUcZ5LWT+dKcnEjTpYReCNLQs1FOWorD/zR0qDgcadapjGpmGC0GIZTpDtH/hZ5UJ8IAIS+y1N3rbSKPs8JvJG+10tZGGcjDjpTa+7NVGik12F/wMruJf0YzdvczQ3csp+CZ1jT0cBkKMy0A7c647Fe8a1mI80quK+0s1pm1mX64HiQpSPTWxdlamM07byV5aDdnbIKjVa/IM9JEuLcBUOqKMfSLboZtZssfreW0/C7tItxmCvFyJMlR7MGR21GRDR69Y8/3uCaeXp/xRWkBqjUkzoVjqcGC9F21G6uxS96ocleic0sZOfkMknT9ItxLB0ilCg1pZYtyGyS2pWoeofcoDM3aqaFiGTsI1S1pXH3Ek8Cf57w+GNJKmZ+a/bXQ59qr+k0dtpwReIjzbEy/cUNHvQS+FMkhIs3wNv5TszTw9tsMWVS4r9Giy83d5gfNwT4VWG9PMvSRMC+DU++Xvv4fZ1aeC7sutoEPJkOrTmIk6wbCUtMgT1KOsJFEE6+QflB9Hn9rjj0tRRqoEAJCyEBycNXT6qagtCNHvhF6"
-    }
-  }
-}
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: discord-token
+  namespace: roboshpee
+spec:
+  encryptedData:
+    discord-token: AgCQQuHOo4/hj2CTtLyfRaKey49gA2M26jY+6moUIIxbkJ25yr3MeL6SKs1S4OHxOfl10G//OOT+knSmjYHCfV5vXL7y3P7liuo81icMegla6sq9EaQPn6IXOnBOt4BOmvbi/t18nIl5TaiRrA2UAlPnId0rCKALq8kNYjYCyV+z3xdkBjx1jg0Qn482oDxRK96B7v+QGWxiJF7DOhUPuPjECSYvtbqwH5vvYjlLHioq3ysZn5EYuzTxaaPNRCMZnuBM83crNQtecrF0/aQwo9+F2PYvv91ixq+doad3j/OqxXfXKx/OKQZxvxuMn9X63C08JENVMJU70lRICFg4W0JYxK52PvnqUJg9vikA2wkDkockL8/Z/88NW6kpU5qoNPOLDWSYVgizm0es+vaEM9jgEfVtU4sqPkA/yR8NwGAMUaIGxB83JI5uDZDxHlqgCegJglib9/zstt7lZxnZEu7QmKs4cnFD0CWKwSD54pCHv8iVbydSD8gkmnsYeyrCxAdWPDi8B4+BrG/Q/YPp7r5386lLJ7PZBUbe5uLqufqAdjpxO5tEtA1D01S9ry3pATulx7PF31JgpgSWtNT46N2mJfMdrunFUXLmrPKTE7cgpXglCfdVQUhzdvM1zzhAfp/dv9H0EQcNtIdS0UiYad3ESCCBJS03w8kyPrTwpvFxDCc/Sih5iGKzLscfW+VVeNOuKKRm5LODJN5IP5Y3jM8qCwCYii8eLwPWPofim+Cvck8sUROnOa/pd/LF2ulgYng24tFKpV+jrzpnW7/NeBVh1lMRUECD
+  template:
+    metadata:
+      creationTimestamp: null
+      name: discord-token
+      namespace: roboshpee
+
