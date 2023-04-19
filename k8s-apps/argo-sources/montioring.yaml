@@ -7,6 +7,9 @@ spec:
     namespace: monitoring
     server: https://kubernetes.default.svc
   project: default
+  directory:
+    exclude: "**/*.json"
+    recuse: true
   source:
     path: k8s-apps/monitoring
     repoURL: https://github.com/KGB33/homelab.git
