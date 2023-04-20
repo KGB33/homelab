@@ -7,13 +7,11 @@ spec:
     namespace: monitoring
     server: https://kubernetes.default.svc
   project: default
-  directory:
-    exclude: "**/*.json"
-    recuse: true
   source:
-    path: k8s-apps/monitoring
+    path: k8s-apps/monitoring/manifests
     repoURL: https://github.com/KGB33/homelab.git
     targetRevision: HEAD
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+      - ServerSideApply=true # CRDs are too big
