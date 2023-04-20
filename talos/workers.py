@@ -18,6 +18,8 @@ for hostname, ip in nodes.items():
             ip,
             "--config-patch",
             f"@patches/{hostname}.patch",
+            "--config-patch",
+            f"@patches/all_nodes.patch",
             "--file",
             "./worker.yaml",
         ],

@@ -1,0 +1,5 @@
+machine:
+  kubelet:
+    extraArgs:
+      authentication-token-webhook: true
+      authorization-mode: Webhook
