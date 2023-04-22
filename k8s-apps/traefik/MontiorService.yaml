@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: traefik-metrics
+  namespace: traefik
+spec:
+  selector:
+    matchLabels:
+      app: traefik
+  endpoints:
+  - port: dashboard
+
