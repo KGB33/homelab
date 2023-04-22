@@ -5,6 +5,9 @@ local kp =
       common+: {
         namespace: 'monitoring',
       },
+     prometheus+:: {
+       namespaces: ["default", "kube-system", "monitoring", "traefik"],
+     },
     },
   };
 
