@@ -26,7 +26,8 @@
             pkgs.talosctl
             pkgs.kubectl
             pkgs.kubeseal
-            pkgs.yq
+            pkgs.jq
+            pkgs.yq-go
             pkgs.argocd
             pkgs.jsonnet
             pkgs.jsonnet-bundler
