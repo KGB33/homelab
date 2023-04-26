@@ -3,11 +3,14 @@ kind: Service
 metadata:
   name: traefik-dashboard-service
   namespace: traefik
+  labels:
+    app: traefik-dashboard
 
 spec:
   type: LoadBalancer
   ports:
     - port: 8080
       targetPort: dashboard
+      name: dashboard
   selector:
     app: traefik
