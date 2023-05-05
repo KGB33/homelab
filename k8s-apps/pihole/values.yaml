@@ -7,10 +7,8 @@ DNS2: "1.0.0.1"
 dnsmasq:
   # address=/name/ip
   customDnsEntries:
-    # Proxmox nodes
     - address=/targe.pve.kgb33.dev/10.0.0.101
     - address=/glint.pve.kgb33.dev/10.0.0.167
-    # VMs
     - address=/unifi.local/10.0.0.165
     - address=/mmc.kgb33.dev/10.0.0.168
     - address=/gnar.kgb33.dev/10.0.0.112
@@ -19,7 +17,6 @@ dnsmasq:
     - address=/shen.kgb33.dev/10.0.0.115
     - address=/teemo.kgb33.dev/10.0.0.116
     - address=/twitch.kgb33.dev/10.0.0.117
-    # k8s Services
     - address=/blog.kgb33.dev/10.0.8.138
     - address=/dns.kgb33.dev/10.0.8.53
  
