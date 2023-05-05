@@ -8,7 +8,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   sources:
-    - repoURL: https://github.com/MoJo2600/pihole-kubernetes.git
+    - repoURL: https://mojo2600.github.io/pihole-kubernetes/
       targetRevision: "pihole-2.14.0"
       chart: pihole 
       helm:
