@@ -20,9 +20,10 @@
         devShell = pkgs.mkShell {
           buildInputs = [
             pyPkgs.ansible-core
-            pyPkgs.ansible-lint
             pyPkgs.ansible
+            pkgs.ansible-lint
             pkgs.terraform
+            pkgs.ansible-language-server
             pkgs.talosctl
             pkgs.kubectl
             pkgs.kubeseal
