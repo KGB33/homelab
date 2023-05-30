@@ -27,6 +27,7 @@
             pkgs.talosctl
             pkgs.kubectl
             pkgs.kubeseal
+            pkgs.cilium-cli
             pkgs.jq
             pkgs.yq-go
             pkgs.argocd
