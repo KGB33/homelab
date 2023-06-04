@@ -1,11 +1,11 @@
 pve:
   hosts:
     targe.pve.kgb33.dev:
-      ansible_host: 10.0.0.101
-    sundace:
-      ansible_host: 10.0.0.100
+      ansible_host: 10.0.9.102
+    sundace.pve.kgb33.dev:
+      ansible_host: 10.0.9.103
     glint.pve.kgb33.dev:
-      ansible_host: 10.0.0.167
+      ansible_host: 10.0.9.101
 
 k8s:
   hosts:
