@@ -1,0 +1,35 @@
+# vim: ft=yaml.ansible
+---
+- name: Ensure /etc/systemd/resolved.conf.d/ Exists
+  ansible.builtin.file:
+    path: /etc/systemd/resolved.conf.d
+    state: directory
+    mode: '0755'
+
+- name: Ensure /etc/systemd/resolved.conf.d/00_ansible_managed.conf exists
+  ansible.builtin.file:
+    path: /etc/systemd/resolved.conf.d/00_ansible_managed.conf
+    state: touch
+    mode: u=rw,g=r,o=r
+    modification_time: preserve
+    access_time: preserve
+
+- name: Configure DNS Servers
+  ansible.builtin.blockinfile:
+    path: /etc/systemd/resolved.conf.d/00_ansible_managed.conf
+    block: |
+      [Resolve]
+      DNS=10.0.8.53#dns.kgb33.dev 1.1.1.1#cloudflare-dns.com 1.0.0.1#cloudflare-dns.com 2606:4700:4700::1111#cloudflare-dns.com 2606:4700:4700::1001#cloudflare-dns.com
+  notify: Restart systemd-resolved
+
+- name: Configure /etc/resolv.conf
+  ansible.builtin.lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^nameserver'
+    line: nameserver 127.0.0.53
+
+- name: Start and Enable systemd-resolved
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    state: started
+    enabled: true
