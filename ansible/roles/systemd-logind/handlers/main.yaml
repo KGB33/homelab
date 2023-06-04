@@ -1,0 +1,6 @@
+# vim: ft=yaml.ansible
+---
+- name: Restart logind.
+  ansible.builtin.service:
+    name: systemd-logind
+    state: restarted

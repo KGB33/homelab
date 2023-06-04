@@ -1,0 +1,12 @@
+# vim: ft=yaml.ansible
+---
+- name: Update file
+  ansible.builtin.lineinfile:
+    path: "/etc/systemd/logind.conf"
+    line: "{{ item }}lock"
+    regex: "^#?{{ item }}"
+  with_items:
+    - "HandleLidSwitch="
+    - "HandleLidSwitchExternalPower="
+    - "HandleLidSwitchDocked="
+  notify: Restart logind.
