@@ -7,5 +7,5 @@ vyos_config_commands:
   - set interfaces ethernet eth0 description 'LAB'
   - set interfaces ethernet eth0 vif 9 address '10.0.9.{{ ip_last_byte }}/24'
   - set interfaces ethernet eth1 description 'K8S'
-  - set interfaces ethernet eth1 vif 8 address '10.0.8.{{ ip_last_byte }}/24'
+  - set interfaces ethernet eth1 vif 8
   - set protocols static route 0.0.0.0/0 next-hop '10.0.9.1'

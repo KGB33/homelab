@@ -18,6 +18,7 @@ vm_data = [
     VMData(vmID=801, host="10.0.9.101", name="caster"),
     VMData(vmID=802, host="10.0.9.102", name="melee"),
     VMData(vmID=803, host="10.0.9.103", name="cannon"),
+    VMData(vmID=800, host="10.0.9.102", name="super"),
 ]
 
 with SSHClient() as client:
@@ -41,10 +42,12 @@ with SSHClient() as client:
         client.exec_command(f"qm set {vm.vmID} --boot order=virtio0")
         time.sleep(10)
         client.exec_command(
-            f"qm set {vm.vmID} --ide2 media=cdrom,file=local:iso/vyos_seed.iso"
+            f"qm set {vm.vmID} --ide2 media=cdrom,file=local:iso/vyos_{vm.name}.iso"
         )
         time.sleep(10)
-        client.exec_command(f"qm set {vm.vmID} --net1 virtio,bridge=vmbr1")
-#        client.exec_command(f"qm start {vm.vmID}")
+        if vm.vmID != 800: # Route Reflector is not on vlan8
+            client.exec_command(f"qm set {vm.vmID} --net1 virtio,bridge=vmbr1")
+            time.sleep(10)
+        client.exec_command(f"qm start {vm.vmID}")
 #        client.exec_command(f"qm stop {vm.vmID}")
 #        client.exec_command(f"qm destroy {vm.vmID}")

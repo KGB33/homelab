@@ -16,6 +16,7 @@ vm_data = [
     VMData(vmID=801, host="10.0.9.101", name="caster"),
     VMData(vmID=802, host="10.0.9.102", name="melee"),
     VMData(vmID=803, host="10.0.9.103", name="cannon"),
+    VMData(vmID=800, host="10.0.9.102", name="super"),
 ]
 
 with SSHClient() as client:

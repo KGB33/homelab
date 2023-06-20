@@ -10,6 +10,7 @@ vms = [
     {"hostname": "caster", "ip_last_byte": 11},
     {"hostname": "melee", "ip_last_byte": 12},
     {"hostname": "cannon", "ip_last_byte": 13},
+    {"hostname": "super", "ip_last_byte": 10},
 ]
 
 environment = Environment(loader=FileSystemLoader("./"))
@@ -42,6 +43,7 @@ for host, seed in [
     ("10.0.9.102", "melee"),
     ("10.0.9.101", "caster"),
     ("10.0.9.103", "cannon"),
+    ("10.0.9.102", "super"),
 ]:
     with SSHClient() as ssh:
         ssh.load_system_host_keys()
@@ -50,5 +52,5 @@ for host, seed in [
         assert transport is not None
 
         with SCPClient(transport) as scp:
-            scp.put(f"{seed}_seed.iso", "/var/lib/vz/template/iso/vyos_seed.iso")
+            scp.put(f"{seed}_seed.iso", f"/var/lib/vz/template/iso/vyos_{seed}.iso")
             scp.put(f"vyos-1.4.qcow2", "/var/lib/vz/template/iso/vyos-1.4.qcow2")
