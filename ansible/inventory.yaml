@@ -7,7 +7,7 @@ pve:
     glint.pve.kgb33.dev:
       ansible_host: 10.0.9.101
 
-k8s:
+k8s-nodes:
   hosts:
     gnar.kgb33.dev:
     gwen.kgb33.dev:
@@ -15,6 +15,22 @@ k8s:
     shen.kgb33.dev:
     teemo.kgb33.dev:
     twitch.kgb33.dev:
+
+k8s-routers:
+  hosts:
+    caster.k8s.kgb33.dev:
+      ansible_host: 10.0.9.11
+      ansible_connection: network_cli
+      ansible_network_os: vyos
+    melee.k8s.kgb33.dev:
+      ansible_host: 10.0.9.12
+      ansible_connection: network_cli
+      ansible_network_os: vyos
+    cannon.k8s.kgb33.dev:
+      ansible_host: 10.0.9.13
+      ansible_connection: network_cli
+      ansible_network_os: vyos
+
 
 
 vms:

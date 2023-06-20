@@ -1,0 +1,6 @@
+# vim: ft=yaml.ansible
+---
+- name: Create & Configure Vyos Routers
+  hosts: k8s-routers
+  tasks:
+    - name: 
