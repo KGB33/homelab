@@ -19,9 +19,11 @@
 
         devShell = pkgs.mkShell {
           buildInputs = [
+            pyPkgs.paramiko
             pyPkgs.ansible-core
             pyPkgs.ansible
-            pkgs.ansible-lint
+            pyPkgs.requests
+            #pkgs.ansible-lint # Breaks cffi in paramiko
             pkgs.terraform
             pkgs.ansible-language-server
             pkgs.talosctl
