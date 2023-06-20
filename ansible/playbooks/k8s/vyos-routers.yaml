@@ -1,6 +1,71 @@
 # vim: ft=yaml.ansible
 ---
-- name: Create & Configure Vyos Routers
-  hosts: k8s-routers
+- name: Confiure Rotue Reflector Router
+  hosts: k8s_route_reflectors
+  handlers:
+    - name: Save Config
+      vyos.vyos.vyos_config:
+        save: true
   tasks:
-    - name: 
+    - name: Configure BGP
+      vars:
+        prefix: "set protocols bgp"
+      vyos.vyos.vyos_config:
+        lines:
+          - "{{ prefix }} address-family ipv4-unicast maximum-paths ibgp '4'"
+          - "{{ prefix }} address-family ipv4-unicast redistribute connected"
+          - "{{ prefix }} listen range 10.0.9.0/24 peer-group 'evpn'"
+          - "{{ prefix }} parameters log-neighbor-changes"
+          - "{{ prefix }} peer-group evpn address-family ipv4-unicast route-reflector-client"
+          - "{{ prefix }} peer-group evpn address-family l2vpn-evpn route-reflector-client"
+          - "{{ prefix }} peer-group evpn capability dynamic"
+          - "{{ prefix }} peer-group evpn remote-as '65010'"
+          - "{{ prefix }} system-as '65010'"
+      notify: Save Config
+
+- name: Configure vxLan Routers
+  hosts: k8s_routers
+  handlers:
+    - name: Save Config
+      vyos.vyos.vyos_config:
+        save: true
+  tasks:
+    - name: Configure dummy Interface to source VTEPs
+      vyos.vyos.vyos_config:
+        lines:
+          - "set interfaces dummy dum0 address '{{ k8s_ip }}/32'"
+      notify: Save Config
+
+    - name: Configure EVPN/BGP
+      vars:
+        prefix: "set protocols bgp"
+      vyos.vyos.vyos_config:
+        lines:
+          - "{{ prefix }} address-family ipv4-unicast maximum-paths ibgp '4'"
+          - "{{ prefix }} address-family ipv4-unicast redistribute connected"
+          - "{{ prefix }} address-family l2vpn-evpn advertise-all-vni"
+          - "{{ prefix }} neighbor 10.0.9.10 peer-group 'evpn'"
+          - "{{ prefix }} parameters log-neighbor-changes"
+          - "{{ prefix }} peer-group evpn address-family ipv4-unicast nexthop-self"
+          - "{{ prefix }} peer-group evpn address-family l2vpn-evpn nexthop-self"
+          - "{{ prefix }} peer-group evpn remote-as '65010'"
+          - "{{ prefix }} system-as '65010'"
+      notify: Save Config
+
+    - name: VXLAN Configuration
+      vyos.vyos.vyos_config:
+        lines:
+          - "set interfaces vxlan vxlan8 parameters nolearning"
+          - "set interfaces vxlan vxlan8 port '4789'"
+          - "set interfaces vxlan vxlan8 source-address '{{ k8s_ip }}'"
+          - "set interfaces vxlan vxlan8 vni '8'"
+      notify: Save Config
+
+    - name: Bridge vxlan8 to eth1.8
+      vyos.vyos.vyos_config:
+        lines:
+          - "set interfaces bridge br8 member interface eth1.8"
+          - "set interfaces bridge br8 member interface vxlan8"
+          - "set interfaces bridge br8 enable-vlan"
+          - "set interfaces bridge br8 vif 8"
+      notify: Save Config
