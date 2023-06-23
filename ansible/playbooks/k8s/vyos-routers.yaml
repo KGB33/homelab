@@ -61,11 +61,9 @@
           - "set interfaces vxlan vxlan8 vni '8'"
       notify: Save Config
 
-    - name: Bridge vxlan8 to eth1.8
+    - name: Bridge vxlan8 to eth1
       vyos.vyos.vyos_config:
         lines:
-          - "set interfaces bridge br8 member interface eth1.8"
+          - "set interfaces bridge br8 member interface eth1"
           - "set interfaces bridge br8 member interface vxlan8"
-          - "set interfaces bridge br8 enable-vlan"
-          - "set interfaces bridge br8 vif 8"
       notify: Save Config
