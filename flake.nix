@@ -23,13 +23,14 @@
             pyPkgs.ansible-core
             pyPkgs.ansible
             pyPkgs.requests
-            #pkgs.ansible-lint # Breaks cffi in paramiko
+            # pkgs.ansible-lint # Breaks cffi in paramiko
             pkgs.terraform
             pkgs.ansible-language-server
             pkgs.talosctl
             pkgs.kubectl
             pkgs.kubeseal
             pkgs.cilium-cli
+            pkgs.cdrtools
             pkgs.jq
             pkgs.yq-go
             pkgs.argocd
