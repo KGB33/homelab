@@ -55,10 +55,10 @@
     - name: VXLAN Configuration
       vyos.vyos.vyos_config:
         lines:
-          - "set interfaces vxlan vxlan8 parameters nolearning"
           - "set interfaces vxlan vxlan8 port '4789'"
           - "set interfaces vxlan vxlan8 source-address '{{ k8s_ip }}'"
           - "set interfaces vxlan vxlan8 vni '8'"
+          - "set interfaces vxlan vxlan8 mtu '1500'"
       notify: Save Config
 
     - name: Bridge vxlan8 to eth1
@@ -66,4 +66,5 @@
         lines:
           - "set interfaces bridge br8 member interface eth1"
           - "set interfaces bridge br8 member interface vxlan8"
+          - "set interfaces bridge br8 address '{{ k8s_ip }}/24'"
       notify: Save Config
