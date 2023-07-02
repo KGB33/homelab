@@ -1,0 +1,62 @@
+# vim: ft=yaml.ansible
+---
+- name: Add my user to the k8s routers
+  hosts:
+    - k8s_routers
+    - k8s_route_reflectors
+  remote_user: vyos
+  vars:
+    ansible_ssh_pass: "vyos"
+  tasks:
+    - name: Load password from SOPS
+      community.sops.load_vars:
+        file: files/vars.sops.yaml
+      notify: Save Config
+
+    - name: Reset broken vyos config
+      vyos.vyos.vyos_command:
+        commands:
+          - "rm -f /config/config.boot"
+      notify: Save Config
+
+    - name: Create kgb33 user
+      vyos.vyos.vyos_user:
+        name: "kgb33"
+        configured_password: "{{ kgb33_password }}"
+      no_log: true
+      notify: Save Config
+
+    - name: Add ssh keys
+      vars:
+        prefix: "set system login user kgb33 authentication public-keys"
+      vyos.vyos.vyos_config:
+        lines:
+          - "{{ prefix }} {{ item.id }} key {{ item.key }}"
+          - "{{ prefix }} {{ item.id }} type ssh-ed25519"
+      loop: "{{ kgb33_sshkeys }}"
+      notify: Save Config
+
+    - name: Reset ssh connection
+      ansible.builtin.meta: reset_connection
+  handlers:
+    - name: Save Config
+      vyos.vyos.vyos_config:
+        save: true
+
+- name: Remove default vyos user
+  hosts:
+    - k8s_routers
+    - k8s_route_reflectors
+  remote_user: kgb33 # Don't lock yourself out
+  tasks:
+    - name: Remove default vyos user
+      vyos.vyos.vyos_config:
+        lines:
+          - delete system login user vyos
+          - set service ssh disable-password-authentication
+      notify: Save Config
+
+  handlers:
+    - name: Save Config
+      vyos.vyos.vyos_config:
+        save: true

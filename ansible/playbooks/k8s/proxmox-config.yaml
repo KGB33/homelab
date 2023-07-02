@@ -1,0 +1,31 @@
+# vim: ft=yaml.ansible
+---
+- name: Configure Proxmox to run Talos VMs
+  hosts: pve
+  become: true
+  tasks:
+    - name: Download talos iso
+      ansible.builtin.get_url:
+        url: "https://github.com/siderolabs/talos/releases/download/v1.4.5/talos-amd64.iso"
+        dest: "/var/lib/vz/template/iso/talos-amd64.iso"
+        checksum: "sha256:87f98092cad0a768777f49b9e707952cc6efe17fd145ee2fb51485b1c8c26fa4"
+        mode: "0644"
+
+    - name: Create Linux Bridge & vLAN # noqa no-tabs
+      ansible.builtin.blockinfile:
+        path: /etc/network/interfaces
+        block: |
+           auto vmbr1
+           iface vmbr1 inet manual
+           	address 10.0.8.0/24
+           	bridge-ports none
+           	bridge-stp off
+           	bridge-fd 0
+      notify: Reload Interfaces
+
+  handlers:
+    - name: Reload Interfaces
+      ansible.builtin.command:
+        cmd: ifreload -a
+      register: ifreload
+      changed_when: true # If this runs, its changed

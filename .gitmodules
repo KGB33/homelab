@@ -1,0 +1,3 @@
+[submodule "submodules/vyos-vm-images"]
+	path = submodules/vyos-vm-images
+	url = git@github.com:vyos/vyos-vm-images.git
