@@ -8,6 +8,9 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
+    path: k8s-apps/monitoring/manifests/setup
+    repoURL: https://github.com/KGB33/homelab.git
+    targetRevision: HEAD
     path: k8s-apps/monitoring/manifests
     repoURL: https://github.com/KGB33/homelab.git
     targetRevision: HEAD
