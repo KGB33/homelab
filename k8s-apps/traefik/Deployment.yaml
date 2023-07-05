@@ -50,9 +50,9 @@ spec:
              valueFrom:
                secretKeyRef:
                  name: cloudflare-api-token
-                 key: cf-token
+                 key: cloudflare-api-token
            - name: CF_ZONE_API_TOKEN
              valueFrom:
                secretKeyRef:
                  name: cloudflare-api-token
-                 key: cf-token
+                 key: cloudflare-api-token
