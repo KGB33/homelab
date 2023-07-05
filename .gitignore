@@ -1,6 +1,11 @@
 .env*
 .direnv/
 
+# Python
+.venv/
+__pycache__/ 
+*.pyc
+
 
 # Terraform
 .terraform*
@@ -8,10 +13,12 @@ terraform.*
 !.terraform.lock.hcl
 !*.enc
 
+# Talos/k8s
 kubeconfig
 talosconfig
 controlplane.yaml
 worker.yaml
 cilium.yaml
+secrets.yaml
 
 vendor/
