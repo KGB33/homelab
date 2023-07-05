@@ -5,6 +5,8 @@ metadata:
   namespace: traefik
   labels:
     app: traefik-dashboard
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.0.8.137
 
 spec:
   type: LoadBalancer
