@@ -2,41 +2,41 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
   for_each = {
     # Glint
     gnar = {
-      ip      = "10.0.0.112",
+      ip      = "10.0.9.21",
       macaddr = "22:d4:92:84:f1:bb",
-      id      = 501,
+      id      = 821,
       node    = "glint"
     },
     gwen = {
-      ip      = "10.0.0.113",
+      ip      = "10.0.9.22",
       macaddr = "22:d4:92:84:f1:cc",
-      id      = 502,
+      id      = 822,
       node    = "glint"
     },
-    ## Sundance
-    #sion = {
-    #  ip      = "10.0.0.114",
-    #  macaddr = "22:d4:92:84:f1:dd",
-    #  id      = 503,
-    #  node    = "sundance"
-    #},
-    #shen = {
-    #  ip      = "10.0.0.115",
-    #  macaddr = "22:d4:92:84:f1:ee",
-    #  id      = 504,
-    #  node    = "sundance"
-    #},
+    # Sundance
+    sion = {
+      ip      = "10.0.9.23",
+      macaddr = "22:d4:92:84:f1:dd",
+      id      = 823,
+      node    = "sundance"
+    },
+    # shen = { # Sundance doesn't have the RAM to handle two nodes.
+    #   ip      = "10.0.9.24",
+    #   macaddr = "22:d4:92:84:f1:ee",
+    #   id      = 824,
+    #   node    = "sundance"
+    # },
     # Targe
     teemo = {
-      ip      = "10.0.0.116",
+      ip      = "10.0.9.25",
       macaddr = "22:d4:92:84:f1:ff",
-      id      = 505,
+      id      = 825,
       node    = "targe"
     },
     twitch = {
-      ip      = "10.0.0.117",
+      ip      = "10.0.9.26",
       macaddr = "22:d4:92:84:f1:11",
-      id      = 506,
+      id      = 826,
       node    = "targe"
     }
   }
@@ -55,6 +55,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
     model   = "virtio"
     bridge  = "vmbr0"
     macaddr = each.value.macaddr
+    tag     = 9
   }
 
   disk {
@@ -62,9 +63,5 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
     storage  = "local-lvm"
     size     = "8G"
     iothread = 1
-  }
-
-  timeouts {
-    create = "10m"
   }
 }

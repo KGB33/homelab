@@ -1,5 +1,5 @@
 terraform {
-  required_version = "v1.4.5"
+  required_version = "v1.5.2"
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
@@ -9,6 +9,6 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url = "https://10.0.0.101:8006/api2/json"
+  pm_api_url = "https://10.0.9.102:8006/api2/json"
   pm_timeout = 10000
 }
