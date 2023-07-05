@@ -20,12 +20,12 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       id      = 823,
       node    = "sundance"
     },
-    shen = {
-      ip      = "10.0.9.24",
-      macaddr = "22:d4:92:84:f1:ee",
-      id      = 824,
-      node    = "sundance"
-    },
+    # shen = { # Sundance doesn't have the RAM to handle two nodes.
+    #   ip      = "10.0.9.24",
+    #   macaddr = "22:d4:92:84:f1:ee",
+    #   id      = 824,
+    #   node    = "sundance"
+    # },
     # Targe
     teemo = {
       ip      = "10.0.9.25",
