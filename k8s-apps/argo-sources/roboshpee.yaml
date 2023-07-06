@@ -16,5 +16,7 @@ spec:
     repoURL: https://github.com/KGB33/homelab.git
     targetRevision: HEAD
   syncPolicy:
+    automated:
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
