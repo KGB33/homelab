@@ -6,12 +6,14 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       macaddr = "22:d4:92:84:f1:bb",
       id      = 821,
       node    = "glint"
+      size    = "128G"
     },
     gwen = {
       ip      = "10.0.9.22",
       macaddr = "22:d4:92:84:f1:cc",
       id      = 822,
       node    = "glint"
+      size    = "128G"
     },
     # Sundance
     sion = {
@@ -19,6 +21,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       macaddr = "22:d4:92:84:f1:dd",
       id      = 823,
       node    = "sundance"
+      size    = "128G"
     },
     # shen = { # Sundance doesn't have the RAM to handle two nodes.
     #   ip      = "10.0.9.24",
@@ -32,12 +35,14 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       macaddr = "22:d4:92:84:f1:ff",
       id      = 825,
       node    = "targe"
+      size    = "32G"
     },
     twitch = {
       ip      = "10.0.9.26",
       macaddr = "22:d4:92:84:f1:11",
       id      = 826,
       node    = "targe"
+      size    = "32G"
     }
   }
 
@@ -61,7 +66,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
   disk {
     type     = "scsi"
     storage  = "local-lvm"
-    size     = "8G"
+    size     = "${each.value.size}"
     iothread = 1
   }
 }
