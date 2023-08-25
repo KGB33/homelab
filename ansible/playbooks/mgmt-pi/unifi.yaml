@@ -1,0 +1,28 @@
+# vim: ft=yaml.ansible
+---
+- name: Installs the Unifi controller.
+  hosts: unifi.kgb33.dev
+  become: true
+  vars:
+    data_dir: "/var/unifi"
+
+  tasks:
+    - name: Create data directory
+      ansible.builtin.file:
+        path: "{{ data_dir }}"
+        state: directory
+        mode: 0o755
+
+    - name: Copy Docker Compose File to host
+      ansible.builtin.copy:
+        src: files/docker-compose-unifi.yaml
+        dest: "{{ data_dir }}/docker-compose.yaml"
+        owner: root
+        group: root
+        mode: 0o644
+
+    - name: Start Unifi
+      community.docker.docker_compose:
+        project_name: Unifi
+        project_src: "{{ data_dir }}"
+
