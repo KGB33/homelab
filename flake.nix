@@ -22,7 +22,7 @@
             pyPkgs.ansible-core
             pyPkgs.ansible
             pyPkgs.kubernetes
-            # pkgs.ansible-lint
+            pkgs.ansible-lint
             pkgs.terraform
             pkgs.ansible-language-server
             pkgs.talosctl
