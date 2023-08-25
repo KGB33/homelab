@@ -1,0 +1,12 @@
+# vim: ft=yaml.ansible
+---
+- name: Brings up a fresh Ubuntu install to a useable state.
+  hosts: unifi.kgb33.dev
+  become: true
+  roles:
+    - docker
+
+  tasks:
+    - name: Set Hostname
+      ansible.builtin.hostname:
+        name: "{{ inventory_hostname }}"
