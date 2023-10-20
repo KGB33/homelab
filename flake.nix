@@ -23,7 +23,7 @@
             pyPkgs.ansible
             pyPkgs.kubernetes
             pkgs.ansible-lint
-            pkgs.terraform
+            pkgs.opentofu
             pkgs.ansible-language-server
             pkgs.talosctl
             pkgs.kubectl
