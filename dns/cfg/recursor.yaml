@@ -5,4 +5,4 @@ recursor:
   forward_zones:
     - zone: kgb33.dev
       forwarders: 
-      - 10.0.8.53:53
+      - 10.0.8.53

@@ -31,7 +31,7 @@ class PowerDNS:
             .from_("powerdns/pdns-recursor-master")
             .with_file("/etc/powerdns/recursor.yml", self.cfg.file("recursor.yaml"))
             .with_exposed_port(5353, protocol=dagger.NetworkProtocol.TCP)
-            # .with_exposed_port(5353, protocol=dagger.NetworkProtocol.UDP)
+            .with_exposed_port(5353, protocol=dagger.NetworkProtocol.UDP)
             .with_service_binding("auth", self.base_auth().as_service())
         )
 
@@ -41,8 +41,12 @@ class PowerDNS:
             dag.container()
             .from_("powerdns/pdns-auth-master")
             .with_file("/etc/powerdns/pdns.conf", self.cfg.file("pdns.conf"))
+            .with_file("/etc/powerdns/bind/named.conf", self.cfg.file("named.conf"))
+            .with_file(
+                "/etc/powerdns/bind/kgb33.dev.zone", self.cfg.file("kgb33.dev.zone")
+            )
             .with_exposed_port(5353, protocol=dagger.NetworkProtocol.TCP)
-            # .with_exposed_port(5353, protocol=dagger.NetworkProtocol.UDP)
+            .with_exposed_port(5353, protocol=dagger.NetworkProtocol.UDP)
         )
 
     @function
