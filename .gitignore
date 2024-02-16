@@ -22,3 +22,6 @@ cilium.yaml
 secrets.yaml
 
 vendor/
+
+# Dagger
+sdk/

@@ -1,0 +1,21 @@
+$ORIGIN kgb33.dev.
+$TTL 1m
+
+pve IN SOA ns1.kgb33.dev. contact.kgb33.dev. (
+           0            ; serial
+           4h           ; refresh
+           15m          ; retry
+           8h           ; expire
+           1m)          ; negative caching TTL
+    IN NS ns1.kgb33.dev.
+    IN A  10.0.8.53
+
+$ORIGIN pve.kgb33.dev.
+
+glint    IN A 10.0.9.101
+targe    IN A 10.0.9.102
+sundance IN A 10.0.9.103
+
+$ORIGIN k8s.kgb33.dev.
+
+traefik  IN A 10.0.8.137
