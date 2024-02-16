@@ -1,0 +1,8 @@
+incoming:
+  listen:
+    - '0.0.0.0:5353'
+recursor:
+  forward_zones:
+    - zone: kgb33.dev
+      forwarders: 
+      - 10.0.8.53:53
