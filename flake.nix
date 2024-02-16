@@ -2,16 +2,18 @@
   description = "Homelab toolbox";
 
   inputs = {
-    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable-small"; };
+    nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable"; };
     flake-utils = { url = "github:numtide/flake-utils"; };
+    dagger = {
+      url = "github:dagger/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, dagger }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
-        pyPkgs = pkgs.python311Packages;
-
+        pkgs = import nixpkgs { inherit system; };
       in
       {
         # enable `nix fmt`
@@ -19,10 +21,15 @@
 
         devShell = pkgs.mkShell {
           buildInputs = [
-            pyPkgs.ansible-core
-            pyPkgs.ansible
-            pyPkgs.kubernetes
-            pkgs.ansible-lint
+            # tqdm does not work on Py-3.12
+            # https://github.com/tqdm/tqdm/issues/1537
+            # pkgs.python312Packages.ansible-core
+            # pkgs.python312Packages.ansible
+            # pkgs.python312Packages.kubernetes
+            # pkgs.ansible-lint
+
+            pkgs.python312
+            pkgs.black
             pkgs.opentofu
             pkgs.ansible-language-server
             pkgs.talosctl
@@ -35,6 +42,7 @@
             pkgs.jsonnet
             pkgs.jsonnet-bundler
             pkgs.just
+            dagger.packages.${system}.dagger
           ];
         };
 
