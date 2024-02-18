@@ -22,19 +22,20 @@
             pyPkgs.ansible-core
             pyPkgs.ansible
             pyPkgs.kubernetes
-            pkgs.ansible-lint
-            pkgs.opentofu
             pkgs.ansible-language-server
-            pkgs.talosctl
-            pkgs.kubectl
-            pkgs.kubeseal
+            pkgs.ansible-lint
+            pkgs.argocd
             pkgs.cilium-cli
             pkgs.jq
-            pkgs.yq-go
-            pkgs.argocd
             pkgs.jsonnet
             pkgs.jsonnet-bundler
             pkgs.just
+            pkgs.kubectl
+            pkgs.kubeseal
+            pkgs.mdbook
+            pkgs.opentofu
+            pkgs.talosctl
+            pkgs.yq-go
           ];
         };
 
