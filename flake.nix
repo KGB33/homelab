@@ -25,6 +25,7 @@
             pkgs.ansible-language-server
             pkgs.ansible-lint
             pkgs.argocd
+            pkgs.kubernetes-helm
             pkgs.cilium-cli
             pkgs.jq
             pkgs.jsonnet
