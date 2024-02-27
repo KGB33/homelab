@@ -1,8 +1,0 @@
-build: clean
-  jsonnet -J vendor -m manifests resources.jsonnet | xargs -I{} sh -c 'cat {} | yq -Poy > {}.yaml' -- {}
-  fd '^[^.]+$' manifests -t=f --exec rm
-
-
-clean:
-  rm -rf manifests
-  mkdir -p manifests/setup
