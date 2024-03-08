@@ -1,4 +1,9 @@
+# vim: ft=yaml
 machine:
+  sysctls:
+    vm.nr_hugepages: "1024"
+  nodeLabels:
+    openebs.io/engine: mayastor
   type: {%- if control %} controlplane {% else %} worker {% endif %}
   network:
     hostname: {{ hostname }}.k8s.kgb33.dev
