@@ -1,5 +1,0 @@
-# vim: ft=yaml.ansible
----
-- hosts: localhost
-  roles:
-    - ArgoCD
