@@ -1,12 +1,6 @@
 # ArgoCD
 
-`cd` into the Ansible folder and Install ArgoCD:
-
-```bash
-ansible-playbook playbooks/k8s/argo.yaml
-```
-
-# Argo Login
+## Argo Login
 
 Grab the initial secret:
 
@@ -35,8 +29,7 @@ Once the password has been changed, delete the initial secret:
 kubectl delete secret -n argocd argocd-initial-admin-secret
 ```
 
-
-# Apps-of-Apps
+## Apps-of-Apps
 
 Apply the meta definition:
 

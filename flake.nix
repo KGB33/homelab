@@ -3,15 +3,16 @@
 
   inputs = {
     nixpkgs = { url = "github:NixOS/nixpkgs/nixos-unstable-small"; };
+    dagger = { url = "github:dagger/nix"; };
     flake-utils = { url = "github:numtide/flake-utils"; };
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, dagger }:
     flake-utils.lib.eachDefaultSystem (system:
       let
+	dag = dagger.packages.${system};
         pkgs = nixpkgs.legacyPackages.${system};
         pyPkgs = pkgs.python311Packages;
-
       in
       {
         # enable `nix fmt`
@@ -19,6 +20,7 @@
 
         devShell = pkgs.mkShell {
           buildInputs = [
+	    dag.dagger
             pyPkgs.ansible-core
             pyPkgs.ansible
             pyPkgs.kubernetes
@@ -31,6 +33,7 @@
             pkgs.jsonnet
             pkgs.jsonnet-bundler
             pkgs.just
+            pkgs.k9s
             pkgs.kubectl
             pkgs.kubeseal
             pkgs.mdbook

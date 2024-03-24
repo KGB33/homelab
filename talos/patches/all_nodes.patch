@@ -1,9 +1,0 @@
-machine:
-  nameservers:
-    - 10.0.8.53
-    - 1.1.1.1
-    - 1.0.0.1
-  kubelet:
-    extraArgs:
-      authentication-token-webhook: true
-      authorization-mode: Webhook

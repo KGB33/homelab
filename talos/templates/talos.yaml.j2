@@ -6,10 +6,10 @@ machine:
     {%- for ns in nameservers %}
         - {{ ns -}}
     {%- endfor %}
-  kubelet:
-    extraArgs:
-      authentication-token-webhook: true
-      authorization-mode: Webhook
+  kubelet:                                                                                                                                        
+    extraArgs:                                                                                                                                    
+      authentication-token-webhook: true                                                                                                          
+      authorization-mode: Webhook                                                                                                                 
 {%- if control %}
 cluster:
   network:
@@ -17,7 +17,4 @@ cluster:
       name: none
   proxy:
     disabled: true
-  extraManifests:
-    - https://raw.githubusercontent.com/alex1989hu/kubelet-serving-cert-approver/main/deploy/standalone-install.yaml
-    - https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 {% endif %}

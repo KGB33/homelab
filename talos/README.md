@@ -20,52 +20,16 @@ talosctl gen config \
 talosctl --talosconfig talosconfig config endpoint 10.0.0.116
 talosctl --talosconfig talosconfig config node 10.0.0.116
 ```
-And generate the cilium config:
 
-```bash
- helm template cilium cilium/cilium \
-    --version 1.13.1 --namespace kube-system \
-    --set ipam.mode=kubernetes \
-    --set kubeProxyReplacement=strict \
-    --set k8sServiceHost="10.0.0.116" \
-    --set k8sServicePort="6443" \
-    --set=securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" \
-    --set=securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" \
-    --set=cgroup.autoMount.enabled=false \
-    --set=cgroup.hostRoot=/sys/fs/cgroup \
-    --set hubble.listenAddress=":4244" \
-    --set hubble.relay.enabled=true \
-    --set hubble.ui.enabled=true > cilium.yaml
-```
+## Daggerized Provsioning
 
-## Start the Control plane node
-
-There is only one control plane node:
-  - `teemo.kgb33.dev`
-  - `10.0.0.116`
-
-However, the commands used will allow more control plane nodes to be
-added in the future.
-
-Run `control.py`, then watch the tty in proxmox and wait for the node to
-come back online before preceding.
-
-## Start the worker nodes
-
-Just like the control plane nodes, run `./workers.py` and wait for the nodes
-to reboot and come back online in Proxmox.
-
-## Bootstrap etcd
-
-Next, run `talosctl --talosconfig talosconfig bootstrap`
-
-Then grab the kubeconfig:
+Run each of the dagger functions in order, waiting for the nodes to come back online after each one:
 
 ```
-talosctl --talosconfig talosconfig kubeconfig
-cp kubeconfig ~/.kube/config
+$ dagger functions
+argocd      Step 4: Start ArgoCD.
+base-img    Builds a Alpine image with talosctl installed and ready to go.
+bootstrap   Step 2: Bootstrap etcd.
+cilium      Step 3: Apply Cilium.
+provision   Step 1: Provision the nodes.
 ```
-
-## Install Cilium
-
-Lastly, run `kubectl apply -f cilium.yaml && cilium status --wait`

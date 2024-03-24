@@ -8,6 +8,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       node      = "glint"
       size      = "16"
       ceph_size = "128"
+      sockets = 8
     },
     gwen = {
       ip        = "10.0.9.22",
@@ -16,6 +17,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       node      = "glint"
       size      = "16"
       ceph_size = "128"
+      sockets = 8
     },
     # Sundance
     sion = {
@@ -25,6 +27,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       node      = "sundance"
       size      = "16"
       ceph_size = "128"
+      sockets = 4
     },
     # shen = { # Sundance doesn't have the RAM to handle two nodes.
     #   ip      = "10.0.9.24",
@@ -40,6 +43,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       node      = "targe"
       size      = "32"
       ceph_size = "128"
+      sockets = 8
     },
     twitch = {
       ip        = "10.0.9.26",
@@ -48,6 +52,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
       node      = "targe"
       size      = "32"
       ceph_size = "128"
+      sockets = 8
     }
   }
 
@@ -57,7 +62,7 @@ resource "proxmox_vm_qemu" "k8s-VMs" {
   iso         = "local:iso/talos-metal-amd64.iso"
   vmid        = each.value.id
   memory      = 4096
-  sockets     = 2
+  sockets     = each.value.sockets
   scsihw      = "virtio-scsi-single"
   onboot      = true
 
