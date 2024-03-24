@@ -18,7 +18,7 @@ provision   Step 1: Provision the nodes.
 
 # Step 1: Provision the Nodes
 
-After the brand new Talos VMs load up, run 
+After the brand new Talos VMs load up - and the `STAGE` is `Maintance` - run:
 
 ```bash
 dagger call \
@@ -29,7 +29,9 @@ dagger call \
 
 # Step 2: Bootstrap Etcd
 
-After all the nodes have rebooted (~1min), bootstrap Etcd.
+After all the nodes have rebooted (~1min), bootstrap Etcd. The `STAGE` on
+`teemo` will change from `Installing` to `Booting` when its ready to be
+bootstraped. 
 
 ```bash
 dagger call \

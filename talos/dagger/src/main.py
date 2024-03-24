@@ -252,9 +252,9 @@ def cilim_cli(ctr: dagger.Container) -> dagger.Container:
     )
 
 
-gnar = Node(hostname="gnar", ip="10.0.9.21", control=True)
+gnar = Node(hostname="gnar", ip="10.0.9.21")
 gwen = Node(hostname="gwen", ip="10.0.9.22")
-sion = Node(hostname="sion", ip="10.0.9.23", control=True)
+sion = Node(hostname="sion", ip="10.0.9.23")
 # shen = Node("shen", "10.0.9.24")
 teemo = Node(hostname="teemo", ip="10.0.9.25", control=True)
 twitch = Node(hostname="twitch", ip="10.0.9.26")
