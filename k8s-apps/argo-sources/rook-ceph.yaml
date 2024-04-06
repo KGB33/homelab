@@ -23,6 +23,17 @@ spec:
       repoURL: https://charts.rook.io/release
       targetRevision: 1.13.7
       helm:
+        values: |
+          storage:
+            useAllNodes: false
+            nodes:
+              - name: gnar
+              - name: gwen
+              - name: olaf
+              - name: ornn
+              - name: orianna
+              - name: twitch
+              - name: thresh
         parameters:
         - name: operatorNamespace
           value: rook-ceph
