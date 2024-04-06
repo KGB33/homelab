@@ -2,7 +2,7 @@
 Configures and Bootstraps a talos cluster.
 """
 
-from dataclasses import asdict, field
+from dataclasses import asdict, dataclass, field
 from typing import Annotated
 from textwrap import dedent
 import asyncio
@@ -14,7 +14,7 @@ from dagger import dag, function, object_type, Doc
 from jinja2 import BaseLoader, Environment, Template
 
 
-@object_type
+@dataclass
 class Node:
     """
     Describes a Talos Node.
@@ -254,9 +254,13 @@ def cilim_cli(ctr: dagger.Container) -> dagger.Container:
 
 gnar = Node(hostname="gnar", ip="10.0.9.21")
 gwen = Node(hostname="gwen", ip="10.0.9.22")
-sion = Node(hostname="sion", ip="10.0.9.23")
-# shen = Node("shen", "10.0.9.24")
+# sion = Node(hostname="sion", ip="10.0.9.23")
+# shen =  Node("shen", "10.0.9.24")
 teemo = Node(hostname="teemo", ip="10.0.9.25", control=True)
 twitch = Node(hostname="twitch", ip="10.0.9.26")
+thresh = Node(hostname="thresh", ip="10.0.9.27")
+ornn = Node(hostname="ornn", ip="10.0.9.28")
+olaf = Node(hostname="olaf", ip="10.0.9.29")
+orianna = Node(hostname="orianna", ip="10.0.9.30")
 
-nodes = [gnar, gwen, sion, twitch, teemo]
+nodes = [gnar, gwen, teemo, twitch, thresh, ornn, olaf, orianna]
