@@ -17,13 +17,13 @@ spec:
     spec:
       containers:
       - image: ghcr.io/0xerr0r/blocky:latest
-        name: blocy
+        name: blocky
         env:
           - name: BLOCKY_CONFIG_FILE
             value: /tmp/config.yaml
         volumeMounts:
           - name: blocky-config
-            mountPath: BLOCKY_CONFIG_FILE
+            mountPath: /tmp
       volumes:
         - name: blocky-config
           configMap:
