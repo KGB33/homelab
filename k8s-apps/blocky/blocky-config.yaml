@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: blocy-config
+  name: blocky-config
   namespace: blocky
 data:
   config.yaml: |
