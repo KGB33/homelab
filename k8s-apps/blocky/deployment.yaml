@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blocky
+  namespace: blocky
+  labels:
+    app: blocky
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blocky
+  template:
+    metadata:
+      labels:
+        app: blocky
+    spec:
+      containers:
+      - image: ghcr.io/0xerr0r/blocky:latest
+        name: blocy
+        env:
+          - name: BLOCKY_CONFIG_FILE
+            value: /tmp/config.yaml
+        volumeMounts:
+          - name: blocky-config
+            mountPath: BLOCKY_CONFIG_FILE
+      volumes:
+        - name: blocky-config
+          configMap:
+            name: blocky-config
