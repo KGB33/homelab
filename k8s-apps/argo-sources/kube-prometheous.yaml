@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kube-prometheus
+  namespace: argocd
+spec:
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+  project: default
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: monitoring
+  sources:
+    - path: manifests/setup/
+      repoURL: https://github.com/prometheus-operator/kube-prometheus.git
+      targetRevision: HEAD
+    - path: manifests/
+      repoURL: https://github.com/prometheus-operator/kube-prometheus.git
+      targetRevision: HEAD
