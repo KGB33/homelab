@@ -6,7 +6,6 @@ metadata:
     argocd-image-updater.argoproj.io/image-list: "botimg=ghcr.io/kgb33/roboshpee:latest"
     argocd-image-updater.argoproj.io/botimg.update-strategy: digest
 spec:
-spec:
   destination:
     namespace: roboshpee
     server: https://kubernetes.default.svc
