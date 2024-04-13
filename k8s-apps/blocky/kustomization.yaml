@@ -3,3 +3,5 @@ namespace: blocky
 resources:
   - ./deployment.yaml
   - ./blocky-config.yaml
+  - ./ingress.yaml
+  - ./service.yaml

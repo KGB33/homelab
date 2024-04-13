@@ -18,6 +18,13 @@ spec:
       containers:
       - image: ghcr.io/0xerr0r/blocky:latest
         name: blocky
+        ports:
+          - containerPort: 53
+            protocol: TCP
+          - containerPort: 53
+            protocol: UDP
+          - containerPort: 4000
+            protocol: TCP
         env:
           - name: BLOCKY_CONFIG_FILE
             value: /tmp/config.yaml
