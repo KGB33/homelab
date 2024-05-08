@@ -1,11 +1,11 @@
 ports:
-  internalWeb:
+  internal-web:
     port: 9080
     exposedPort: 9080
     expose:
       default: true
     protocol: TCP
-  internalWebSecure:
+  internal-web-secure:
     port: 9443
     exposedPort: 9443
     expose:
@@ -15,4 +15,4 @@ ingressRoute:
   dashboard:
     enabled: true
     matchRule: Host(`traefik.k8s.kgb33.dev`)
-    entryPoints: ["internalWebSecure"]
+    entryPoints: ["internal-web-secure"]

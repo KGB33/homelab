@@ -10,10 +10,10 @@ spec:
   type: LoadBalancer
   ports:
     - port: 80
-      targetPort: internalWeb
-      name: internalWeb
+      targetPort: internal-web
+      name: internal-web
     - port: 443
-      targetPort: internalWebSecure
-      name: internalWebSecure
+      targetPort: internal-web-secure
+      name: internal-web-secure
   selector:
     app: traefik
