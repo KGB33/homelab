@@ -7,10 +7,16 @@ spec:
     namespace: traefik
     server: https://kubernetes.default.svc
   project: default
-  source:
-    path: k8s-apps/traefik
-    repoURL: https://github.com/KGB33/homelab.git
-    targetRevision: HEAD
   syncPolicy:
     syncOptions:
       - CreateNamespace=true
+  sources:
+    - chart: traefik
+      repoURL: https://traefik.github.io/charts
+      targetRevision: v28.0.0
+      helm:
+        valueFiles:
+          - $values/k8s-apps/traefik/helm-values.yaml
+    - repoURL: https://github.com/KGB33/homelab.git
+      targetRevision: HEAD
+      ref: values
