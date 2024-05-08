@@ -3,16 +3,17 @@ kind: Service
 metadata:
   name: traefik-dashboard-service
   namespace: traefik
-  labels:
-    app: traefik-dashboard
   annotations:
     metallb.universe.tf/loadBalancerIPs: 10.0.8.137
 
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
-      targetPort: dashboard
-      name: dashboard
+    - port: 80
+      targetPort: internalWeb
+      name: internalWeb
+    - port: 443
+      targetPort: internalWebSecure
+      name: internalWebSecure
   selector:
     app: traefik
