@@ -1,3 +1,10 @@
+service:
+  enabled: false # Define services manually
+certResolvers:
+  letsencrypt:
+    email: keltonbassingthwaite@gmail.com
+    dnsChallenge:
+      provider: cloudflare
 ports:
   lan-web:
     port: 9080
