@@ -8,11 +8,8 @@ certResolvers:
     storage: /data/acme.json
 persistence:
   enabled: true
-  storageClass: ceph-filesystem
-  name: data
-  accessMode: ReadWriteOncePod
-  size: 128Mi
-  path: /data
+securityContext:
+  readOnlyRootFilesystem: false
 env:
  - name: CF_DNS_API_TOKEN
    valueFrom:
