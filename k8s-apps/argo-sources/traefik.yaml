@@ -17,6 +17,11 @@ spec:
       helm:
         valueFiles:
           - $values/k8s-apps/traefik/helm-values.yaml
+    # Helm Values
     - repoURL: https://github.com/KGB33/homelab.git
       targetRevision: HEAD
       ref: values
+    # Other Config
+    - repoURL: https://github.com/KGB33/homelab.git
+      path: k8s-apps/blog-kgb33-dev/
+      targetRevision: HEAD

@@ -16,4 +16,4 @@ spec:
       targetPort: websecure
       port: 443
   selector:
-    app: traefik
+    app.kubernetes.io/name: traefik

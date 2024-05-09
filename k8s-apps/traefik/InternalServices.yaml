@@ -16,4 +16,4 @@ spec:
       targetPort: lan-web-secure
       name: lan-web-secure
   selector:
-    app: traefik
+    app.kubernetes.io/name: traefik

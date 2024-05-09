@@ -5,6 +5,8 @@ certResolvers:
     email: keltonbassingthwaite@gmail.com
     dnsChallenge:
       provider: cloudflare
+persistence:
+  enabled: true
 env:
  - name: CF_DNS_API_TOKEN
    valueFrom:
@@ -34,3 +36,13 @@ ingressRoute:
     enabled: true
     matchRule: Host(`traefik.k8s.kgb33.dev`)
     entryPoints: ["lan-web-secure"]
+
+# Fix ACME permissions before traefik starts
+deployment:
+  initContainers:
+    - name: volume-permissions
+      image: busybox:latest
+      command: ["sh", "-c", "touch /data/acme.json; chmod -v 600 /data/acme.json"]
+      volumeMounts:
+      - mountPath: /data
+        name: data
