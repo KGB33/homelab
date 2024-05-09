@@ -7,8 +7,11 @@ certResolvers:
       provider: cloudflare
     storage: /data/acme.json
 persistence:
-  path: /data
   enabled: true
+  name: data
+  accessMode: ReadWriteOncePod
+  size: 128Mi
+  path: /data
 env:
  - name: CF_DNS_API_TOKEN
    valueFrom:
