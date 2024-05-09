@@ -8,8 +8,8 @@ certResolvers:
     storage: /data/acme.json
 persistence:
   enabled: true
-securityContext:
-  readOnlyRootFilesystem: false
+podSecurityContext:
+  fsGroup: 65532 # matches group for the initContainer below
 env:
  - name: CF_DNS_API_TOKEN
    valueFrom:
