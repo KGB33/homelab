@@ -8,6 +8,7 @@ certResolvers:
     storage: /data/acme.json
 persistence:
   enabled: true
+  storageClass: ceph-filesystem
   name: data
   accessMode: ReadWriteOncePod
   size: 128Mi
