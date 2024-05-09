@@ -5,6 +5,17 @@ certResolvers:
     email: keltonbassingthwaite@gmail.com
     dnsChallenge:
       provider: cloudflare
+env:
+ - name: CF_DNS_API_TOKEN
+   valueFrom:
+     secretKeyRef:
+       name: cloudflare-api-token
+       key: cloudflare-api-token
+ - name: CF_ZONE_API_TOKEN
+   valueFrom:
+     secretKeyRef:
+       name: cloudflare-api-token
+       key: cloudflare-api-token
 ports:
   lan-web:
     port: 9080
