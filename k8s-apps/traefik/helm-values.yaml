@@ -39,6 +39,8 @@ ingressRoute:
     enabled: true
     matchRule: Host(`traefik.k8s.kgb33.dev`)
     entryPoints: ["lan-web-secure"]
+    tls:
+      certResolver: letsencrypt
 
 # Fix ACME permissions before traefik starts
 deployment:
