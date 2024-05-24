@@ -5,6 +5,9 @@
 - [Network]()
   - [OPNsense](network/OPNsense.md)
 
+- [AWS]()
+  - [Uptime Kuma](aws/UptimeKuma.md)
+
 - [Proxmox]()
   - [Proxmox Install](pve/install.md)
   - [TLS Certificates](pve/tls_certs.md)
