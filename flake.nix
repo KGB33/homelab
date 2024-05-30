@@ -27,7 +27,6 @@
             pkgs.ansible-language-server
             pkgs.ansible-lint
             pkgs.argocd
-            pkgs.kubernetes-helm
             pkgs.cilium-cli
             pkgs.jq
             pkgs.jsonnet
@@ -35,11 +34,17 @@
             pkgs.just
             pkgs.k9s
             pkgs.kubectl
+            pkgs.kubernetes-helm
             pkgs.kubeseal
             pkgs.mdbook
             pkgs.opentofu
             pkgs.talosctl
             pkgs.yq-go
+
+            pyPkgs.pulumi
+            # pyPkgs.pulumi-aws
+            pkgs.pulumi
+            pkgs.pulumiPackages.pulumi-language-python
           ];
         };
 

@@ -1,0 +1,6 @@
+name: uptime_kuma
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Deploy Uptime Kuma on AWS.

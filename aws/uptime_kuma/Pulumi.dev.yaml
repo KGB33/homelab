@@ -1,0 +1,5 @@
+config:
+  aws:region: us-west-2
+  uptime_kuma:containerPort: "3001"
+  uptime_kuma:cpu: "512"
+  uptime_kuma:memory: "128"
