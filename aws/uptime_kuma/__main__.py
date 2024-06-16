@@ -4,6 +4,13 @@ import pulumi_awsx as awsx
 import pulumi_cloudflare as cf
 
 NAME_PREFIX = "uptime-kuma"
+DOMAIN = "uptime.kgb33.dev"
+
+config = Config()
+container_port = config.get_int("containerPort", 3001)
+cpu = config.get_int("cpu", 512)
+memory = config.get_int("memory", 128)
+zone_id = config.get("zoneId", "33f1d2b5c5cc2302c6487142d00cfc8f")
 
 
 def validate_aws_cert() -> str:
@@ -12,7 +19,6 @@ def validate_aws_cert() -> str:
     Validates it via the DNS challage on Cloudflare,
     Returns the Certificate's ARN
     """
-    DOMAIN = "uptime.kgb33.dev"
 
     # Create cert in AWS
     ssl_cert = aws.acm.Certificate(
@@ -26,7 +32,7 @@ def validate_aws_cert() -> str:
         dvo = dvo[0]
         return cf.Record(
             f"{DOMAIN}-validator",
-            zone_id="33f1d2b5c5cc2302c6487142d00cfc8f",
+            zone_id=zone_id,
             name=dvo.resource_record_name,
             type=dvo.resource_record_type,
             value=dvo.resource_record_value,
@@ -35,11 +41,6 @@ def validate_aws_cert() -> str:
     ssl_cert.domain_validation_options.apply(create_records)
     return ssl_cert.arn
 
-
-config = Config()
-container_port = config.get_int("containerPort", 3001)
-cpu = config.get_int("cpu", 512)
-memory = config.get_int("memory", 128)
 
 # An ECS cluster to deploy into
 cluster = aws.ecs.Cluster(f"{NAME_PREFIX}-cluster")
@@ -77,6 +78,14 @@ service = awsx.ecs.FargateService(
             ],
         ),
     ),
+)
+
+cname = cf.Record(
+    f"{NAME_PREFIX}-CNAME",
+    zone_id=zone_id,
+    name=DOMAIN,
+    type="CNAME",
+    value=loadbalancer.load_balancer.dns_name,
 )
 
 # The URL at which the container's HTTP endpoint will be available

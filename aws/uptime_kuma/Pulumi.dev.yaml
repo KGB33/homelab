@@ -3,3 +3,4 @@ config:
   uptime_kuma:containerPort: "3001"
   uptime_kuma:cpu: "512"
   uptime_kuma:memory: "128"
+  uptime_kuma:zoneId: "33f1d2b5c5cc2302c6487142d00cfc8f"
