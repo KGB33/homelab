@@ -4,32 +4,45 @@ An off-site uptime monitoring solution hosted on AWS ECS.
 
 > [uptime.kgb33.dev](https://uptime.kgb33.dev/)
 
-# ClickOps Steps
+# Pulumi Steps
 
-Starting at the [ECS dashboard](https://console.aws.amazon.com/ecs/v2/clusters).
-  - Click "Create Cluster"
-  - Name the new cluster whatever - I choose `uptime-kuma`.
-  - Change Infrastructure to "Amazon EC2 Instances" then:
-    - For "Auto Scaling Group" select "Create new ASG"
-    - Use the "On-demand" Provisioning model
-    - Keep the default "Container Instance Amazon Machine Image" (Amazon Linux 2 - kernal 5.10)
-    - Create new EC2 Instance role
-    - Lower the desired capactity - Min: 0, Max: 3
-    - Skip the SSH key pair.
-  - Keep the defaults for Network Settings, Montoring, and Tags.
+Secrets required:
+  - Cloudflare token (with write access to `kgb33.dev`) as `CLOUDFLARE_API_TOKEN`
+  - Allow Pulumi access to AWS (See [here](https://www.pulumi.com/docs/clouds/aws/get-started/begin/#configure-pulumi-to-access-your-aws-account)
 
-Next, from the newly-created cluster overview, create a service:
-  - Keep the defaults, then Create a new task
+AWS Permissions:
 
-Task definitions:
-  - Family: `uptime-kuma`
-  - Infrastructure Requirements:
-    - Uncheck "AWS Fargate"
-    - Check "Amazon EC2 Instances"
-  - Container Info:
-    - Name: `uptime-kuma`
-    - Image URI: `louislam/uptime-kuma`
-    - Change the container port to `3001`
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "acm:DeleteCertificate",
+                "acm:DescribeCertificate",
+                "acm:ListTagsForCertificate",
+                "acm:RequestCertificate",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:CreateTags",
+                "ec2:DeleteSecurityGroup",
+                "ec2:RevokeSecurityGroupEgress",
+                "ec2:RevokeSecurityGroupIngress",
+                "iam:AttachRolePolicy",
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:DetachRolePolicy",
+                "iam:GetRole",
+                "iam:ListInstanceProfilesForRole",
+                "iam:ListRolePolicies",
+                "logs:DeleteLogGroup",
+                "logs:ListTagsLogGroup"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
 
-Create the task then go back to the service creation, select the newly create
-task (you might need to refresh), and click create.
+Then just `pulumi up` and navigate to [uptime.kgb33.dev](https://uptime.kgb33.dev)
