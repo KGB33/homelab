@@ -1,0 +1,14 @@
+[project]
+name = "main"
+version = "0.0.0"
+dependencies = [
+    "pulumi>=3.0.0,<4.0.0",
+    "pulumi-cloudflare>=5.31.0,<6.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.dagger]
+base-image = "ghcr.io/kgb33/daggerverse/python_pulumi:latest"
