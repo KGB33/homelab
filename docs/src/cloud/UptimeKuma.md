@@ -1,10 +1,31 @@
 # Uptime Kuma
 
+### [uptime.kgb33.dev](https://uptime.kgb33.dev/status/all)
+
 An off-site uptime monitoring solution hosted on AWS ECS.
 
-> [uptime.kgb33.dev](https://uptime.kgb33.dev/)
+Scripts to deploy to both AWS and Fly.io exist in the repo; However, due to cost,
+Uptime Kuma is only deployed to Fly.io. AWS documentation and Scrips are kept to
+demonstrate AWS experience on a resume.
 
-# Pulumi Steps
+
+# Fly.io Deployment
+
+From `flyio/uptime_kuma`, just run the following, It'll deploy Uptime Kuma to
+Fly.io, validate the DNS challenge for SSL certificates, and add `A`/`AAAA`
+records. If you use `down` instead of `up`, it'll do the reverse. Don't worry
+about running the commands multiple times, they're both idempotent.
+
+```bash
+dagger call \
+    --fly-api-token=FLY_API_TOKEN \
+    --fly-toml=fly.toml \
+    --pulumi-access-token=PULUMI_ACCESS_TOKEN \
+    --cloudflare-token=CLOUDFLARE_API_TOKEN \
+    up
+```
+
+# AWS Deployment (Depreciated)
 
 Secrets required:
   - Cloudflare token (with write access to `kgb33.dev`) as `CLOUDFLARE_API_TOKEN`

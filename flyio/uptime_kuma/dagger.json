@@ -1,0 +1,12 @@
+{
+  "name": "UptimeKuma",
+  "sdk": "python",
+  "dependencies": [
+    {
+      "name": "flyio",
+      "source": "github.com/KGB33/daggerverse.git/flyio@6215d32c483c8b796cb19b01afd4ee17ad04c24e"
+    }
+  ],
+  "source": ".",
+  "engineVersion": "v0.11.8"
+}
