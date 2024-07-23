@@ -31,5 +31,6 @@ data:
         ophiuchus.pve.kgb33.dev: 10.0.9.104
         argo.k8s.kgb33.dev: 10.0.8.137
         traefik.k8s.kgb33.dev: 10.0.8.137
+        dash.k8s.kgb33.dev: 10.0.8.137
         blog.kgb33.dev: 10.0.8.138
 
