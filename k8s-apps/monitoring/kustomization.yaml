@@ -1,6 +1,7 @@
 namespace: monitoring
 
 resources:
+  - https://github.com/prometheus-operator/kube-prometheus/manifests/
   - ./ingress.yaml
 
 patches:
