@@ -1,7 +1,7 @@
 namespace: monitoring
 
 resources:
-  - https://github.com/prometheus-operator/kube-prometheus/manifests/
+  - https://raw.githubusercontent.com/prometheus-operator/kube-prometheus/main/manifests/grafana-networkPolicy.yaml
   - ./ingress.yaml
 
 patches:
