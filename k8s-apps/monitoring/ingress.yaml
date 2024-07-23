@@ -10,7 +10,7 @@ spec:
   - match: Host(`dash.k8s.kgb33.dev`)
     kind: Rule
     services:
-    - name: grafana
+    - name: kube-prometheus
       namespace: monitoring
       port: 3000
   tls:
