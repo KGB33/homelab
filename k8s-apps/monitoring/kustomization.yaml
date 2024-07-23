@@ -2,4 +2,4 @@ namespace: monitoring
 
 resources:
   - ./ingress.yaml
-  - ./grafana_network_policy.yaml
+  #  - ./grafana_network_policy.yaml
