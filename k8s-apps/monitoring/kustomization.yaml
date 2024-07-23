@@ -2,4 +2,9 @@ namespace: monitoring
 
 resources:
   - ./ingress.yaml
-  #  - ./grafana_network_policy.yaml
+
+patches:
+  - path: ./grafana_networkpolicy_patch.json
+    target:
+      kind: NetworkPolicy
+      name: grafana

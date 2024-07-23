@@ -1,0 +1,19 @@
+[
+  {
+    "op": "add",
+    "path": "/spec/namespaceSelector",
+    "value": {
+      "matchLabels": {
+        "kubernetes.io/metadata.name": "traefik"
+      }
+    }
+  },
+  {
+    "op": "add",
+    "path": "/spec/podSelector/matchLabels",
+    "value": {
+      "app.kubernetes.io/name": "traefik"
+    }
+  }
+]
+
