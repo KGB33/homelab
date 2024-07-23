@@ -1,4 +1,4 @@
-namespace: blog-kgb33-dev 
+namespace: monitoring
 
 resources:
   - ./ingress.yaml
