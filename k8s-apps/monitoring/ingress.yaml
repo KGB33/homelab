@@ -4,14 +4,12 @@ metadata:
   name: grafana-ingress
   namespace: monitoring
 spec:
-  entryPoints:
-    - lan-web-secure
+  entryPoints: ["lan-web-secure"]
   routes:
   - match: Host(`dash.k8s.kgb33.dev`)
     kind: Rule
     services:
-    - name: kube-prometheus
-      namespace: monitoring
+    - name: grafana
       port: 3000
   tls:
     certResolver: letsencrypt
