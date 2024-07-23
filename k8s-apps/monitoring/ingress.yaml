@@ -7,7 +7,7 @@ spec:
   entryPoints:
     - lan-web-secure
   routes:
-  - match: Host(`dash.kgb33.dev`)
+  - match: Host(`dash.k8s.kgb33.dev`)
     kind: Rule
     services:
     - name: grafana
