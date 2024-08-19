@@ -8,6 +8,12 @@ Scripts to deploy to both AWS and Fly.io exist in the repo; However, due to cost
 Uptime Kuma is only deployed to Fly.io. AWS documentation and Scrips are kept to
 demonstrate AWS experience on a resume.
 
+# Cloudflare Rules
+
+Cloudflare (occasionally) tries to block this bot. 
+To prevent this, add a new "Configuration Rule" with a custom filter expression where 
+the IP source matches the Fly.io IPv4 or IPv6 address assigned to the machine. This rule turns off the Browser integrity check, and sets the Security Level to "Essentially Off".
+
 
 # Fly.io Deployment
 
