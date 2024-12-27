@@ -1,8 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: {
+{lib, ...}: {
   imports = [];
 
   nix.settings = {
@@ -10,13 +6,15 @@
     auto-optimise-store = true;
   };
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+
   # Bootloader.
-  boot = {
-    loader.systemd-boot = {
-      enable = true;
-      configurationLimit = 10;
-    };
-  };
+    #boot = {
+    #  loader.systemd-boot = {
+    #    enable = true;
+    #    configurationLimit = 10;
+    #  };
+    #};
 
   services.fwupd.enable = true;
 
@@ -25,7 +23,7 @@
     domain = "kgb33.dev";
     useDHCP = false; # Set per-interface
     useNetworkd = false; # Manually configure interfaces
-    networkmanager.enable = false;
+    networkmanager.enable = lib.mkDefault false;
     nameservers = ["10.0.8.53" "1.1.1.1" "1.0.0.1"];
     hosts = {
       # "174.31.116.214" = [ "traefik.k8s.kgb33.dev" ];
@@ -39,11 +37,12 @@
   systemd.network = {
     enable = true;
     # Set interfaces per-host
-    networks."10-ens0" = {
+    networks."20-ens0" = {
       matchConfig.Name = "ens0";
-      gateway = "10.0.9.1/24";
+      gateway = ["10.0.9.1/24"];
       networkConfig = {
-            DHCP = "no";
+        DHCP = "no";
+      };
     };
   };
 

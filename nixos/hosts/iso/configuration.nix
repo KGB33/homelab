@@ -1,8 +1,7 @@
-{config, ...}: {
+{pkgs, ...}: {
   imports = [../base/configuration.nix];
 
   networking = {
-    wireless.iwd.enable = true;
     hostName = "iso";
   };
 
@@ -17,4 +16,11 @@
       networkConfig.DHCP = "yes";
     };
   };
+
+  environment.systemPackages = with pkgs; [
+    gum
+    (
+      writeShellScriptBin "nix_installer" (builtins.readFile ./installScript.sh) 
+    )
+  ];
 }

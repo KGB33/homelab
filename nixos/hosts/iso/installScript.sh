@@ -4,11 +4,6 @@ set -euo pipefail
 TARGET_DIR="/etc/nixos/homelab"
 CONFIG_DIR="$TARGET_DIR/nixos"
 
-if [ "$(id -u)" -eq 0 ]; then
-	echo "ERROR! $(basename "$0") should be run as a regular user"
-	exit 1
-fi
-
 # Clone repo
 if [ ! -d "$TARGET_DIR/.git" ]; then
     mkdir $TARGET_DIR

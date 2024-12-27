@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   imports = [../base/configuration.nix];
 
   networking = {
@@ -10,7 +10,7 @@
     networks."10-ens0" = {
       matchConfig.Name = "ens0";
       networkConfig = {
-        Address = "10.0.9.120/24";
+        Address = "10.0.9.102/24";
       };
     };
   };
