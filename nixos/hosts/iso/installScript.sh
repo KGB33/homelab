@@ -1,7 +1,7 @@
  #!/usr/bin/env bash
 set -euo pipefail
 
-TARGET_DIR="/etc/nixos/homelab"
+TARGET_DIR="$HOME/homelab"
 CONFIG_DIR="$TARGET_DIR/nixos"
 
 # Clone repo
