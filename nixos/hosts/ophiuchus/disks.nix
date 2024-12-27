@@ -1,15 +1,9 @@
 # Adapted from Disko's zfs-impermanace template
 # https://github.com/nix-community/disko-templates/blob/main/zfs-impermanence/disko-config.nix
-# Update devices to match your hardware.
-# {
-#  imports = [ ./disko-config.nix ];
-#  disko.devices.disk.main.device = "/dev/nvme0n1";
-# }
 {
   disko.devices = {
     disk = {
       main = {
-        device = "/dev/nvme0n1";
         type = "disk";
         content = {
           type = "gpt";

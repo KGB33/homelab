@@ -1,8 +1,14 @@
-{...}: {
-  imports = [../base/configuration.nix ./disks.nix];
+{inputs, ...}: {
+  imports = [
+    ../base/configuration.nix
+    inputs.disko.nixosModules.disko
+    ./disks.nix
+  ];
+  diskio.devices.disk.main.device = "/dev/nvme0n1";
 
   networking = {
     hostName = "ophiuchus";
+    hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
   };
 
   systemd.network = {
