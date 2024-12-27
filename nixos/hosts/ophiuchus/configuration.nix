@@ -1,5 +1,5 @@
 {...}: {
-  imports = [../base/configuration.nix];
+  imports = [../base/configuration.nix ./disks.nix];
 
   networking = {
     hostName = "ophiuchus";
