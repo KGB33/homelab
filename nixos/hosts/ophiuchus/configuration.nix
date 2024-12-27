@@ -11,11 +11,17 @@
 
   systemd.network = {
     enable = true;
-    netdevs."09-vlan".vlanConfig = {Id = 9;};
+    netdevs."10-vlan9" = {
+      netdevConfig = {
+        name = "10-vlan9";
+        kind = "vlan";
+      };
+      vlanConfig = {Id = 9;};
+    };
     networks."10-enp0s13f0u1" = {
       matchConfig.Name = "enp0s13f0u1";
       gateway = ["10.0.9.1"];
-      vlan = ["09-vlan"];
+      vlan = ["10-vlan9"];
       networkConfig = {
         Address = "10.0.9.104/24";
       };
