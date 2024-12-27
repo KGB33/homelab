@@ -3,7 +3,6 @@
     ../base/configuration.nix
     ./disks.nix
   ];
-  disko.devices.disk.main.device = "/dev/nvme0n1";
 
   networking = {
     hostName = "ophiuchus";
