@@ -13,8 +13,8 @@
     enable = true;
     netdevs."10-vlan9" = {
       netdevConfig = {
-        name = "10-vlan9";
-        kind = "vlan";
+        Name = "10-vlan9";
+        Kind = "vlan";
       };
       vlanConfig = {Id = 9;};
     };
