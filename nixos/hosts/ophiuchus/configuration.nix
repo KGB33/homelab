@@ -1,7 +1,6 @@
-{inputs, ...}: {
+{...}: {
   imports = [
     ../base/configuration.nix
-    inputs.disko.nixosModules.disko
     ./disks.nix
   ];
   disko.devices.disk.main.device = "/dev/nvme0n1";
@@ -13,8 +12,8 @@
 
   systemd.network = {
     enable = true;
-    networks."10-ens0" = {
-      matchConfig.Name = "ens0";
+    networks."10-enp0s13f0u1" = {
+      matchConfig.Name = "enp0s13f0u1";
       networkConfig = {
         Address = "10.0.9.104/24";
       };

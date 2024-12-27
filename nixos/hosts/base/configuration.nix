@@ -1,5 +1,12 @@
-{lib, ...}: {
-  imports = [];
+{
+  lib,
+  inputs,
+  ...
+}: {
+  imports = [
+    inputs.disko.nixosModules.disko
+    inputs.impermanence.nixosModules.impermanence
+  ];
 
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
@@ -9,12 +16,30 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
   # Bootloader.
-    #boot = {
-    #  loader.systemd-boot = {
-    #    enable = true;
-    #    configurationLimit = 10;
-    #  };
-    #};
+  boot = lib.mkDefault {
+    loader.systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+    };
+  };
+
+  environment.persistence."/persist" = {
+    hideMounts = true;
+    directories = [
+      "/etc/nixos"
+
+      # Keep caches
+      "/.cache/nix/"
+      "/var/cache/"
+    ];
+    files = [
+      "/etc/machine-id"
+      "/etc/ssh/ssh_host_ed25519_key"
+      "/etc/ssh/ssh_host_ed25519_key.pub"
+      "/etc/ssh/ssh_host_rsa_key"
+      "/etc/ssh/ssh_host_rsa_key.pub"
+    ];
+  };
 
   services.fwupd.enable = true;
 
@@ -37,11 +62,13 @@
   systemd.network = {
     enable = true;
     # Set interfaces per-host
-    networks."20-ens0" = {
-      matchConfig.Name = "ens0";
-      gateway = ["10.0.9.1/24"];
-      networkConfig = {
-        DHCP = "no";
+    networks = lib.mkDefault {
+      "20-ens0" = {
+        matchConfig.Name = "ens0";
+        gateway = ["10.0.9.1/24"];
+        networkConfig = {
+          DHCP = "no";
+        };
       };
     };
   };
