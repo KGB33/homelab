@@ -4,7 +4,7 @@
     inputs.disko.nixosModules.disko
     ./disks.nix
   ];
-  diskio.devices.disk.main.device = "/dev/nvme0n1";
+  disko.devices.disk.main.device = "/dev/nvme0n1";
 
   networking = {
     hostName = "ophiuchus";
