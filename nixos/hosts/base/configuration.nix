@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   inputs,
   ...
 }: {
@@ -27,6 +28,8 @@
     hideMounts = true;
     directories = [
       "/etc/nixos"
+      "/var/lib/"
+      "/var/lib/nixos"
 
       # Keep caches
       "/.cache/nix/"
@@ -94,6 +97,12 @@
   # Shells
   programs.zsh.enable = true;
   programs.fish.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    ripgrep
+    git
+    vim
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
