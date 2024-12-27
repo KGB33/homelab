@@ -16,7 +16,7 @@ if [ ! -d "$TARGET_DIR/.git" ]; then
     git pull origin main
 fi
 
-TARGET_HOST=$(ls -1 $CONFIG_DIR/hosts/*/configuration.nix | cut -d'/' -f6 | grep -v iso | gum choose)
+TARGET_HOST=$(ls -1 $CONFIG_DIR/hosts/*/configuration.nix | cut -d'/' -f7 | rg -v 'iso|base' | gum choose)
 
 if [ ! -e "$CONFIG_DIR/hosts/$TARGET_HOST/disks.nix" ]; then
 	echo "ERROR! $(basename "$0") could not find the required $CONFIG_DIR/hosts/$TARGET_HOST/disks.nix"
