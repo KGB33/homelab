@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  imports = [../base/configuration.nix];
+  imports = [../../base/configuration.nix];
 
   networking = {
     hostName = "iso";
