@@ -32,6 +32,6 @@ sudo nix run github:nix-community/disko \
     --no-write-lock-file \
     -- \
     --mode zap_create_mount \
-    "$HOME/dotfiles/hosts/$TARGET_HOST/disks.nix"
+    "$CONFIG_DIR/hosts/$TARGET_HOST/disks.nix"
 
-sudo nixos-install --flake "$HOME/dotfiles#$TARGET_HOST"
+sudo nixos-install --flake "$CONFIG_DIR#$TARGET_HOST"

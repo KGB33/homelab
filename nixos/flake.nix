@@ -3,10 +3,10 @@
 
   inputs = {
     nixpkgs = {url = "github:NixOS/nixpkgs/nixos-unstable-small";};
-    systems.url = "github:nix-systems/default-linux";
-    flake-utils = {
-      url = "github:numtide/flake-utils";
-      inputs.systems.follows = "systems";
+
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -22,7 +22,7 @@
       mkHost = hostname:
         lib.nixosSystem {
           modules = [
-            ./host/${hostname}/configuration.nix
+            ./hosts/${hostname}/configuration.nix
           ];
           specialArgs = {inherit inputs outputs;};
         };

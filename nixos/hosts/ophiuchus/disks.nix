@@ -8,7 +8,8 @@
 {
   disko.devices = {
     disk = {
-      nvme0n1 = {
+      main = {
+        device = "/dev/nvme0n1";
         type = "disk";
         content = {
           type = "gpt";
