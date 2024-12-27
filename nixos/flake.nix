@@ -4,8 +4,6 @@
   inputs = {
     nixpkgs = {url = "github:NixOS/nixpkgs/nixos-unstable-small";};
 
-    impermanence.url = "github:nix-community/impermanence";
-
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";

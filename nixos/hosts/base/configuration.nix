@@ -6,7 +6,6 @@
 }: {
   imports = [
     inputs.disko.nixosModules.disko
-    inputs.impermanence.nixosModules.impermanence
   ];
 
   nix.settings = {
@@ -22,26 +21,6 @@
       enable = true;
       configurationLimit = 10;
     };
-  };
-
-  environment.persistence."/persist" = {
-    hideMounts = true;
-    directories = [
-      "/etc/nixos"
-      "/var/lib/"
-      "/var/lib/nixos"
-
-      # Keep caches
-      "/.cache/nix/"
-      "/var/cache/"
-    ];
-    files = [
-      "/etc/machine-id"
-      "/etc/ssh/ssh_host_ed25519_key"
-      "/etc/ssh/ssh_host_ed25519_key.pub"
-      "/etc/ssh/ssh_host_rsa_key"
-      "/etc/ssh/ssh_host_rsa_key.pub"
-    ];
   };
 
   services.fwupd.enable = true;
