@@ -11,8 +11,8 @@ if [ ! -d "$TARGET_DIR/.git" ]; then
 
     git init
     git remote add -f origin https://github.com/KGB33/homelab.git
-    git config core.sparseCheckout true
-    echo "nixos" >> .git/info/sparse-checkout
+    git sparse-checkout init
+    git sparse-checkout set "nixos"
     git pull origin main
 fi
 
