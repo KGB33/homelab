@@ -56,6 +56,16 @@
     };
   };
 
+  services.openssh = {
+    enable = true;
+    openFirewall = true;
+    settings = {
+      UseDns = true;
+      PasswordAuthentication = false;
+      PermitRootLogin = false;
+    };
+  };
+
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
