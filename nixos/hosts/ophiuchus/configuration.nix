@@ -11,19 +11,29 @@
 
   systemd.network = {
     enable = true;
-    netdevs."10-vlan9" = {
-      netdevConfig = {
-        Name = "10-vlan9";
-        Kind = "vlan";
+    netdevs = {
+      "10-vlan9" = {
+        netdevConfig = {
+          Name = "vlan9";
+          Kind = "vlan";
+        };
+        vlanConfig.Id = 9;
       };
-      vlanConfig = {Id = 9;};
     };
-    networks."10-enp0s13f0u1" = {
-      matchConfig.Name = "enp0s13f0u1";
-      gateway = ["10.0.9.1"];
-      vlan = ["10-vlan9"];
-      networkConfig = {
-        Address = "10.0.9.104/24";
+    networks = {
+      "10-enp0s13f0u1" = {
+        matchConfig.Name = "enp0s13f0u1";
+        vlan = ["vlan9"];
+        networkConfig.LinkLocalAddressing = "no";
+        linkConfig.RequiredForOnline = "carrier";
+      };
+
+      "10-vlan9" = {
+        matchConfig.Name = "vlan9";
+        gateway = ["10.0.9.1"];
+        networkConfig = {
+          Address = "10.0.9.104/24";
+        };
       };
     };
   };
