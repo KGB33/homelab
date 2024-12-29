@@ -6,6 +6,15 @@ To see the status:
   - On machine, use `comin status`
   - Prometheus metrics are exported on `<HOST_IP>:4343/metrics`
 
+## Rebuilding 
+
+Wait at most a minute for `comin` to pull and start a rebuild, or:
+
+```bash
+sudo nixos-rebuild switch --flake /var/lib/comin/repository/nixos#(hostname)
+```
+
+> Note: `comin` can be paused using `systemctl stop comin`.
 
 ## Testing
 

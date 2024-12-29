@@ -20,6 +20,5 @@
   environment.systemPackages = with pkgs; [
     gum
     (writeShellScriptBin "nix_installer" (builtins.readFile ./installScript.sh))
-    (writeShellScriptBin "clone_repo" (builtins.readFile ./cloneRepo.fish))
   ];
 }

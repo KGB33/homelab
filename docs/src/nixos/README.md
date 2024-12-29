@@ -7,6 +7,8 @@ This will (or maybe has already) replace Proxmox. However, Talos' configuration
 is already declarative, eventually I'll build out a Nix (or some other fancy
 config language - `CUE`? `Dhall`? `pkl`? `Nickel`?) module to generate the config.
 
+To reload the config, see [here](/nixos/GitOps.html#rebuilding).
+
 
 ## Directory Layout
 
