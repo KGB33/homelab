@@ -43,6 +43,7 @@
 
       ophiuchus = mkHost "ophiuchus";
       targe = mkHost "targe";
+      tower = mkHost "tower";
     };
   };
 }
