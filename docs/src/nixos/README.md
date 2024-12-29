@@ -3,9 +3,6 @@
 The `nixos/` directory contains the system definitions for all of my NixOS
 servers.
 
-Eventually, the end goal is to have auto reconciling NixOS-based machines;
-think ArgoCD for system configuration.
-
 This will (or maybe has already) replace Proxmox. However, Talos' configuration
 is already declarative, eventually I'll build out a Nix (or some other fancy
 config language - `CUE`? `Dhall`? `pkl`? `Nickel`?) module to generate the config.

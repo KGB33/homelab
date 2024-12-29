@@ -7,6 +7,7 @@
 
 - [NixOS](./nixos/README.md)
   - [Networking](./nixos/networking.md)
+  - [GitOps](./nixos/GitOps.md)
 
 - [Cloud]()
   - [Uptime Kuma](./cloud/UptimeKuma.md)
