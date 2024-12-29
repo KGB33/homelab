@@ -7,8 +7,9 @@
   imports = [
     inputs.disko.nixosModules.disko
     inputs.comin.nixosModules.comin
+    ./services/default.nix
+    ./packages.nix
     ./users.nix
-    ./comin.nix
   ];
 
   nix.settings = {
@@ -58,16 +59,6 @@
     };
   };
 
-  services.openssh = {
-    enable = true;
-    openFirewall = true;
-    settings = {
-      UseDns = true;
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
-    };
-  };
-
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
 
@@ -85,19 +76,6 @@
     LC_TELEPHONE = "en_US.UTF-8";
     LC_TIME = "en_US.UTF-8";
   };
-
-  # Shells
-  programs.zsh.enable = true;
-  programs.fish.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    (writeShellScriptBin "updateSystem" "sudo nixos-rebuild switch --flake /home/kgb33/homelab/nixos#`hostname`")
-    fd
-    git
-    nmap
-    neovim
-    ripgrep
-  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
