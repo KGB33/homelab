@@ -6,7 +6,9 @@
 }: {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.comin.nixosModules.comin
     ./users.nix
+    ./comin.nix
   ];
 
   nix.settings = {

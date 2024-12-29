@@ -14,7 +14,7 @@ mkdir $clone_dir
 cd $clone_dir
 
 git init
-git remote 
+git remote add -f origin https://github.com/KGB33/homelab.git
 git sparse-checkout init
 git sparse-checkout set "nixos"
 git pull origin main
