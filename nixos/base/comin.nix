@@ -4,8 +4,10 @@
     flakeSubdirectory = "nixos";
     remotes = [
       {
-        name = "orgin";
+        name = "origin";
         url = "https://github.com/KGB33/homelab.git";
+        branches.main.name = "main";
+        branches.testing.name = "nixos-is-the-new-proxmox";
       }
     ];
   };
