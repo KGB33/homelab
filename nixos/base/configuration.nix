@@ -92,9 +92,11 @@
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "updateSystem" "sudo nixos-rebuild switch --flake /home/kgb33/homelab/nixos#`hostname`")
-    ripgrep
+    fd
     git
-    vim
+    nmap
+    neovim
+    ripgrep
   ];
 
   # This value determines the NixOS release from which the default
