@@ -2,6 +2,10 @@
   services.comin = {
     enable = true;
     flakeSubdirectory = "nixos";
+    exporter = {
+      openFirewall = true;
+      port = 4243;
+    };
     remotes = [
       {
         name = "origin";
