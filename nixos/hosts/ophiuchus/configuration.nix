@@ -44,7 +44,8 @@
 
   sops = {
     secrets."DISCORD_TOKEN" = {
-      sopsFile = ./roboShpeeSecrets.yaml;
+      sopsFile = ./roboShpeeSecrets.env;
+      format = "dotenv";
       # restartUnits = [ TODO ];
     };
   };
