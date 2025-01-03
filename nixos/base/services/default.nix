@@ -5,11 +5,6 @@
     ./sops.nix
   ];
 
-  virtualisation.docker = {
-    rootless = {
-      enable = true;
-      setSocketVariable = true;
-    };
-  };
+  virtualisation.docker.enable = true;
   virtualisation.oci-containers.backend = "docker";
 }
