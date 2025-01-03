@@ -5,8 +5,9 @@
   ...
 }: {
   imports = [
-    inputs.disko.nixosModules.disko
     inputs.comin.nixosModules.comin
+    inputs.disko.nixosModules.disko
+    inputs.sops-nix.nixosModules.sops
     ./services/default.nix
     ./packages.nix
     ./users.nix

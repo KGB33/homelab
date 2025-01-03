@@ -26,11 +26,7 @@
           dag.dagger
           pyPkgs.kubernetes
 
-          # pyPkgs.ansible-core
-          # pyPkgs.ansible
-          # pkgs.ansible-language-server
-          # pkgs.ansible-lint
-
+          pkgs.age
           pkgs.argocd
           pkgs.cilium-cli
           pkgs.jq
@@ -43,6 +39,7 @@
           pkgs.kubeseal
           pkgs.mdbook
           pkgs.opentofu
+          pkgs.sops
           pkgs.talosctl
           pkgs.yq-go
 

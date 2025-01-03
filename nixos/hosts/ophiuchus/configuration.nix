@@ -1,4 +1,8 @@
-{...}: {
+{
+  sops,
+  config,
+  ...
+}: {
   imports = [
     ../../base/configuration.nix
     ./disks.nix
@@ -35,6 +39,22 @@
           Address = "10.0.9.104/24";
         };
       };
+    };
+  };
+
+  sops = {
+    secrets."DISCORD_TOKEN" = {
+      sopsFile = ./roboShpeeSecrets.yaml;
+      # restartUnits = [ TODO ];
+    };
+  };
+
+  virtualisation.oci-containers.containers = {
+    roboShpee = {
+      image = "ghcr.io/kgb33/roboshpee:latest";
+      environmentFiles = [
+        config.sops.secrets.DISCORD_TOKEN.path
+      ];
     };
   };
 }
