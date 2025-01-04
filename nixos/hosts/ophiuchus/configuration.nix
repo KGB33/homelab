@@ -46,7 +46,7 @@
     secrets."DISCORD_TOKEN" = {
       sopsFile = ./roboShpeeSecrets.env;
       format = "dotenv";
-      # restartUnits = [ TODO ];
+      restartUnits = [ "docker-roboShpee.service" ];
     };
   };
 
