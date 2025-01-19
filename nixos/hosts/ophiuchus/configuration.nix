@@ -53,6 +53,7 @@
   virtualisation.oci-containers.containers = {
     roboShpee = {
       image = "ghcr.io/kgb33/roboshpee:latest";
+      pull = "newer";
       environmentFiles = [
         config.sops.secrets.DISCORD_TOKEN.path
       ];
