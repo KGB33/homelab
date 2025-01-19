@@ -46,7 +46,7 @@
     secrets."DISCORD_TOKEN" = {
       sopsFile = ./roboShpeeSecrets.env;
       format = "dotenv";
-      restartUnits = [ "docker-roboShpee.service" ];
+      restartUnits = ["docker-roboShpee.service"];
     };
   };
 
@@ -57,6 +57,28 @@
       environmentFiles = [
         config.sops.secrets.DISCORD_TOKEN.path
       ];
+    };
+    blog = {
+      image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
+      pull = "newer";
+    };
+  };
+
+  services.caddy = {
+    enable = true;
+    globalConfig = ''
+      {
+        adimn
+        servers {
+          metrics
+        }
+      }
+    '';
+    virtualHosts."blog.kgb33.dev" = {
+      listenAddresses = ["0.0.0.0"];
+      extraConfig = ''
+        reverse_proxy :1313
+      '';
     };
   };
 }
