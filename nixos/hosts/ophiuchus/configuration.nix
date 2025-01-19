@@ -13,7 +13,8 @@
     hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
     firewall = {
       allowedTCPPorts = [
-        3000 # Caddy Reverse Proxy
+        80 # Caddy Reverse Proxy
+        443 # Caddy Reverse Proxy
       ];
     };
   };
@@ -73,6 +74,7 @@
     enable = true;
     globalConfig = ''
       admin
+      auto_https off
       servers {
         metrics
       }
@@ -83,6 +85,12 @@
         extraConfig = ''
           reverse_proxy :1313
         '';
+        "*" = {
+          listenAddresses = ["0.0.0.0"];
+          extraConfig = ''
+            reverse_proxy :1313
+          '';
+        };
       };
     };
   };
