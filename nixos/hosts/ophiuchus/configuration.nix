@@ -67,16 +67,19 @@
   services.caddy = {
     enable = true;
     globalConfig = ''
-      adimn
+      admin
       servers {
         metrics
       }
     '';
-    virtualHosts."blog.kgb33.dev" = {
-      listenAddresses = ["0.0.0.0"];
-      extraConfig = ''
-        reverse_proxy :1313
-      '';
+    virtualHosts = {
+      "metrics" = {};
+      "blog.kgb33.dev" = {
+        listenAddresses = ["0.0.0.0"];
+        extraConfig = ''
+          reverse_proxy :1313
+        '';
+      };
     };
   };
 }
