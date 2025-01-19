@@ -73,7 +73,6 @@
       }
     '';
     virtualHosts = {
-      "metrics" = {};
       "blog.kgb33.dev" = {
         listenAddresses = ["0.0.0.0"];
         extraConfig = ''
