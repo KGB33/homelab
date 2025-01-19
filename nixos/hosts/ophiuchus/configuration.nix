@@ -53,14 +53,14 @@
   virtualisation.oci-containers.containers = {
     roboShpee = {
       image = "ghcr.io/kgb33/roboshpee:latest";
-      pull = "newer";
+      pull = "always";
       environmentFiles = [
         config.sops.secrets.DISCORD_TOKEN.path
       ];
     };
     blog = {
       image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
-      pull = "newer";
+      pull = "always";
     };
   };
 
