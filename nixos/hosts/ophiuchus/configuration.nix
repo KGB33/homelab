@@ -67,6 +67,7 @@
     blog = {
       image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
       pull = "always";
+      ports = ["1313:1313"];
     };
   };
 
@@ -81,16 +82,16 @@
     '';
     virtualHosts = {
       "blog.kgb33.dev" = {
-        listenAddresses = ["0.0.0.0"];
+        listenAddresses = ["0.0.0.0" "localhost"];
         extraConfig = ''
-          reverse_proxy :1313
+          reverse_proxy localhost:1313
         '';
-        "*" = {
-          listenAddresses = ["0.0.0.0"];
-          extraConfig = ''
-            reverse_proxy :1313
-          '';
-        };
+      };
+      "*" = {
+        listenAddresses = ["0.0.0.0" "localhost"];
+        extraConfig = ''
+          reverse_proxy localhost:1313
+        '';
       };
     };
   };
