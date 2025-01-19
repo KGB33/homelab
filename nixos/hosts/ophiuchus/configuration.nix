@@ -11,6 +11,11 @@
   networking = {
     hostName = "ophiuchus";
     hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
+    firewall = {
+      allowedTCPPorts = [
+        3000 # Caddy Reverse Proxy
+      ];
+    };
   };
 
   systemd.network = {
