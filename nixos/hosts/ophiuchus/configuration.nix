@@ -67,11 +67,9 @@
   services.caddy = {
     enable = true;
     globalConfig = ''
-      {
-        adimn
-        servers {
-          metrics
-        }
+      adimn
+      servers {
+        metrics
       }
     '';
     virtualHosts."blog.kgb33.dev" = {
