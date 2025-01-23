@@ -18,6 +18,10 @@
       url = "github:mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    isd = {
+      url = "github:isd-project/isd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
