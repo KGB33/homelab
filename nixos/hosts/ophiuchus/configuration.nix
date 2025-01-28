@@ -82,13 +82,11 @@
     '';
     virtualHosts = {
       "blog.kgb33.dev" = {
-        listenAddresses = ["0.0.0.0" "localhost"];
         extraConfig = ''
           reverse_proxy localhost:1313
         '';
       };
-      "*" = {
-        listenAddresses = ["0.0.0.0" "localhost"];
+      ":80" = {
         extraConfig = ''
           reverse_proxy localhost:1313
         '';
