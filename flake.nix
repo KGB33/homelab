@@ -38,6 +38,7 @@
           pkgs.kubernetes-helm
           pkgs.kubeseal
           pkgs.mdbook
+          pkgs.nmap
           pkgs.opentofu
           pkgs.sops
           pkgs.talosctl
