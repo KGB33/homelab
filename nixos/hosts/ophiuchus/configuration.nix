@@ -14,7 +14,6 @@
     hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
     firewall = {
       allowedTCPPorts = [
-        80 # Caddy Reverse Proxy
         443 # Caddy Reverse Proxy
       ];
     };
@@ -101,11 +100,6 @@
               api_token {env.CF_API_TOKEN}
             }
           }
-        '';
-      };
-      ":80" = {
-        extraConfig = ''
-          reverse_proxy localhost:1313
         '';
       };
     };
