@@ -1,6 +1,7 @@
 {
   sops,
   config,
+  pkgs,
   ...
 }: {
   imports = [
@@ -11,6 +12,11 @@
   networking = {
     hostName = "ophiuchus";
     hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
+    firewall = {
+      allowedTCPPorts = [
+        443 # Caddy Reverse Proxy
+      ];
+    };
   };
 
   systemd.network = {
@@ -43,20 +49,59 @@
   };
 
   sops = {
-    secrets."DISCORD_TOKEN" = {
-      sopsFile = ./roboShpeeSecrets.env;
-      format = "dotenv";
-      restartUnits = [ "docker-roboShpee.service" ];
+    secrets = {
+      "DISCORD_TOKEN" = {
+        sopsFile = ./roboShpeeSecrets.env;
+        format = "dotenv";
+        restartUnits = ["docker-roboShpee.service"];
+      };
+      "cloudflare_dns" = {
+        sopsFile = ./cloudflareSecrets.env;
+        format = "dotenv";
+        restartUnits = ["caddy.service"];
+      };
     };
   };
 
   virtualisation.oci-containers.containers = {
     roboShpee = {
       image = "ghcr.io/kgb33/roboshpee:latest";
-      pull = "newer";
+      pull = "always";
       environmentFiles = [
         config.sops.secrets.DISCORD_TOKEN.path
       ];
+    };
+    blog = {
+      image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
+      pull = "always";
+      ports = ["1313:1313"];
+    };
+  };
+
+  services.caddy = {
+    enable = true;
+    package = pkgs.caddy.withPlugins {
+      plugins = ["github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e"];
+      hash = "sha256-jCcSzenewQiW897GFHF9WAcVkGaS/oUu63crJu7AyyQ=";
+    };
+    environmentFile = config.sops.secrets.cloudflare_dns.path;
+    globalConfig = ''
+      admin
+
+      metrics
+    '';
+    virtualHosts = {
+      "blog.kgb33.dev" = {
+        extraConfig = ''
+          reverse_proxy localhost:1313
+
+          tls {
+            dns cloudflare {
+              api_token {env.CF_API_TOKEN}
+            }
+          }
+        '';
+      };
     };
   };
 }
