@@ -15,6 +15,7 @@
     firewall = {
       allowedTCPPorts = [
         443 # Caddy Reverse Proxy
+        9000 # Prometheus
       ];
     };
   };
@@ -103,5 +104,22 @@
         '';
       };
     };
+  };
+
+  services.prometheus = {
+    enable = true;
+    globalConfig.scrape_interval = "10s";
+    scrapeConfigs = [
+      {
+        job_name = "caddy";
+        static_configs = [
+          {
+            targets = [
+              "localhost:2019"
+            ];
+          }
+        ];
+      }
+    ];
   };
 }
