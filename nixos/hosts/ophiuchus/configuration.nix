@@ -1,6 +1,7 @@
 {
   sops,
   config,
+  pkgs,
   ...
 }: {
   imports = [
@@ -49,10 +50,17 @@
   };
 
   sops = {
-    secrets."DISCORD_TOKEN" = {
-      sopsFile = ./roboShpeeSecrets.env;
-      format = "dotenv";
-      restartUnits = ["docker-roboShpee.service"];
+    secrets = {
+      "DISCORD_TOKEN" = {
+        sopsFile = ./roboShpeeSecrets.env;
+        format = "dotenv";
+        restartUnits = ["docker-roboShpee.service"];
+      };
+      "cloudflare_dns" = {
+        sopsFile = ./cloudflareSecrets.env;
+        format = "dotenv";
+        restartUnits = ["caddy.service"];
+      };
     };
   };
 
@@ -73,11 +81,24 @@
 
   services.caddy = {
     enable = true;
+    package = pkgs.caddy.withPlugins {
+      plugins = ["github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e"];
+      hash = "sha256-jCcSzenewQiW897GFHF9WAcVkGaS/oUu63crJu7AyyQ=";
+    };
+    environmentFile = config.sops.secrets.cloudflare_dns.path;
     globalConfig = ''
       admin
+
       auto_https off
+
       servers {
         metrics
+      }
+
+      tls {
+        dns cloudflare {
+          api_token {env.CF_API_TOKEN}
+        }
       }
     '';
     virtualHosts = {
