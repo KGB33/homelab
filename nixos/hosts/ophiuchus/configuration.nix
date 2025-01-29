@@ -89,22 +89,18 @@
     globalConfig = ''
       admin
 
-      auto_https off
-
-      servers {
-        metrics
-      }
-
-      tls {
-        dns cloudflare {
-          api_token {env.CF_API_TOKEN}
-        }
-      }
+      metrics
     '';
     virtualHosts = {
       "blog.kgb33.dev" = {
         extraConfig = ''
           reverse_proxy localhost:1313
+
+          tls {
+            dns cloudflare {
+              api_token {env.CF_API_TOKEN}
+            }
+          }
         '';
       };
       ":80" = {
