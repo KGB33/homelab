@@ -116,7 +116,7 @@
     settings = {
       server = {
         domain = "graf.kgb33.dev";
-        http_addr = "localhost";
+        http_addr = "127.0.0.1";
         http_port = 2324;
       };
     };
@@ -131,11 +131,19 @@
         static_configs = [
           {
             targets = [
-              "localhost:2019"
+              "localhost:2019" # Caddy
+              "localhost:${toString config.services.prometheus.exporters.node.port}"
             ];
           }
         ];
       }
     ];
+    exporters = {
+      node = {
+        enable = true;
+        enabledCollectors = [ "systemd" ];
+      };
+    }
+    ;
   };
 }
