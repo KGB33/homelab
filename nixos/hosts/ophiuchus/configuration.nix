@@ -15,7 +15,7 @@
     firewall = {
       allowedTCPPorts = [
         443 # Caddy Reverse Proxy
-        9000 # Prometheus
+        9090 # Prometheus
       ];
     };
   };
