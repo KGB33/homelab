@@ -91,17 +91,33 @@
 
       metrics
     '';
-    virtualHosts = {
-      "blog.kgb33.dev" = {
-        extraConfig = ''
-          reverse_proxy localhost:1313
+    virtualHosts = let
+      reverseProxy = port: ''
+        reverse_proxy localhost:${toString port}
 
-          tls {
-            dns cloudflare {
-              api_token {env.CF_API_TOKEN}
-            }
+        tls {
+          dns cloudflare {
+            api_token {env.CF_API_TOKEN}
           }
-        '';
+        }
+      '';
+    in {
+      "blog.kgb33.dev" = {
+        extraConfig = reverseProxy 1313;
+      };
+      "${config.services.grafana.settings.server.domain}" = {
+        extraConfig = reverseProxy config.services.grafana.settings.server.http_port;
+      };
+    };
+  };
+
+  services.grafana = {
+    enable = true;
+    settings = {
+      server = {
+        domain = "graf.kgb33.dev";
+        http_addr = "localhost";
+        http_port = 2324;
       };
     };
   };
