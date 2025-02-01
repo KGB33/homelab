@@ -122,9 +122,65 @@
     };
   };
 
+  services.mimir = {
+    enable = true;
+    configuration = {
+      multitenancy_enabled = false;
+
+      blocks_storage = {
+        backend = "filesystem";
+        bucket_store = {
+          sync_dir = "/tmp/mimir/tsdb-sync";
+        };
+        filesystem = {
+          dir = "/tmp/mimir/data/tsdb";
+        };
+        tsdb = {
+          dir = "/tmp/mimir/tsdb";
+        };
+      };
+
+      compactor = {
+        data_dir = "/tmp/mimir/compactor";
+        sharding_ring = {
+          kvstore.store = "memberlist";
+        };
+      };
+
+      distributor.ring = {
+        instance_addr = "127.0.0.1";
+        kvstore.store = "memberlist";
+      };
+
+      ingester.ring = {
+        instance_addr = "127.0.0.1";
+        kvstore.store = "memberlist";
+        replication_factor = 1;
+      };
+
+      ruler_storage = {
+        backend = "filesystem";
+        filesystem.dir = "/tmp/mimir/rules";
+      };
+
+      server = {
+        http_listen_port = 9009;
+        log_level = "error";
+      };
+
+      store_gateway.sharding_ring.replication_factor = 1;
+    };
+  };
+
   services.prometheus = {
     enable = true;
     globalConfig.scrape_interval = "10s";
+    remoteWrite = [
+      {
+        url = "http://localhost:${toString config.services.mimir.configuration.server.http_listen_port}/api/v1/push";
+        name = "mimir";
+      }
+    ];
     scrapeConfigs = [
       {
         job_name = "caddy";
@@ -141,9 +197,8 @@
     exporters = {
       node = {
         enable = true;
-        enabledCollectors = [ "systemd" ];
+        enabledCollectors = ["systemd"];
       };
-    }
-    ;
+    };
   };
 }
