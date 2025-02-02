@@ -183,12 +183,21 @@
     ];
     scrapeConfigs = [
       {
+        job_name = config.networking.hostName;
+        static_configs = [
+          {
+            targets = [
+              "localhost:${toString config.services.prometheus.exporters.node.port}"
+            ];
+          }
+        ];
+      }
+      {
         job_name = "caddy";
         static_configs = [
           {
             targets = [
               "localhost:2019" # Caddy
-              "localhost:${toString config.services.prometheus.exporters.node.port}"
             ];
           }
         ];
