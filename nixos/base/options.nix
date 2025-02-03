@@ -23,7 +23,8 @@ with lib; {
       hosts = {
         ophiuchus = {
           hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
-          ipv4 = "10.0.9.104/24";
+          ipv4 = "10.0.9.104";
+          ipv4Mask = "24";
         };
       };
 
