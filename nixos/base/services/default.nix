@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./comin.nix
+    ./monitoring.nix
     ./openssh.nix
     ./sops.nix
   ];

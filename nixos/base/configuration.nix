@@ -2,6 +2,7 @@
   lib,
   pkgs,
   inputs,
+  config,
   ...
 }: {
   imports = [
@@ -11,6 +12,7 @@
     ./services/default.nix
     ./packages.nix
     ./users.nix
+    ./options.nix
   ];
 
   nix.settings = {
@@ -37,9 +39,11 @@
     useNetworkd = false; # Manually configure interfaces
     networkmanager.enable = lib.mkDefault false;
     nameservers = ["10.0.8.53" "1.1.1.1" "1.0.0.1"];
-    hosts = {
-      # "174.31.116.214" = [ "traefik.k8s.kgb33.dev" ];
-    };
+    hosts =
+      {
+        # "174.31.116.214" = [ "traefik.k8s.kgb33.dev" ];
+      }
+      // config.shared.hostMappings;
     firewall = {
       enable = true;
       allowedTCPPorts = [];

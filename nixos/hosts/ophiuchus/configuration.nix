@@ -164,7 +164,7 @@
       };
 
       server = {
-        http_listen_port = 9009;
+        http_listen_port = config.shared.monitoring.mimir.httpPort;
         log_level = "error";
       };
 
@@ -173,25 +173,8 @@
   };
 
   services.prometheus = {
-    enable = true;
-    globalConfig.scrape_interval = "10s";
-    remoteWrite = [
-      {
-        url = "http://localhost:${toString config.services.mimir.configuration.server.http_listen_port}/api/v1/push";
-        name = "mimir";
-      }
-    ];
+    # TODO: append caddy scrape config.
     scrapeConfigs = [
-      {
-        job_name = config.networking.hostName;
-        static_configs = [
-          {
-            targets = [
-              "localhost:${toString config.services.prometheus.exporters.node.port}"
-            ];
-          }
-        ];
-      }
       {
         job_name = "caddy";
         static_configs = [
@@ -203,12 +186,6 @@
         ];
       }
     ];
-    exporters = {
-      node = {
-        enable = true;
-        enabledCollectors = ["systemd"];
-      };
-    };
   };
 
   services.loki = {
@@ -216,9 +193,9 @@
     configuration = let
       lokiDir = "/tmp/loki";
     in {
-      server = {
-        http_listen_port = 3030;
-        grpc_listen_port = 9096;
+      server = with config.shared.monitoring.loki; {
+        http_listen_port = httpPort;
+        grpc_listen_port = grpcPort;
       };
       auth_enabled = false;
 
@@ -249,40 +226,6 @@
       compactor = {
         working_directory = "${lokiDir}/compactor";
       };
-    };
-  };
-
-  services.promtail = {
-    enable = true;
-    configuration = {
-      server = {
-        http_listen_port = 28183;
-        grpc_listen_port = 0;
-      };
-      positions.filename = "/tmp/promtail.positions.yaml";
-      clients = [
-        {
-          url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}/loki/api/v1/push";
-        }
-      ];
-      scrape_configs = [
-        {
-          job_name = "journal";
-          journal = {
-            max_age = "12h";
-            labels = {
-              job = "systemd-journal";
-              host = config.networking.hostName;
-            };
-          };
-          relabel_configs = [
-            {
-              source_labels = ["__journal__systemd_unit"];
-              target_label = "unit";
-            }
-          ];
-        }
-      ];
     };
   };
 }
