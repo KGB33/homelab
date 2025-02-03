@@ -216,15 +216,18 @@
     configuration = let
       lokiDir = "/tmp/loki";
     in {
-      server.http_listen_port = 3030;
+      server = {
+        http_listen_port = 3030;
+        grpc_listen_port = 9096;
+      };
       auth_enabled = false;
 
       common = {
+        path_prefix = lokiDir;
         ring = {
           instance_addr = "127.0.0.1";
           kvstore.store = "inmemory";
           replication_factor = 1;
-          path_prefix = lokiDir;
         };
       };
       schema_config = {
@@ -242,7 +245,7 @@
         ];
       };
       storage_config.filesystem.directory = "${lokiDir}/chunks";
-      compactior = {
+      compactor = {
         working_directory = "${lokiDir}/compactor";
       };
     };
