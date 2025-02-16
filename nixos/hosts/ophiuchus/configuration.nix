@@ -15,6 +15,7 @@
     firewall = {
       allowedTCPPorts = [
         443 # Caddy Reverse Proxy
+        9090 # Prometheus
       ];
     };
   };
@@ -53,7 +54,9 @@
       "DISCORD_TOKEN" = {
         sopsFile = ./roboShpeeSecrets.env;
         format = "dotenv";
-        restartUnits = ["docker-roboShpee.service"];
+        restartUnits = [
+          config.virtualisation.oci-containers.containers.roboShpee.serviceName
+        ];
       };
       "cloudflare_dns" = {
         sopsFile = ./cloudflareSecrets.env;
@@ -66,14 +69,14 @@
   virtualisation.oci-containers.containers = {
     roboShpee = {
       image = "ghcr.io/kgb33/roboshpee:latest";
-      pull = "always";
+      pull = "newer";
       environmentFiles = [
         config.sops.secrets.DISCORD_TOKEN.path
       ];
     };
     blog = {
       image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
-      pull = "always";
+      pull = "newer";
       ports = ["1313:1313"];
     };
   };
@@ -90,17 +93,140 @@
 
       metrics
     '';
-    virtualHosts = {
-      "blog.kgb33.dev" = {
-        extraConfig = ''
-          reverse_proxy localhost:1313
+    virtualHosts = let
+      reverseProxy = port: ''
+        reverse_proxy localhost:${toString port}
 
-          tls {
-            dns cloudflare {
-              api_token {env.CF_API_TOKEN}
-            }
+        tls {
+          dns cloudflare {
+            api_token {env.CF_API_TOKEN}
           }
-        '';
+        }
+      '';
+    in {
+      "blog.kgb33.dev" = {
+        extraConfig = reverseProxy 1313;
+      };
+      "${config.services.grafana.settings.server.domain}" = {
+        extraConfig = reverseProxy config.services.grafana.settings.server.http_port;
+      };
+    };
+  };
+
+  services.grafana = {
+    enable = true;
+    settings = {
+      server = {
+        domain = "graf.kgb33.dev";
+        http_addr = "127.0.0.1";
+        http_port = 2324;
+      };
+    };
+  };
+
+  services.mimir = {
+    enable = true;
+    configuration = {
+      multitenancy_enabled = false;
+
+      blocks_storage = {
+        backend = "filesystem";
+        bucket_store = {
+          sync_dir = "/tmp/mimir/tsdb-sync";
+        };
+        filesystem = {
+          dir = "/tmp/mimir/data/tsdb";
+        };
+        tsdb = {
+          dir = "/tmp/mimir/tsdb";
+        };
+      };
+
+      compactor = {
+        data_dir = "/tmp/mimir/compactor";
+        sharding_ring = {
+          kvstore.store = "memberlist";
+        };
+      };
+
+      distributor.ring = {
+        instance_addr = "127.0.0.1";
+        kvstore.store = "memberlist";
+      };
+
+      ingester.ring = {
+        instance_addr = "127.0.0.1";
+        kvstore.store = "memberlist";
+        replication_factor = 1;
+      };
+
+      ruler_storage = {
+        backend = "filesystem";
+        filesystem.dir = "/tmp/mimir/rules";
+      };
+
+      server = {
+        http_listen_port = config.shared.monitoring.mimir.httpPort;
+        log_level = "error";
+      };
+
+      store_gateway.sharding_ring.replication_factor = 1;
+    };
+  };
+
+  services.prometheus = {
+    # TODO: append caddy scrape config.
+    scrapeConfigs = [
+      {
+        job_name = "caddy";
+        static_configs = [
+          {
+            targets = [
+              "localhost:2019" # Caddy
+            ];
+          }
+        ];
+      }
+    ];
+  };
+
+  services.loki = {
+    enable = true;
+    configuration = let
+      lokiDir = "/tmp/loki";
+    in {
+      server = with config.shared.monitoring.loki; {
+        http_listen_port = httpPort;
+        grpc_listen_port = grpcPort;
+      };
+      auth_enabled = false;
+
+      common = {
+        path_prefix = lokiDir;
+        replication_factor = 1;
+        ring = {
+          instance_addr = "127.0.0.1";
+          kvstore.store = "inmemory";
+          replication_factor = 1;
+        };
+      };
+      schema_config = {
+        configs = [
+          {
+            from = "2025-01-01";
+            store = "tsdb";
+            object_store = "filesystem";
+            schema = "v13";
+            index = {
+              prefix = "index_";
+              period = "24h";
+            };
+          }
+        ];
+      };
+      storage_config.filesystem.directory = "${lokiDir}/chunks";
+      compactor = {
+        working_directory = "${lokiDir}/compactor";
       };
     };
   };
