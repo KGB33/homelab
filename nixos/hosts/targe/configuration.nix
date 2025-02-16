@@ -1,12 +1,14 @@
-{...}: {
+{config, ...}: let
+  hostName = "targe";
+in {
   imports = [
     ../../base/configuration.nix
     ./disks.nix
   ];
 
   networking = {
-    hostName = "targe";
-    hostId = "5768368a"; # `head -c4 /dev/urandom | od -A none -t x4`
+    hostName = hostName;
+    hostId = config.shared.hosts.${hostName}.hostId;
   };
 
   systemd.network = {
@@ -22,7 +24,7 @@
     };
     networks = {
       "10-enp" = {
-        matchConfig.Name = "enp7s0f";
+        matchConfig.Name = "enp7s0f1";
         vlan = ["vlan9"];
         networkConfig.LinkLocalAddressing = "no";
         linkConfig.RequiredForOnline = "carrier";
@@ -32,9 +34,46 @@
         matchConfig.Name = "vlan9";
         gateway = ["10.0.9.1"];
         networkConfig = {
-          Address = "10.0.9.102/24";
+          Address = with config.shared.hosts.${hostName}; "${ipv4}/${ipv4Mask}";
         };
       };
+    };
+  };
+
+  services.blocky = {
+    enable = true;
+    settings = {
+      upstreams = {
+        init.strategy = "fast";
+        groups = {
+          default = [
+            "https://cloudflare-dns.com/dns-query"
+            "1.1.1.1"
+            "1.0.0.1"
+          ];
+        };
+      };
+      blocking = {
+        denylists = {
+          adds = [
+            "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+            "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+            "http://sysctl.org/cameleon/hosts"
+            "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt"
+          ];
+          hannah = [];
+        };
+        clientGroupBlock = let
+          hannahLaptop = "10.0.7.19";
+          hannahPhone = "10.0.7.24";
+          blockForHannah = ["adds" "hannah"];
+        in {
+          default = ["adds"];
+          ${hannahLaptop} = blockForHannah;
+          ${hannahPhone} = blockForHannah;
+        };
+      };
+      prometheus.enable = true;
     };
   };
 }
