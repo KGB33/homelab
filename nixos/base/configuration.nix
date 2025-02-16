@@ -38,7 +38,7 @@
     useDHCP = false; # Set per-interface
     useNetworkd = false; # Manually configure interfaces
     networkmanager.enable = lib.mkDefault false;
-    nameservers = ["10.0.8.53" "1.1.1.1" "1.0.0.1"];
+    nameservers = ["10.0.9.53" "10.0.8.53" "1.1.1.1" "1.0.0.1"];
     hosts =
       {
         # "174.31.116.214" = [ "traefik.k8s.kgb33.dev" ];

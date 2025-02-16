@@ -1,8 +1,4 @@
-{
-  lib,
-  options,
-  ...
-}:
+{lib, ...}:
 with lib; {
   options.shared = mkOption {
     type = types.attrs;
@@ -24,6 +20,11 @@ with lib; {
         ophiuchus = {
           hostId = "e7ea22a6"; # `head -c4 /dev/urandom | od -A none -t x4`
           ipv4 = "10.0.9.104";
+          ipv4Mask = "24";
+        };
+        targe = {
+          hostId = "5768368a";
+          ipv4 = "10.0.9.102";
           ipv4Mask = "24";
         };
       };
