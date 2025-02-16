@@ -54,7 +54,9 @@
       "DISCORD_TOKEN" = {
         sopsFile = ./roboShpeeSecrets.env;
         format = "dotenv";
-        restartUnits = ["docker-roboShpee.service"];
+        restartUnits = [
+          config.virtualisation.oci-containers.containers.roboShpee.serviceName
+        ];
       };
       "cloudflare_dns" = {
         sopsFile = ./cloudflareSecrets.env;
@@ -67,14 +69,14 @@
   virtualisation.oci-containers.containers = {
     roboShpee = {
       image = "ghcr.io/kgb33/roboshpee:latest";
-      pull = "always";
+      pull = "newer";
       environmentFiles = [
         config.sops.secrets.DISCORD_TOKEN.path
       ];
     };
     blog = {
       image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
-      pull = "always";
+      pull = "newer";
       ports = ["1313:1313"];
     };
   };
