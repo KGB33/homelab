@@ -63,7 +63,7 @@ in {
           ];
           hannah = [];
         };
-        clientGroupBlock = let
+        clientGroupsBlock = let
           hannahLaptop = "10.0.7.19";
           hannahPhone = "10.0.7.24";
           blockForHannah = ["adds" "hannah"];

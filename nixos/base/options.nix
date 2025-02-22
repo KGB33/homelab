@@ -6,12 +6,12 @@ with lib; {
     default = rec {
       monitoring = {
         loki = {
-          hostName = "ophiuchus";
+          hostName = "ophiuchus.internal";
           httpPort = 3030;
           grpcPort = 9096;
         };
         mimir = {
-          hostName = "ophiuchus";
+          hostName = "ophiuchus.internal";
           httpPort = 9009;
         };
       };
@@ -33,7 +33,7 @@ with lib; {
         mapAttrs' (
           host: values: {
             name = values.ipv4;
-            value = ["${host}" "${host}.kgb33.dev"];
+            value = ["${host}.internal" "${host}.kgb33.dev"];
           }
         )
         hosts;

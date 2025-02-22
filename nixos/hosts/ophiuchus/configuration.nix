@@ -196,8 +196,10 @@
       lokiDir = "/tmp/loki";
     in {
       server = with config.shared.monitoring.loki; {
+        http_listen_address = "0.0.0.0";
         http_listen_port = httpPort;
         grpc_listen_port = grpcPort;
+        grpc_listen_address = "0.0.0.0";
       };
       auth_enabled = false;
 
