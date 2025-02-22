@@ -88,6 +88,7 @@ in {
       in {
         dns = "${baseIp}:53";
         tls = "${baseIp}:853";
+        http = "4000";
       };
     };
   };
@@ -115,5 +116,21 @@ in {
         ExecStart = ["/usr/bin/blocky blocking %i --groups ads"];
       };
     };
+  };
+
+  services.prometheus = {
+    enable = true;
+    scrapeConfigs = [
+      {
+        job_name = "blocky";
+        static_configs = [
+          {
+            targets = [
+              "localhost:${config.services.blocky.settings.ports.http}"
+            ];
+          }
+        ];
+      }
+    ];
   };
 }
