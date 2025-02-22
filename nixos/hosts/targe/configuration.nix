@@ -9,6 +9,10 @@ in {
   networking = {
     hostName = hostName;
     hostId = config.shared.hosts.${hostName}.hostId;
+    firewall = {
+      allowedUDPPorts = [53];
+      allowedTCPPorts = [853];
+    };
   };
 
   systemd.network = {
@@ -33,9 +37,14 @@ in {
       "10-vlan9" = {
         matchConfig.Name = "vlan9";
         gateway = ["10.0.9.1"];
-        networkConfig = {
-          Address = with config.shared.hosts.${hostName}; "${ipv4}/${ipv4Mask}";
-        };
+        addresses = [
+          {
+            Address = with config.shared.hosts.${hostName}; "${ipv4}/${ipv4Mask}";
+          }
+          {
+            Address = "10.0.9.53/24";
+          }
+        ];
       };
     };
   };
@@ -74,6 +83,12 @@ in {
         };
       };
       prometheus.enable = true;
+      ports = let
+        baseIp = "10.0.9.53";
+      in {
+        dns = "${baseIp}:53";
+        tls = "${baseIp}:853";
+      };
     };
   };
 }
