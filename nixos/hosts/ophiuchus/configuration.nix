@@ -16,6 +16,9 @@
       allowedTCPPorts = [
         443 # Caddy Reverse Proxy
         9090 # Prometheus
+        config.shared.monitoring.loki.httpPort
+        config.shared.monitoring.loki.gprcPort
+        config.shared.monitoring.mimir.httpPort
       ];
     };
   };
