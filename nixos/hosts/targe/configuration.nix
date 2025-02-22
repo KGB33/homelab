@@ -91,4 +91,29 @@ in {
       };
     };
   };
+
+  systemd = {
+    timers = let
+      blockyTimer = switch: time: {
+        description = "${switch} Blocky social media group";
+        wantedBy = ["timers.target"];
+        timerConfig = {
+          OnCalendar = time;
+          Persistent = true;
+          Unit = "blocky-ads@${switch}.service";
+        };
+      };
+    in {
+      "blocky-ads@disable" = blockyTimer "disable" "20:00:00";
+      "blocky-ads@enable" = blockyTimer "enable" "10:00:00";
+    };
+
+    services."blocky-ads" = {
+      description = "Manage Blocky Ads (%i)";
+      serviceConfig = {
+        Type = "oneshot";
+        ExecStart = ["/usr/bin/blocky blocking %i --groups ads"];
+      };
+    };
+  };
 }
