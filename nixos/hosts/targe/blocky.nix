@@ -70,17 +70,21 @@
       blocky-social-enable = blockyTimer "enable" "08:00:00";
     };
 
-    services = let
-      blockyService = switch: {
-        description = "Manage Blocky Ads (${switch})";
+    services = {
+      blocky-social-disable = {
+        description = "Manage Blocky Social (Disable)";
         serviceConfig = {
           Type = "oneshot";
-          ExecStart = ["${pkgs.blocky}/bin/blocky blocking ${switch} --groups social"];
+          ExecStart = ["${pkgs.blocky}/bin/blocky blocking disable --groups social"];
         };
       };
-    in {
-      blocky-social-disable = blockyService "disable";
-      blocky-social-enable = blockyService "enable";
+      blocky-enable = {
+        description = "Manage Blocky (Enable All)";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = ["${pkgs.blocky}/bin/blocky blocking enable"];
+        };
+      };
     };
   };
 
