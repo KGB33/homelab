@@ -62,12 +62,12 @@
         timerConfig = {
           OnCalendar = time;
           Persistent = true;
-          Unit = "blocky-ads@${switch}.service";
+          Unit = "blocky-social-${switch}.service";
         };
       };
     in {
-      "blocky-disable-social" = blockyTimer "disable" "20:00:00";
-      "blocky-enable-social" = blockyTimer "enable" "08:00:00";
+      blocky-social-disable = blockyTimer "disable" "20:00:00";
+      blocky-social-enable = blockyTimer "enable" "08:00:00";
     };
 
     services = let
@@ -79,8 +79,8 @@
         };
       };
     in {
-      blocky-disable-social = blockyService "disable";
-      blocky-enable-social = blockyService "enable";
+      blocky-social-disable = blockyService "disable";
+      blocky-social-enable = blockyService "enable";
     };
   };
 
