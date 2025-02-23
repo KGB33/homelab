@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   networking.firewall = {
     allowedUDPPorts = [53];
     allowedTCPPorts = [853];
@@ -62,16 +66,21 @@
         };
       };
     in {
-      "blocky-ads@disable" = blockyTimer "disable" "20:00:00";
-      "blocky-ads@enable" = blockyTimer "enable" "08:00:00";
+      "blocky-disable-social" = blockyTimer "disable" "20:00:00";
+      "blocky-enable-social" = blockyTimer "enable" "08:00:00";
     };
 
-    services."blocky-ads" = {
-      description = "Manage Blocky Ads (%i)";
-      serviceConfig = {
-        Type = "oneshot";
-        ExecStart = ["/usr/bin/blocky blocking %i --groups ads"];
+    services = let
+      blockyService = switch: {
+        description = "Manage Blocky Ads (${switch})";
+        serviceConfig = {
+          Type = "oneshot";
+          ExecStart = ["${pkgs.blocky}/bin/blocky blocking ${switch} --groups social"];
+        };
       };
+    in {
+      blocky-disable-social = blockyService "disable";
+      blocky-enable-social = blockyService "enable";
     };
   };
 
