@@ -34,12 +34,12 @@
           ];
         };
         clientGroupsBlock = let
-          hannahLaptop = "10.0.7.19";
+          # hannahLaptop = "10.0.7.19";
           hannahPhone = "10.0.7.24";
           blockForHannah = ["adds" "social"];
         in {
           default = ["adds"];
-          ${hannahLaptop} = blockForHannah;
+          # ${hannahLaptop} = blockForHannah;
           ${hannahPhone} = blockForHannah;
         };
       };
