@@ -31,6 +31,7 @@
           ];
           social = [
             "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/social-only/hosts"
+            "youtube.com"
           ];
         };
         clientGroupsBlock = let
