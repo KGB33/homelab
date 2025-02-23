@@ -25,12 +25,14 @@
             "http://sysctl.org/cameleon/hosts"
             "https://s3.amazonaws.com/lists.disconnect.me/simple_tracking.txt"
           ];
-          hannah = [];
+          social = [
+            "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/social-only/hosts"
+          ];
         };
         clientGroupsBlock = let
           hannahLaptop = "10.0.7.19";
           hannahPhone = "10.0.7.24";
-          blockForHannah = ["adds" "hannah"];
+          blockForHannah = ["adds" "social"];
         in {
           default = ["adds"];
           ${hannahLaptop} = blockForHannah;
@@ -61,7 +63,7 @@
       };
     in {
       "blocky-ads@disable" = blockyTimer "disable" "20:00:00";
-      "blocky-ads@enable" = blockyTimer "enable" "10:00:00";
+      "blocky-ads@enable" = blockyTimer "enable" "08:00:00";
     };
 
     services."blocky-ads" = {
