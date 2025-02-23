@@ -79,7 +79,7 @@
           ExecStart = ["${pkgs.blocky}/bin/blocky blocking disable --groups social"];
         };
       };
-      blocky-enable = {
+      blocky-social-enable = {
         description = "Manage Blocky (Enable All)";
         serviceConfig = {
           Type = "oneshot";
