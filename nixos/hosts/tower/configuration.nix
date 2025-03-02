@@ -22,7 +22,7 @@
     };
     networks = {
       "10-enp" = {
-        matchConfig.Name = "enp7s0f";
+        matchConfig.Name = "enp42s0";
         vlan = ["vlan9"];
         networkConfig.LinkLocalAddressing = "no";
         linkConfig.RequiredForOnline = "carrier";
