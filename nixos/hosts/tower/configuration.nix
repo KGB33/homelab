@@ -37,4 +37,20 @@
       };
     };
   };
+
+  virtualisation.oci-containers.containers = {
+    minecraftCreate = {
+      image = "library/hello-world";
+      pull = "newer";
+      environment = {
+        EULA = "TRUE";
+      };
+      ports = [
+        "25565:25565"
+      ];
+      volumes = [
+        "/home/kgb33/Minecraft/create/:/data"
+      ];
+    };
+  };
 }
