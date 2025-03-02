@@ -7,6 +7,9 @@
   networking = {
     hostName = "tower";
     hostId = "fa635731"; # `head -c4 /dev/urandom | od -A none -t x4`
+    firewall = {
+      allowedTCPPorts = [25565];
+    };
   };
 
   systemd.network = {
@@ -40,9 +43,12 @@
 
   virtualisation.oci-containers.containers = {
     minecraftCreate = {
-      image = "library/hello-world";
+      image = "ghcr.io/itzg/minecraft-server";
       pull = "newer";
       environment = {
+        MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+        CF_MODPACK_ZIP = "/data/shpeeCreate.zip";
+        CF_SLUG = "custom";
         EULA = "TRUE";
       };
       ports = [
