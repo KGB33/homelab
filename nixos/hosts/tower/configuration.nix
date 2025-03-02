@@ -1,4 +1,4 @@
-{...}: {
+{config, ...}: {
   imports = [
     ../../base/configuration.nix
     ./disks.nix
@@ -52,12 +52,24 @@
         EULA = "TRUE";
         MAX_MEMORY = "28G";
       };
+      environmentFiles = [
+        config.sops.secrets.curseForgeToken.path
+      ];
       ports = [
         "25565:25565"
       ];
       volumes = [
         "/home/kgb33/Minecraft/create/:/data"
       ];
+    };
+  };
+
+  sops = {
+    secrets = {
+      "curseForgeToken" = {
+        sopsFile = ./curseForgeSecrets.env;
+        format = "dotenv";
+      };
     };
   };
 }
