@@ -50,6 +50,7 @@
         CF_MODPACK_ZIP = "/data/shpeeCreate.zip";
         CF_SLUG = "custom";
         EULA = "TRUE";
+        MAX_MEMORY = "28G";
       };
       ports = [
         "25565:25565"
