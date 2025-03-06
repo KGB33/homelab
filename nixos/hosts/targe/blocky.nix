@@ -66,8 +66,8 @@
         };
       };
     in {
-      blocky-social-disable = blockyTimer "disable" "20:00:00";
-      blocky-social-enable = blockyTimer "enable" "08:00:00";
+      blocky-social-disable = blockyTimer "disable" "08:00:00";
+      blocky-social-enable = blockyTimer "enable" "20:00:00";
     };
 
     services = {
