@@ -19,6 +19,7 @@
         config.shared.monitoring.loki.httpPort
         config.shared.monitoring.loki.grpcPort
         config.shared.monitoring.mimir.httpPort
+        config.shared.monitoring.mimir.grpcPort
         config.shared.monitoring.tempo.httpPort
         config.shared.monitoring.tempo.grpcPort
       ];
@@ -157,6 +158,7 @@
 
       server = {
         http_listen_port = config.shared.monitoring.mimir.httpPort;
+        grpc_listen_port = config.shared.monitoring.mimir.grpcPort;
         log_level = "error";
       };
 

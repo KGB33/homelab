@@ -13,6 +13,7 @@ with lib; {
         mimir = {
           hostName = "ophiuchus.internal";
           httpPort = 9009;
+          grpcPort = 9097;
         };
         tempo = {
           hostName = "ophiuchus.internal";

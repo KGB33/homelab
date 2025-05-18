@@ -62,8 +62,8 @@
         forward_to = []
 
         rule {
-          source_labels = ["__journal__systemd_unit"];
-          target_label = "unit";
+          source_labels = ["__journal__systemd_unit"]
+          target_label = "unit"
         }
       }
 
@@ -71,8 +71,8 @@
         forward_to = [loki.write.endpoint.receiver]
         relabel_rules = loki.relabel.journal.rules
         labels = {
-          component = "loki.source.journal"
-          host = ${config.networking.hostName}
+          component = "loki.source.journal",
+          host = "${config.networking.hostName}",
         }
       }
 
