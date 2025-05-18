@@ -236,7 +236,7 @@
         grpc_listen_address = "0.0.0.0";
         grpc_listen_port = serverGrpcPort;
       };
-      distributor.receivers = {
+      distributor.receivers.otlp.protocols = {
         grpc.endpoint = "0.0.0.0:${builtins.toString grpcPort}";
         http.endpoint = "0.0.0.0:${builtins.toString httpPort}";
       };
