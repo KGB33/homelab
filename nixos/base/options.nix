@@ -14,6 +14,11 @@ with lib; {
           hostName = "ophiuchus.internal";
           httpPort = 9009;
         };
+        tempo = {
+          hostName = "ophiuchus.internal";
+          httpPort = 3031;
+          grpcPort = 9095;
+        };
       };
 
       hosts = {

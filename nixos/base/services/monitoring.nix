@@ -28,37 +28,59 @@
     };
   };
 
-  services.promtail = {
+  services.alloy = {
     enable = true;
-    configuration = {
-      server = {
-        http_listen_port = 28183;
-        grpc_listen_port = 0;
-      };
-      positions.filename = "/tmp/promtail.positions.yaml";
-      clients = [
-        {
-          url = with config.shared.monitoring.loki; "http://${hostName}:${toString httpPort}/loki/api/v1/push";
+  };
+
+  environment.etc = {
+    "alloy/otelcol.alloy".text = with config.shared.monitoring.tempo; ''
+      otelcol.exporter.otlp "default" {
+        client { endpoint = "http://${hostName}:${toString grpcPort}" }
+      }
+
+      otelcol.processor.batch "default" {
+        output {
+          metrics = [otelcol.exporter.otlp.default.input]
+          logs    = [otelcol.exporter.otlp.default.input]
+          traces  = [otelcol.exporter.otlp.default.input]
         }
-      ];
-      scrape_configs = [
-        {
-          job_name = "journal";
-          journal = {
-            max_age = "12h";
-            labels = {
-              job = "systemd-journal";
-              host = config.networking.hostName;
-            };
-          };
-          relabel_configs = [
-            {
-              source_labels = ["__journal__systemd_unit"];
-              target_label = "unit";
-            }
-          ];
+      }
+
+      otelcol.receiver.otlp "default" {
+        output {
+          metrics = [otelcol.processor.batch.default.input]
+          logs    = [otelcol.processor.batch.default.input]
+          traces  = [otelcol.processor.batch.default.input]
         }
-      ];
-    };
+        grpc { endpoint = "localhost:4317" }
+        http { endpoint = "localhost:4318" }
+      }
+    '';
+
+    "alloy/loki.alloy".text = with config.shared.monitoring.loki; ''
+      loki.relabel "journal" {
+        forward_to = []
+
+        rule {
+          source_labels = ["__journal__systemd_unit"];
+          target_label = "unit";
+        }
+      }
+
+      loki.source.journal "read" {
+        forward_to = [loki.write.endpoint.receiver]
+        relabel_rules = loki.relabel.journal.rules
+        labels = {
+          component = "loki.source.journal"
+          host = ${config.networking.hostName}
+        }
+      }
+
+      loki.write "endpoint" {
+        endpoint {
+          url = "http://${hostName}:${toString httpPort}/loki/api/v1/push"
+        }
+      }
+    '';
   };
 }

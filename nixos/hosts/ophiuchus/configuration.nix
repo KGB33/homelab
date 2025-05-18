@@ -19,6 +19,8 @@
         config.shared.monitoring.loki.httpPort
         config.shared.monitoring.loki.grpcPort
         config.shared.monitoring.mimir.httpPort
+        config.shared.monitoring.tempo.httpPort
+        config.shared.monitoring.tempo.grpcPort
       ];
     };
   };
@@ -217,6 +219,18 @@
       storage_config.filesystem.directory = "${lokiDir}/chunks";
       compactor = {
         working_directory = "${lokiDir}/compactor";
+      };
+    };
+  };
+
+  services.tempo = {
+    enable = true;
+    settings = {
+      server = with config.shared.monitoring.tempo; {
+        http_listen_address = "0.0.0.0";
+        http_listen_port = httpPort;
+        grpc_listen_port = grpcPort;
+        grpc_listen_address = "0.0.0.0";
       };
     };
   };
