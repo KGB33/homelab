@@ -16,7 +16,7 @@
     enable = true;
     wants = ["network.target"];
     serviceConfig = {
-      ExecStart = inputs.roboshpee.packages.x86_64-linux.roboshpee;
+      ExecStart = "${inputs.roboshpee.packages.x86_64-linux.roboshpee}/bin/roboshpee";
       Type = "simple";
       Restart = "on-failure";
       EnvironmentFile = config.sops.secrets.DISCORD_TOKEN.path;
