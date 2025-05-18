@@ -234,6 +234,11 @@
         grpc_listen_port = grpcPort;
         grpc_listen_address = "0.0.0.0";
       };
+      storage.trace = {
+        backend = "local";
+        local.path = "/tmp/tempo/blocks";
+        wal.path = "/tmp/tempo/wal";
+      };
     };
   };
 }
