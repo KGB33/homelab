@@ -20,6 +20,7 @@
       Type = "simple";
       Restart = "on-failure";
       EnvironmentFile = config.sops.secrets.DISCORD_TOKEN.path;
+      Environment = "RUST_LOG=info";
     };
   };
 }
