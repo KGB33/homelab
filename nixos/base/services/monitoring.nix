@@ -35,7 +35,10 @@
   environment.etc = {
     "alloy/otelcol.alloy".text = with config.shared.monitoring.tempo; ''
       otelcol.exporter.otlp "default" {
-        client { endpoint = "http://${hostName}:${toString grpcPort}" }
+        client {
+          endpoint = "http://${hostName}:${toString grpcPort}"
+          tls { insecure = true }
+        }
       }
 
       otelcol.processor.batch "default" {

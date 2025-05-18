@@ -19,6 +19,8 @@ with lib; {
           hostName = "ophiuchus.internal";
           httpPort = 3031;
           grpcPort = 9095;
+          serverHttpPort = 9878;
+          serverGrpcPort = 9879;
         };
       };
 

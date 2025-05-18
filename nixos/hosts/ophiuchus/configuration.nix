@@ -22,6 +22,8 @@
         config.shared.monitoring.mimir.grpcPort
         config.shared.monitoring.tempo.httpPort
         config.shared.monitoring.tempo.grpcPort
+        config.shared.monitoring.tempo.serverGrpcPort
+        config.shared.monitoring.tempo.serverHttpPort
       ];
     };
   };
@@ -227,12 +229,16 @@
 
   services.tempo = {
     enable = true;
-    settings = {
-      server = with config.shared.monitoring.tempo; {
+    settings = with config.shared.monitoring.tempo; {
+      server = {
         http_listen_address = "0.0.0.0";
-        http_listen_port = httpPort;
-        grpc_listen_port = grpcPort;
+        http_listen_port = serverHttpPort;
         grpc_listen_address = "0.0.0.0";
+        grpc_listen_port = serverGrpcPort;
+      };
+      distributor = {
+        grpc.endpoint = "0.0.0.0:${builtins.toString grpcPort}";
+        http.endpoint = "0.0.0.0:${builtins.toString httpPort}";
       };
       storage.trace = {
         backend = "local";
