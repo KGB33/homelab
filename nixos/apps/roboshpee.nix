@@ -17,7 +17,7 @@
     wants = ["network.target"];
     serviceConfig = {
       ExecStart = inputs.roboshpee.packages.x86_64-linux.roboshpee;
-      type = "simple";
+      Type = "simple";
       Restart = "on-failure";
       EnvironmentFile = config.sops.secrets.DISCORD_TOKEN.path;
     };
