@@ -76,8 +76,8 @@
   services.caddy = {
     enable = true;
     package = pkgs.caddy.withPlugins {
-      plugins = ["github.com/caddy-dns/cloudflare@v0.0.0-20240703190432-89f16b99c18e"];
-      hash = "sha256-jCcSzenewQiW897GFHF9WAcVkGaS/oUu63crJu7AyyQ=";
+      plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
+      hash = "sha256-Gsuo+ripJSgKSYOM9/yl6Kt/6BFCA6BuTDvPdteinAI=";
     };
     environmentFile = config.sops.secrets.cloudflare_dns.path;
     globalConfig = ''
@@ -236,7 +236,7 @@
         grpc_listen_address = "0.0.0.0";
         grpc_listen_port = serverGrpcPort;
       };
-      distributor = {
+      distributor.receivers = {
         grpc.endpoint = "0.0.0.0:${builtins.toString grpcPort}";
         http.endpoint = "0.0.0.0:${builtins.toString httpPort}";
       };
