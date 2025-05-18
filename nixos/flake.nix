@@ -22,6 +22,7 @@
       url = "github:isd-project/isd";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    roboshpee.url = "github:KGB33/RoboShpee";
   };
 
   outputs = {

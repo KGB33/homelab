@@ -1,11 +1,11 @@
 {
-  sops,
   config,
   pkgs,
   ...
 }: {
   imports = [
     ../../base/configuration.nix
+    ../../apps/roboshpee.nix
     ./disks.nix
   ];
 
@@ -52,31 +52,15 @@
     };
   };
 
-  sops = {
-    secrets = {
-      "DISCORD_TOKEN" = {
-        sopsFile = ./roboShpeeSecrets.env;
-        format = "dotenv";
-        restartUnits = [
-          config.virtualisation.oci-containers.containers.roboShpee.serviceName
-        ];
-      };
-      "cloudflare_dns" = {
-        sopsFile = ./cloudflareSecrets.env;
-        format = "dotenv";
-        restartUnits = ["caddy.service"];
-      };
+  sops.secrets = {
+    "cloudflare_dns" = {
+      sopsFile = ./cloudflareSecrets.env;
+      format = "dotenv";
+      restartUnits = ["caddy.service"];
     };
   };
 
   virtualisation.oci-containers.containers = {
-    roboShpee = {
-      image = "ghcr.io/kgb33/roboshpee:latest";
-      pull = "newer";
-      environmentFiles = [
-        config.sops.secrets.DISCORD_TOKEN.path
-      ];
-    };
     blog = {
       image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
       pull = "newer";
