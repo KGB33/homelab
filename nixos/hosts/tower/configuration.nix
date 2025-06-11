@@ -9,7 +9,10 @@
     hostName = "tower";
     hostId = "fa635731"; # `head -c4 /dev/urandom | od -A none -t x4`
     firewall = {
-      allowedTCPPorts = [25565];
+      allowedTCPPorts = [
+        7777 # terraria
+        25565 # minecraft
+      ];
     };
   };
 
