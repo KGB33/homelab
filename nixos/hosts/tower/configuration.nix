@@ -1,6 +1,7 @@
 {config, ...}: {
   imports = [
     ../../base/configuration.nix
+    ../../apps/terraria.nix
     ./disks.nix
   ];
 
