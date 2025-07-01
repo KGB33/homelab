@@ -66,7 +66,7 @@
     #     "/home/kgb33/Minecraft/create/:/data"
     #   ];
     # };
-    minecraftCreate = {
+    minecraftATM10 = {
       image = "ghcr.io/itzg/minecraft-server";
       pull = "newer";
       environment = {
