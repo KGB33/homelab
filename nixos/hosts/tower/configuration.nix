@@ -46,13 +46,32 @@
   };
 
   virtualisation.oci-containers.containers = {
+    # minecraftCreate = {
+    #   image = "ghcr.io/itzg/minecraft-server";
+    #   pull = "newer";
+    #   environment = {
+    #     MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+    #     CF_MODPACK_ZIP = "/data/shpeeCreate.zip";
+    #     CF_SLUG = "custom";
+    #     EULA = "TRUE";
+    #     MAX_MEMORY = "28G";
+    #   };
+    #   environmentFiles = [
+    #     config.sops.secrets.curseForgeToken.path
+    #   ];
+    #   ports = [
+    #     "25565:25565"
+    #   ];
+    #   volumes = [
+    #     "/home/kgb33/Minecraft/create/:/data"
+    #   ];
+    # };
     minecraftCreate = {
       image = "ghcr.io/itzg/minecraft-server";
       pull = "newer";
       environment = {
         MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-        CF_MODPACK_ZIP = "/data/shpeeCreate.zip";
-        CF_SLUG = "custom";
+        CF_SLUG = "all-the-mods-10";
         EULA = "TRUE";
         MAX_MEMORY = "28G";
       };
@@ -63,7 +82,7 @@
         "25565:25565"
       ];
       volumes = [
-        "/home/kgb33/Minecraft/create/:/data"
+        "/home/kgb33/Minecraft/ATM10/:/data"
       ];
     };
   };
