@@ -7,6 +7,7 @@
         MAXPLAYERS = "12";
         MODPACK = "ShpeeVanilla";
         WORLDNAME = "Shpee";
+        SECURE = "0";
       };
       environmentFiles = [
         config.sops.secrets.terrariaPassword.path
