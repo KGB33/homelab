@@ -2,6 +2,7 @@
   imports = [
     ../../base/configuration.nix
     ../../apps/terraria.nix
+    ../../apps/minecraft.nix
     ./disks.nix
   ];
 
@@ -11,7 +12,6 @@
     firewall = {
       allowedTCPPorts = [
         7777 # terraria
-        25565 # minecraft
       ];
     };
   };
@@ -41,57 +41,6 @@
         networkConfig = {
           Address = "10.0.9.100/24";
         };
-      };
-    };
-  };
-
-  virtualisation.oci-containers.containers = {
-    # minecraftCreate = {
-    #   image = "ghcr.io/itzg/minecraft-server";
-    #   pull = "newer";
-    #   environment = {
-    #     MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-    #     CF_MODPACK_ZIP = "/data/shpeeCreate.zip";
-    #     CF_SLUG = "custom";
-    #     EULA = "TRUE";
-    #     MAX_MEMORY = "28G";
-    #   };
-    #   environmentFiles = [
-    #     config.sops.secrets.curseForgeToken.path
-    #   ];
-    #   ports = [
-    #     "25565:25565"
-    #   ];
-    #   volumes = [
-    #     "/home/kgb33/Minecraft/create/:/data"
-    #   ];
-    # };
-    minecraftATM10 = {
-      image = "ghcr.io/itzg/minecraft-server";
-      pull = "newer";
-      environment = {
-        MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-        CF_SLUG = "all-the-mods-10";
-        EULA = "TRUE";
-        MAX_MEMORY = "28G";
-      };
-      environmentFiles = [
-        config.sops.secrets.curseForgeToken.path
-      ];
-      ports = [
-        "25565:25565"
-      ];
-      volumes = [
-        "/home/kgb33/Minecraft/ATM10/:/data"
-      ];
-    };
-  };
-
-  sops = {
-    secrets = {
-      "curseForgeToken" = {
-        sopsFile = ./curseForgeSecrets.env;
-        format = "dotenv";
       };
     };
   };
