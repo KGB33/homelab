@@ -6,6 +6,7 @@
   imports = [
     ../../base/configuration.nix
     ../../apps/roboshpee.nix
+    ../../apps/mealie.nix
     ./disks.nix
   ];
 
@@ -101,6 +102,9 @@
       };
       "${config.services.grafana.settings.server.domain}" = {
         extraConfig = reverseProxy config.services.grafana.settings.server.http_port;
+      };
+      "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}" = {
+        extraConfig = reverseProxy 9925;
       };
     };
   };
