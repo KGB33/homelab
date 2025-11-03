@@ -21,6 +21,12 @@
           ];
         };
       };
+      customDNS = {
+        customTTL = "30s";
+        mapping = {
+          "mealie.kgb33.dev" = "10.0.9.104";
+        };
+      };
       blocking = {
         denylists = {
           adds = [
