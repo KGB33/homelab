@@ -50,40 +50,11 @@ in {
         environment = {
           EULA = "TRUE";
           MAX_MEMORY = "16G";
-          PLUGINS = ''
-            https://modrinth.com/mod/zV5r3pPn
-            https://modrinth.com/mod/Ax17wp3L
-            https://modrinth.com/mod/lhGA9TYQ
-            https://modrinth.com/mod/PFwYNrHb
-            https://modrinth.com/mod/n6PXGAoM
-            https://modrinth.com/mod/Wb5oqrBJ
-            https://modrinth.com/mod/9s6osm5g
-            https://modrinth.com/mod/e0M1UDsY
-            https://modrinth.com/mod/UVtY3ZAC
-            https://modrinth.com/mod/4I1XuqiY
-            https://modrinth.com/mod/BVzZfTc1
-            https://modrinth.com/mod/P7dR8mSH
-            https://modrinth.com/mod/ohNO6lps
-            https://modrinth.com/mod/XeEZ3fK2
-            https://modrinth.com/mod/RnxjxXAI
-            https://modrinth.com/mod/5ibSyLAz
-            https://modrinth.com/mod/QD87oMUf
-            https://modrinth.com/mod/iAiqcykM
-            https://modrinth.com/mod/J81TRJWm
-            https://modrinth.com/mod/L4pt5egz
-            https://modrinth.com/mod/EltpO5cN
-            https://modrinth.com/mod/aC3cM3Vq
-            https://modrinth.com/mod/aaRl8GiW
-            https://modrinth.com/mod/QAGBst4M
-            https://modrinth.com/mod/2M01OLQq
-            https://modrinth.com/mod/UjXIyw47
-            https://modrinth.com/mod/W1TjtEQz
-            https://modrinth.com/mod/Eldc1g37
-            https://modrinth.com/mod/qpPoAL6m
-          '';
+          TYPE = "FABRIC";
+          PACKWIZ_URL = "https://raw.githubusercontent.com/KGB33/homelab/refs/heads/main/nixos/apps/minecraft/shpeeVanilla/pack.toml";
         };
         ports = [
-          "25567:25567"
+          "25567:25565"
         ];
         volumes = [
           "/home/kgb33/Minecraft/shpeeVanilla/:/data"
