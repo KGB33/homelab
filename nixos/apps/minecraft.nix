@@ -35,7 +35,7 @@
     }
   ];
 in {
-  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567];
+  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567 24454];
 
   virtualisation.oci-containers.containers =
     builtins.listToAttrs (map (p: {
@@ -55,6 +55,7 @@ in {
         };
         ports = [
           "25567:25565"
+          "24454:24454/udp"
         ];
         volumes = [
           "/home/kgb33/Minecraft/shpeeVanilla/:/data"
