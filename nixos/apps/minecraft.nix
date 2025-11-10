@@ -60,6 +60,8 @@ in {
             https://modrinth.com/mod/9s6osm5g
             https://modrinth.com/mod/e0M1UDsY
             https://modrinth.com/mod/UVtY3ZAC
+            https://modrinth.com/mod/4I1XuqiY
+            https://modrinth.com/mod/BVzZfTc1
             https://modrinth.com/mod/P7dR8mSH
             https://modrinth.com/mod/ohNO6lps
             https://modrinth.com/mod/XeEZ3fK2
@@ -69,6 +71,7 @@ in {
             https://modrinth.com/mod/iAiqcykM
             https://modrinth.com/mod/J81TRJWm
             https://modrinth.com/mod/L4pt5egz
+            https://modrinth.com/mod/EltpO5cN
             https://modrinth.com/mod/aC3cM3Vq
             https://modrinth.com/mod/aaRl8GiW
             https://modrinth.com/mod/QAGBst4M
