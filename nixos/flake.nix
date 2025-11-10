@@ -44,7 +44,7 @@
     in {
       iso = lib.nixosSystem {
         modules = [
-          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix"
+          "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
           "${nixpkgs}/nixos/modules/installer/cd-dvd/channel.nix"
           ./hosts/iso/configuration.nix
         ];

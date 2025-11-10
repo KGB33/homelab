@@ -35,13 +35,58 @@
     }
   ];
 in {
-  networking.firewall.allowedTCPPorts = map (p: p.port) packs;
+  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567];
 
-  virtualisation.oci-containers.containers = builtins.listToAttrs (map (p: {
-      name = p.slug;
-      value = mkMinecraft p;
-    })
-    packs);
+  virtualisation.oci-containers.containers =
+    builtins.listToAttrs (map (p: {
+        name = p.slug;
+        value = mkMinecraft p;
+      })
+      packs)
+    // {
+      "shpeeVanilla" = {
+        image = "ghcr.io/itzg/minecraft-server";
+        pull = "newer";
+        environment = {
+          EULA = "TRUE";
+          MAX_MEMORY = "16G";
+          PLUGINS = ''
+            https://modrinth.com/mod/zV5r3pPn
+            https://modrinth.com/mod/Ax17wp3L
+            https://modrinth.com/mod/lhGA9TYQ
+            https://modrinth.com/mod/PFwYNrHb
+            https://modrinth.com/mod/n6PXGAoM
+            https://modrinth.com/mod/Wb5oqrBJ
+            https://modrinth.com/mod/9s6osm5g
+            https://modrinth.com/mod/e0M1UDsY
+            https://modrinth.com/mod/UVtY3ZAC
+            https://modrinth.com/mod/P7dR8mSH
+            https://modrinth.com/mod/ohNO6lps
+            https://modrinth.com/mod/XeEZ3fK2
+            https://modrinth.com/mod/RnxjxXAI
+            https://modrinth.com/mod/5ibSyLAz
+            https://modrinth.com/mod/QD87oMUf
+            https://modrinth.com/mod/iAiqcykM
+            https://modrinth.com/mod/J81TRJWm
+            https://modrinth.com/mod/L4pt5egz
+            https://modrinth.com/mod/aC3cM3Vq
+            https://modrinth.com/mod/aaRl8GiW
+            https://modrinth.com/mod/QAGBst4M
+            https://modrinth.com/mod/2M01OLQq
+            https://modrinth.com/mod/UjXIyw47
+            https://modrinth.com/mod/W1TjtEQz
+            https://modrinth.com/mod/Eldc1g37
+            https://modrinth.com/mod/qpPoAL6m
+          '';
+        };
+        ports = [
+          "25567:25567"
+        ];
+        volumes = [
+          "/home/kgb33/Minecraft/shpeeVanilla/:/data"
+        ];
+      };
+    };
 
   sops = {
     secrets = {
