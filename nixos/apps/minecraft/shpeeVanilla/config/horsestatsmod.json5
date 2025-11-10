@@ -1,0 +1,9 @@
+{
+	"modConfig": {
+		"displayStatsInInventory": true,
+		"displayStatsOnInteraction": "RIGHT_CLICK",
+		"coloredStats": true,
+		"displayMinMax": "DISABLED",
+		"statsInPercentage": true
+	}
+}

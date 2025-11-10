@@ -1,0 +1,9 @@
+{
+  "DisableNormalHarvesting": false,
+  "HoeUsesEnabled": true,
+  "CropHarvestRadius": 3,
+  "GrassRadius": 2,
+  "HandHarvestEnabled": true,
+  "HoeHarvestEnabled": true,
+  "DisableFieldBreakOnJump": false
+}

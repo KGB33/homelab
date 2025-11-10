@@ -1,0 +1,13 @@
+name = "Trade Cycling"
+filename = "trade-cycling-fabric-1.21.10-1.0.19.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "c23cfbd822fcd4c166af184ff1c70f12a2f19b7a"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7078671
+project-id = 570431

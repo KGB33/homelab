@@ -1,0 +1,13 @@
+name = "Visuality"
+filename = "visuality-0.7.11+1.21.9.jar"
+side = "both"
+
+[download]
+hash-format = "sha1"
+hash = "0829e54722ffa7fa6d91ecca22907755c9d30829"
+mode = "metadata:curseforge"
+
+[update]
+[update.curseforge]
+file-id = 7055138
+project-id = 521126
