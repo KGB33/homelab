@@ -1,0 +1,13 @@
+name = "ShpeeVanilla"
+author = "frostytacos"
+version = "1.0.0"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "790656077f64db9925e9204abc8e3dd24a09f0cb68115d0382973022e70126c2"
+
+[versions]
+fabric = "0.17.3"
+minecraft = "1.21.10"
