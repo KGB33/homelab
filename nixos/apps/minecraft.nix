@@ -33,9 +33,14 @@
       port = 25566;
       path = "ATM10tts";
     }
+    {
+      slug = "ftb-stoneblock-4";
+      port = 25567;
+      path = "Stoneblock4";
+    }
   ];
 in {
-  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567 24454];
+  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567 24454 25568];
 
   virtualisation.oci-containers.containers =
     builtins.listToAttrs (map (p: {
