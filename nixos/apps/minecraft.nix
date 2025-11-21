@@ -23,24 +23,24 @@
     ];
   };
   packs = [
-    {
-      slug = "all-the-mods-10";
-      port = 25565;
-      path = "ATM10";
-    }
-    {
-      slug = "all-the-mods-10-sky";
-      port = 25566;
-      path = "ATM10tts";
-    }
+    # {
+    #   slug = "all-the-mods-10";
+    #   port = 25565;
+    #   path = "ATM10";
+    # }
+    # {
+    #   slug = "all-the-mods-10-sky";
+    #   port = 25566;
+    #   path = "ATM10tts";
+    # }
     {
       slug = "ftb-stoneblock-4";
-      port = 25567;
+      port = 25568;
       path = "Stoneblock4";
     }
   ];
 in {
-  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567 24454 25568];
+  networking.firewall.allowedTCPPorts = (map (p: p.port) packs) ++ [25567 24454];
 
   virtualisation.oci-containers.containers =
     builtins.listToAttrs (map (p: {
