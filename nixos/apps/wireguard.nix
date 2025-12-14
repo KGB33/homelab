@@ -25,7 +25,7 @@
   };
 
   networking = let
-    externalIf = "vlan9@enp7s0f1";
+    externalIf = "vlan9";
   in {
     nat = {
       enable = true;
