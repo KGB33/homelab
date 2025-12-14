@@ -47,7 +47,7 @@
       wg0 = {
         ips = ["10.0.4.1/24"];
         listenPort = 51823;
-        privateKeyFile = config.sops.secrets.wg-server-private-key.path;
+        privateKeyFile = config.sops.secrets.server-private-key.path;
         peers = [
           # `geppetto` - Framework 16
           {
