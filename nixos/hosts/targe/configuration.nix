@@ -5,6 +5,7 @@ in {
     ../../base/configuration.nix
     ./disks.nix
     ./blocky.nix
+    ../../apps/wireguard.nix
   ];
 
   networking = {
