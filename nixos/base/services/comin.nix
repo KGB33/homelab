@@ -11,7 +11,6 @@
         name = "origin";
         url = "https://github.com/KGB33/homelab.git";
         branches.main.name = "main";
-        branches.testing.name = "blog-on-nixos";
       }
     ];
   };
