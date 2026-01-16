@@ -56,7 +56,7 @@ in {
           EULA = "TRUE";
           MAX_MEMORY = "16G";
           TYPE = "FABRIC";
-          PACKWIZ_URL = "https://raw.githubusercontent.com/KGB33/homelab/refs/heads/main/nixos/apps/minecraft/shpeeVanilla/pack.toml";
+          PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShpeeVanillaPack/refs/heads/main/pack.toml";
         };
         ports = [
           "25567:25565"
