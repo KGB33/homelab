@@ -1,4 +1,4 @@
-{
+{self, ...}: {
   flake.modules.nixos.hello-world-server = {
     pkgs,
     lib,
@@ -22,8 +22,26 @@
 
       serviceConfig = {
         DynamicUser = true;
-        ExecStart = lib.getExe hello-world-server;
+        ExecStart = lib.getExe' hello-world-server "hello-world-server";
       };
+    };
+  };
+
+  perSystem = {pkgs, ...}: {
+    checks.hello-world-server = pkgs.testers.runNixOSTest {
+      name = "Check Hello World Server Index";
+      nodes.machine = {...}: {
+        imports = with self.modules.nixos; [hello-world-server];
+      };
+      testScript =
+        # python
+        ''
+          machine.wait_for_unit("hello-world-server")
+          machine.wait_for_open_port(8000)
+          output = machine.succeed("curl localhost:8000/index.html")
+          # Check if our webserver returns the expected result
+          assert "Hello world" in output, f"'{output}' does not contain 'Hello world'"
+        '';
     };
   };
 }
