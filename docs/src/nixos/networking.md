@@ -1,5 +1,13 @@
 # Networking
 
+
+## Hickory DNS
+
+The DNS server is Hickory; see `nixos/modules/services/hickory-dns.nix` for details.
+
+
+## Legacy Networking
+
 Networking config is defined at the host level (i.e. in `hosts/<HOSTNAME>`)
 Eventually, this code duplication could be moved into `base/`.
 

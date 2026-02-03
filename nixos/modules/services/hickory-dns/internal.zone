@@ -1,0 +1,12 @@
+$ORIGIN internal.kgb33.dev.
+$TTL 30 ; Seconds
+
+@ IN SOA ns1.internal.kgb33.dev. dnsadmin.kgb33.dev. (
+         0      ; Serial
+         28800  ; Refresh
+         7200   ; Retry
+         604800 ; Expire
+         86400  ; Min TTL
+)
+
+nixos-test IN  TXT "A test record for assertions in runNixOSTest"
