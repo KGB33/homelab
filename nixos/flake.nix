@@ -17,6 +17,11 @@
     import-tree.url = "github:vic/import-tree";
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixpkgs-lib.follows = "nixpkgs";
+    roboshpee.url = "github:KGB33/RoboShpee";
+    sops-nix = {
+      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:Mic92/sops-nix";
+    };
     systems.url = "github:nix-systems/default";
   };
 
