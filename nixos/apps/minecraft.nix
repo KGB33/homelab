@@ -33,10 +33,15 @@
     #   port = 25566;
     #   path = "ATM10tts";
     # }
+    # {
+    #   slug = "ftb-stoneblock-4";
+    #   port = 25568;
+    #   path = "Stoneblock4";
+    # }
     {
-      slug = "ftb-stoneblock-4";
-      port = 25568;
-      path = "Stoneblock4";
+      slug = "monifactory";
+      port = 25569;
+      path = "monifactory";
     }
   ];
 in {
