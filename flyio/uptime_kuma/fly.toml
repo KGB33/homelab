@@ -1,7 +1,7 @@
 app = "uptime-kuma-blue-fire-822"
 
 [build]
-  image = "louislam/uptime-kuma:1"
+  image = "louislam/uptime-kuma:2"
 
 [[mounts]]
   source = "kuma_data"

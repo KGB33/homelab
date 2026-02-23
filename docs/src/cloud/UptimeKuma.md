@@ -31,6 +31,8 @@ dagger call \
     up
 ```
 
+> [!note] For simple updates (no DNS certificate) you can just bump the image tag and run `flyctl deploy`.
+
 # AWS Deployment (Depreciated)
 
 Secrets required:
