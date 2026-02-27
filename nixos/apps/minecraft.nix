@@ -54,21 +54,21 @@ in {
       })
       packs)
     // {
-      "shpeeVanilla" = {
+      "silasOrigins" = {
         image = "ghcr.io/itzg/minecraft-server";
         pull = "newer";
         environment = {
           EULA = "TRUE";
           MAX_MEMORY = "16G";
-          TYPE = "FABRIC";
-          PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShpeeVanilla/refs/heads/main/pack.toml";
+          TYPE = "FORGE";
+          PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/SilasOriginsPack/refs/heads/main/pack.toml";
         };
         ports = [
           "25567:25565"
           "24454:24454/udp"
         ];
         volumes = [
-          "/home/kgb33/Minecraft/shpeeVanilla/:/data"
+          "/home/kgb33/Minecraft/SilasOrigins/:/data"
         ];
       };
     };
