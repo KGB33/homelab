@@ -59,6 +59,7 @@ in {
         pull = "newer";
         environment = {
           EULA = "TRUE";
+          VERSION = "1.20.1";
           MAX_MEMORY = "16G";
           TYPE = "FORGE";
           PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/SilasOriginsPack/refs/heads/main/pack.toml";
