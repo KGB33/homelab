@@ -88,14 +88,12 @@ in {
     };
   };
 
-
   # Set Minecraft systemd services to restart always
   systemd.services =
     lib.mapAttrs'
     (name:
       lib.const (lib.nameValuePair "podman-${name}" {
-        serviceConfig.Restart = "always";
-        serviceConfig.RestartSec = "10s";
+        serviceConfig.Restart = lib.mkForce "always";
       }))
     (lib.filterAttrs (_: c: lib.hasPrefix "ghcr.io/itzg/minecraft-server" c.image)
       config.virtualisation.oci-containers.containers);
