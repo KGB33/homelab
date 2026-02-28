@@ -61,7 +61,6 @@ in {
       "silasOrigins" = {
         image = "ghcr.io/itzg/minecraft-server";
         pull = "newer";
-        extraOptions = ["--restart=unless-stopped"];
         environment = {
           EULA = "TRUE";
           VERSION = "1.20.1";
