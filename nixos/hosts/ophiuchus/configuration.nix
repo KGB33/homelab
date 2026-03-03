@@ -64,6 +64,10 @@
       format = "dotenv";
       restartUnits = ["caddy.service"];
     };
+    "grafanaPassword" = {
+      sopsFile = ../../secrets/grafanaPassword;
+      format = "binary";
+    };
   };
 
   virtualisation.oci-containers.containers = {
@@ -112,6 +116,7 @@
   services.grafana = {
     enable = true;
     settings = {
+      security.secret_key = "$__file{${config.sops.secrets.grafanaPassword.path}}";
       server = {
         domain = "graf.kgb33.dev";
         http_addr = "127.0.0.1";
