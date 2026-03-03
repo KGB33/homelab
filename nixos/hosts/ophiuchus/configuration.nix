@@ -67,6 +67,8 @@
     "grafanaPassword" = {
       sopsFile = ../../secrets/grafanaPassword;
       format = "binary";
+       owner = "grafana";
+       group = "grafana";
     };
   };
 
