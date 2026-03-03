@@ -3,7 +3,7 @@
 {
   virtualisation.oci-containers = {
     containers.mealie = {
-      image = "ghcr.io/mealie-recipes/mealie:v3.4.0";
+      image = "ghcr.io/mealie-recipes/mealie:v3.11.0";
       
       autoStart = true;
       
