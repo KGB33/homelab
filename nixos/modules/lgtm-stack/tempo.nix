@@ -1,5 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.tempo = {...}: {
+    networking.firewall.allowedTCPPorts = [3031 9095 9878 9879];
+
     services.tempo = {
       enable = true;
       settings = {

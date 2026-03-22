@@ -1,5 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.prometheus = {config, ...}: {
+    networking.firewall.allowedTCPPorts = [9090];
+
     services.prometheus = {
       enable = true;
       globalConfig.scrape_interval = "10s";
