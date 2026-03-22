@@ -1,5 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.loki = {...}: {
+    networking.firewall.allowedTCPPorts = [3030 9096];
+
     services.loki = {
       enable = true;
       configuration = let

@@ -1,5 +1,7 @@
 {self, ...}: {
   flake.modules.nixos.mimir = {...}: {
+    networking.firewall.allowedTCPPorts = [9009 9097];
+
     services.mimir = {
       enable = true;
       configuration = {
