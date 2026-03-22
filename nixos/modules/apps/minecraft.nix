@@ -15,6 +15,30 @@
     })
 
     {
+      nixos.minecraft-shpee-vanilla = {config, ...}: {
+        imports = with self.modules.nixos; [podman minecraft-base];
+
+        networking.firewall = {
+          allowedTCPPorts = [25567 24454];
+          allowedUDPPorts = [24454];
+        };
+
+        virtualisation.oci-containers.containers.minecraft-shpee-vanilla = {
+          image = "ghcr.io/itzg/minecraft-server";
+          pull = "newer";
+          environment = {
+            EULA = "TRUE";
+            MAX_MEMORY = "16G";
+            TYPE = "FABRIC";
+            PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShpeeVanilla/refs/heads/main/pack.toml";
+          };
+          ports = ["25567:25565" "24454:24454/udp"];
+          volumes = ["${config.users.users.minecraft-runner.home}/servers/shpee-vanilla:/data"];
+        };
+      };
+    }
+
+    {
       nixos.minecraft-base = {...}: let
         baseDirectory = "/srv/minecraft";
       in {
