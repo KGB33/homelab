@@ -50,7 +50,11 @@
     }
 
     {
-      nixos.minecraft-base = {config, lib, ...}: let
+      nixos.minecraft-base = {
+        config,
+        lib,
+        ...
+      }: let
         baseDirectory = "/srv/minecraft";
       in {
         imports = with self.modules.nixos; [podman];

@@ -1,5 +1,9 @@
 {self, ...}: {
-  flake.modules.nixos.caddy = {config, pkgs, ...}: {
+  flake.modules.nixos.caddy = {
+    config,
+    pkgs,
+    ...
+  }: {
     imports = with self.modules.nixos; [sops podman];
 
     networking.firewall.allowedTCPPorts = [443];

@@ -38,7 +38,7 @@
       name = "Basic hickory-dns check";
       nodes.machine = {...}: {
         imports = with self.modules.nixos; [hickory-dns];
-        environment.systemPackages = [ pkgs.doggo ];
+        environment.systemPackages = [pkgs.doggo];
       };
       testScript =
         # python
