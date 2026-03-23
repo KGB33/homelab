@@ -4,7 +4,7 @@
       system-default
       minecraft-base
       minecraft-ftb-stoneblock-4
-      minecraft-shpee-vanilla
+      minecraft-silas-origins
     ];
 
     networking = {

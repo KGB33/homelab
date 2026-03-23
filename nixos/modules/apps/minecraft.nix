@@ -14,8 +14,18 @@
       };
     })
 
+    (self.factory.minecraft-server {
+      slug = "monifactory";
+      ports = [25569];
+      extraEnv = {
+        MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+        CF_SLUG = "monifactory";
+        MAX_MEMORY = "28G";
+      };
+    })
+
     {
-      nixos.minecraft-shpee-vanilla = {config, ...}: {
+      nixos.minecraft-silas-origins = {config, ...}: {
         imports = with self.modules.nixos; [podman minecraft-base];
 
         networking.firewall = {
@@ -23,23 +33,24 @@
           allowedUDPPorts = [24454];
         };
 
-        virtualisation.oci-containers.containers.minecraft-shpee-vanilla = {
+        virtualisation.oci-containers.containers.minecraft-silas-origins = {
           image = "ghcr.io/itzg/minecraft-server";
           pull = "newer";
           environment = {
             EULA = "TRUE";
-            MAX_MEMORY = "16G";
-            TYPE = "FABRIC";
-            PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShpeeVanilla/refs/heads/main/pack.toml";
+            MAX_MEMORY = "20G";
+            TYPE = "FORGE";
+            VERSION = "1.20.1";
+            PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/SilasOriginsPack/refs/heads/main/pack.toml";
           };
           ports = ["25567:25565" "24454:24454/udp"];
-          volumes = ["${config.users.users.minecraft-runner.home}/servers/shpee-vanilla:/data"];
+          volumes = ["${config.users.users.minecraft-runner.home}/servers/silas-origins:/data"];
         };
       };
     }
 
     {
-      nixos.minecraft-base = {...}: let
+      nixos.minecraft-base = {config, lib, ...}: let
         baseDirectory = "/srv/minecraft";
       in {
         imports = with self.modules.nixos; [podman];
@@ -47,6 +58,15 @@
         systemd.tmpfiles.rules = [
           "d ${baseDirectory} 0750 minecraft-runner minecraft-runner -"
         ];
+
+        systemd.services =
+          lib.mapAttrs'
+          (name:
+            lib.const (lib.nameValuePair "podman-${name}" {
+              serviceConfig.Restart = lib.mkForce "always";
+            }))
+          (lib.filterAttrs (_: c: lib.hasPrefix "ghcr.io/itzg/minecraft-server" c.image)
+            config.virtualisation.oci-containers.containers);
 
         users = {
           groups.minecraft-runner = {};
