@@ -1,4 +1,8 @@
-{inputs, self, ...}: {
+{
+  inputs,
+  self,
+  ...
+}: {
   flake.modules.nixos.wireguard = {config, ...}: {
     imports = with self.modules.nixos; [sops];
 

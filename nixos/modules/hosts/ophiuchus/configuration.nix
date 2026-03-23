@@ -1,5 +1,9 @@
 {inputs, ...}: {
-  flake.modules.nixos.ophiuchus = {config, pkgs, ...}: {
+  flake.modules.nixos.ophiuchus = {
+    config,
+    pkgs,
+    ...
+  }: {
     imports = with inputs.self.modules.nixos; [
       system-default
       sops
@@ -21,7 +25,10 @@
     systemd.network = {
       enable = true;
       netdevs."10-vlan9" = {
-        netdevConfig = {Name = "vlan9"; Kind = "vlan";};
+        netdevConfig = {
+          Name = "vlan9";
+          Kind = "vlan";
+        };
         vlanConfig.Id = 9;
       };
       networks = {
@@ -38,6 +45,5 @@
         };
       };
     };
-
   };
 }

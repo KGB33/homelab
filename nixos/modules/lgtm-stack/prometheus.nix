@@ -37,14 +37,14 @@
       name = "prometheus exporter check";
       nodes.machine = {...}: {
         imports = with self.modules.nixos; [prometheus];
-        environment.systemPackages = [pkgs.prometheus.cli ]; # For promtool
+        environment.systemPackages = [pkgs.prometheus.cli]; # For promtool
       };
       testScript =
         # python
         ''
-        machine.wait_for_unit("prometheus")
-        machine.succeed("promtool check healthy")
-        machine.succeed("promtool check ready")
+          machine.wait_for_unit("prometheus")
+          machine.succeed("promtool check healthy")
+          machine.succeed("promtool check ready")
         '';
     };
   };
