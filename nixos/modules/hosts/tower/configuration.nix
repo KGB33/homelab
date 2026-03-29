@@ -4,6 +4,7 @@
       system-default
       minecraft-base
       minecraft-ftb-stoneblock-4
+      minecraft-monifactory
       minecraft-silas-origins
     ];
 
