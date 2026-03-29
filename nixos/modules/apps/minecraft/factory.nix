@@ -21,7 +21,7 @@
       };
 
       virtualisation.oci-containers.containers."minecraft-server-${slug}" = {
-        user = "minecraft-runner:minecraft-runner";
+        user = "kgb33:kgb33";
         image = "ghcr.io/itzg/minecraft-server";
         pull = "newer";
         environment =

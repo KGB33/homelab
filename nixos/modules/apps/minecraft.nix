@@ -37,7 +37,7 @@ in {
         };
 
         virtualisation.oci-containers.containers.minecraft-silas-origins = {
-          user = "minecraft-runner:minecraft-runner";
+          user = "kgb33:kgb33";
           image = "ghcr.io/itzg/minecraft-server";
           pull = "newer";
           environment = {
@@ -63,8 +63,8 @@ in {
         imports = with self.modules.nixos; [podman];
 
         systemd.tmpfiles.rules = [
-          "d ${baseDirectory} 0750 minecraft-runner minecraft-runner -"
-          "d ${baseDirectory}/servers 0750 minecraft-runner minecraft-runner -"
+          "d ${baseDirectory} 0750 kgb33 kgb33 -"
+          "d ${baseDirectory}/servers 0750 kgb33 kgb33 -"
         ];
 
         systemd.services =
@@ -75,17 +75,6 @@ in {
             }))
           (lib.filterAttrs (_: c: lib.hasPrefix "ghcr.io/itzg/minecraft-server" c.image)
             config.virtualisation.oci-containers.containers);
-
-        users = {
-          groups.minecraft-runner = {};
-          users.minecraft-runner = {
-            isSystemUser = true;
-            home = baseDirectory;
-            description = "Minecraft server runner user";
-            extraGroups = ["podman"];
-            group = "minecraft-runner";
-          };
-        };
       };
     }
   ];
@@ -101,10 +90,10 @@ in {
           # python
           ''
             passwd = machine.succeed("cat /etc/passwd")
-            assert "minecraft-runner" in passwd
+            assert "kgb33" in passwd
 
             packDir = machine.succeed("stat /srv/minecraft")
-            assert "Access: (0750/drwxr-x---)  Uid: (  998/minecraft-runner)   Gid: (  998/minecraft-runner)" in packDir
+            assert "Access: (0750/drwxr-x---)  Uid: (  998/kgb33)   Gid: (  998/kgb33)" in packDir
 
             machine.succeed("podman info");
           '';
