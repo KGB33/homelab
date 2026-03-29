@@ -37,7 +37,6 @@ in {
         };
 
         virtualisation.oci-containers.containers.minecraft-silas-origins = {
-          user = "kgb33:kgb33";
           image = "ghcr.io/itzg/minecraft-server";
           pull = "newer";
           environment = {
