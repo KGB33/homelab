@@ -21,6 +21,7 @@
         MODPACK_PLATFORM = "AUTO_CURSEFORGE";
         CF_SLUG = "monifactory";
         MAX_MEMORY = "28G";
+        MODRINTH_PROJECTS = "cc-tweaked";
       };
     })
 
