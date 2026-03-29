@@ -9,7 +9,7 @@
 
     sops = {
       defaultSopsFormat = "yaml";
-      age.keyFile = "/todo";
+      age.keyFile = "/home/kgb33/.config/sops/age/keys.txt";
     };
   };
 }
