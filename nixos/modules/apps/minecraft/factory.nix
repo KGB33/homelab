@@ -21,6 +21,7 @@
       };
 
       virtualisation.oci-containers.containers."minecraft-server-${slug}" = {
+        user = "minecraft-runner:minecraft-runner";
         image = "ghcr.io/itzg/minecraft-server";
         pull = "newer";
         environment =
@@ -34,7 +35,7 @@
         ];
         ports = map (p: "${toString p}:${toString p}") ports;
         volumes = [
-          "${config.users.users.minecraft-runner.home}/servers/${slug}"
+          "/srv/minecraft/servers/${slug}"
         ];
       };
     };

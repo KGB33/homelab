@@ -3,7 +3,9 @@
   self,
   lib,
   ...
-}: {
+}: let
+  baseDirectory = "/srv/minecraft";
+in {
   flake.modules = lib.mkMerge [
     (self.factory.minecraft-server {
       slug = "ftb-stoneblock-4";
@@ -35,6 +37,7 @@
         };
 
         virtualisation.oci-containers.containers.minecraft-silas-origins = {
+          user = "minecraft-runner:minecraft-runner";
           image = "ghcr.io/itzg/minecraft-server";
           pull = "newer";
           environment = {
@@ -45,7 +48,7 @@
             PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/SilasOriginsPack/refs/heads/main/pack.toml";
           };
           ports = ["25567:25565" "24454:24454/udp"];
-          volumes = ["${config.users.users.minecraft-runner.home}/servers/silas-origins:/data"];
+          volumes = ["${baseDirectory}/servers/silas-origins:/data"];
         };
       };
     }
@@ -56,12 +59,12 @@
         lib,
         ...
       }: let
-        baseDirectory = "/srv/minecraft";
       in {
         imports = with self.modules.nixos; [podman];
 
         systemd.tmpfiles.rules = [
           "d ${baseDirectory} 0750 minecraft-runner minecraft-runner -"
+          "d ${baseDirectory}/servers 0750 minecraft-runner minecraft-runner -"
         ];
 
         systemd.services =
