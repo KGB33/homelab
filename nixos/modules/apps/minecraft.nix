@@ -47,7 +47,7 @@ in {
             PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/SilasOriginsPack/refs/heads/main/pack.toml";
           };
           ports = ["25567:25565" "24454:24454/udp"];
-          volumes = ["${baseDirectory}/servers/silas-origins:/data"];
+          volumes = ["/home/kgb33/Minecraft/SilasOrigins/:/data"];
         };
       };
     }
@@ -60,11 +60,6 @@ in {
       }: let
       in {
         imports = with self.modules.nixos; [podman];
-
-        systemd.tmpfiles.rules = [
-          "d ${baseDirectory} 0750 kgb33 kgb33 -"
-          "d ${baseDirectory}/servers 0750 kgb33 kgb33 -"
-        ];
 
         systemd.services =
           lib.mapAttrs'
@@ -90,9 +85,6 @@ in {
           ''
             passwd = machine.succeed("cat /etc/passwd")
             assert "kgb33" in passwd
-
-            packDir = machine.succeed("stat /srv/minecraft")
-            assert "Access: (0750/drwxr-x---)  Uid: (  998/kgb33)   Gid: (  998/kgb33)" in packDir
 
             machine.succeed("podman info");
           '';

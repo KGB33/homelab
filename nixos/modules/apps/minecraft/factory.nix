@@ -34,7 +34,7 @@
         ];
         ports = map (p: "${toString p}:${toString p}") ports;
         volumes = [
-          "/srv/minecraft/servers/${slug}"
+          "/home/kgb33/Minecraft/${slug}/:/data"
         ];
       };
     };
