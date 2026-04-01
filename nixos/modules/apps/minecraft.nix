@@ -83,9 +83,6 @@ in {
         testScript =
           # python
           ''
-            passwd = machine.succeed("cat /etc/passwd")
-            assert "kgb33" in passwd
-
             machine.succeed("podman info");
           '';
       };

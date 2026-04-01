@@ -43,6 +43,7 @@
         # python
         ''
           machine.wait_for_unit("prometheus")
+          machine.wait_for_open_port(9090)
           machine.succeed("promtool check healthy")
           machine.succeed("promtool check ready")
         '';
