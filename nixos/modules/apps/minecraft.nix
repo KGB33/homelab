@@ -24,6 +24,7 @@ in {
         CF_SLUG = "monifactory";
         MAX_MEMORY = "28G";
         MODRINTH_PROJECTS = "cc-tweaked";
+        CF_FILE_ID = "7710873"; # Pin to version right before April Fools update
       };
     })
 
