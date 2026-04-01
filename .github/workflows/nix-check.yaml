@@ -1,0 +1,21 @@
+name: Check NixOS Flake
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - nixos/**
+  pull_request:
+    paths:
+      - nixos/**
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@v3
+      - name: Check flake
+        run: nix flake check
+        working-directory: nixos
