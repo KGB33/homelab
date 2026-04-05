@@ -1,6 +1,13 @@
 {self, ...}: {
-  flake.modules.nixos.terminus = {config, lib, pkgs, ...}: {
+  flake.modules.nixos.terminus = {
+    config,
+    lib,
+    pkgs,
+    ...
+  }: {
     imports = with self.modules.nixos; [sops podman];
+
+    networking.firewall.allowedTCPPorts = [7000];
 
     # --- All Secrets ---
     sops.secrets = {
@@ -110,17 +117,27 @@
     };
   };
 
-  perSystem = {pkgs, lib, ...}: {
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
     checks.terminus = pkgs.testers.runNixOSTest {
       name = "terminus";
-      nodes.machine = {lib, pkgs, config, ...}: let
+      nodes.machine = {
+        lib,
+        pkgs,
+        config,
+        ...
+      }: let
         # Stub image: real image can't be pulled without internet in VM tests
         terminusStub = pkgs.dockerTools.buildLayeredImage {
           name = "ghcr.io/usetrmnl/terminus";
           tag = "latest";
           contents = [pkgs.busybox];
           config.Cmd = [
-            "sh" "-c"
+            "sh"
+            "-c"
             "mkdir -p /www && echo ok > /www/up && exec busybox httpd -f -p 7000 -h /www"
           ];
         };
