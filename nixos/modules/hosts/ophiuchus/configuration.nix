@@ -32,8 +32,8 @@
         vlanConfig.Id = 9;
       };
       networks = {
-        "10-enp0s13f0u1" = {
-          matchConfig.Name = "enp0s13f0u1";
+        "10-enp0s13f0u3" = {
+          matchConfig.Name = "enp0s13f0u3";
           vlan = ["vlan9"];
           networkConfig.LinkLocalAddressing = "no";
           linkConfig.RequiredForOnline = "carrier";

@@ -8,6 +8,7 @@
     imports = [inputs.sops-nix.nixosModules.sops];
 
     sops = {
+      defaultSopsFile = ../../secrets/default.yaml;
       defaultSopsFormat = "yaml";
       age.keyFile = "/home/kgb33/.config/sops/age/keys.txt";
     };

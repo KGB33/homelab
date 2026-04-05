@@ -1,0 +1,7 @@
+keys:
+ - &primary age1fa5vgl8p2yvjfrllgflun48j3nyff8q7809chsd83lu28r95k55sskzgdk
+creation_rules:
+  - path_regex: '.*[sS]ecrets.env|secrets/|[kK]eys.*'
+    key_groups:
+      - age:
+          - *primary
