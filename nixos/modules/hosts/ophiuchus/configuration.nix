@@ -8,7 +8,7 @@
       system-default
       sops
       roboshpee
-      terminus
+      # terminus
       mealie
       loki
       mimir
