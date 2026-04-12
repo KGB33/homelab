@@ -3,7 +3,7 @@
     imports = with self.modules.nixos; [podman];
 
     virtualisation.oci-containers.containers.mealie = {
-      image = "ghcr.io/mealie-recipes/mealie:v3.13.1";
+      image = "ghcr.io/mealie-recipes/mealie:v3.14.0";
 
       autoStart = true;
 
@@ -19,6 +19,7 @@
         ALLOW_SIGNUP = "false";
         TZ = "America/Los_Angeles";
         BASE_URL = "https://mealie.kgb33.dev";
+        LOG_LEVEL = "INFO";
       };
 
       extraOptions = [
