@@ -194,11 +194,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1778018128,
-        "narHash": "sha256-tTeA/c/8R+LxahuJexaNqta175u4GoqwPY7jNO0zVbA=",
+        "lastModified": 1778206734,
+        "narHash": "sha256-Ui3swR3k9IFTaZvGBIO+6Yyi1EYCL2y6xZ22R1MFxzU=",
         "owner": "KGB33",
         "repo": "RoboShpee",
-        "rev": "ef343c6adcd18db80206bef4bc18453cd1d6d0e4",
+        "rev": "4372126bc00b9812aec1878d9d9f38bff1f606f0",
         "type": "github"
       },
       "original": {
