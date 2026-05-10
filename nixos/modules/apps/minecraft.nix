@@ -36,18 +36,18 @@ in {
           allowedUDPPorts = [24454];
         };
 
-        virtualisation.oci-containers.containers.minecraft-silas-origins = {
+        virtualisation.oci-containers.containers.minecraft-shenannigains = {
           image = "ghcr.io/itzg/minecraft-server";
           pull = "newer";
           environment = {
             EULA = "TRUE";
             MAX_MEMORY = "20G";
-            TYPE = "FORGE";
-            VERSION = "1.20.1";
-            PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/SilasOriginsPack/refs/heads/main/pack.toml";
+            TYPE = "NEOFORGE";
+            VERSION = "1.21.1";
+            PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShenannigainsPack/refs/heads/main/pack.toml";
           };
           ports = ["25567:25565" "24454:24454/udp"];
-          volumes = ["/home/kgb33/Minecraft/SilasOrigins/:/data"];
+          volumes = ["/home/kgb33/Minecraft/shenannigains/:/data"];
         };
       };
     }
