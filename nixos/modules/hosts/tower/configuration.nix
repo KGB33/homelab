@@ -7,7 +7,6 @@
       minecraft-monifactory
       minecraft-silas-origins
 
-      wireguard
       hickory-dns
 
       caddy
