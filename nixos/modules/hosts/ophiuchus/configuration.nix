@@ -6,15 +6,11 @@
   }: {
     imports = with inputs.self.modules.nixos; [
       system-default
-      sops
-      roboshpee
       # terminus
-      mealie
       loki
       mimir
       tempo
       grafana
-      caddy
     ];
 
     networking = {

@@ -2,8 +2,6 @@
   flake.modules.nixos.targe = {...}: {
     imports = with inputs.self.modules.nixos; [
       system-default
-      wireguard
-      hickory-dns
     ];
 
     networking = {

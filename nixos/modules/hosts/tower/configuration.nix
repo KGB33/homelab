@@ -6,6 +6,14 @@
       minecraft-ftb-stoneblock-4
       minecraft-monifactory
       minecraft-silas-origins
+
+      wireguard
+      hickory-dns
+
+      caddy
+      mealie
+      sops
+      roboshpee
     ];
 
     networking = {
