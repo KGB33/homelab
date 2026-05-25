@@ -1,54 +1,19 @@
+# DO-NOT-EDIT. This file was auto-generated using github:vic/flake-file.
+# Use `nix run .#write-flake` to regenerate it.
 {
-  description = "Homelab toolbox";
+
+  outputs = inputs: inputs.flake-parts.lib.mkFlake { inherit inputs; } (inputs.import-tree ./modules);
 
   inputs = {
-    nixpkgs = {url = "github:NixOS/nixpkgs/nixos-unstable-small";};
-    dagger = {url = "github:dagger/nix";};
-    flake-utils = {url = "github:numtide/flake-utils";};
+    den.url = "github:denful/den";
+    flake-file.url = "github:vic/flake-file";
+    flake-parts = {
+      inputs.nixpkgs-lib.follows = "nixpkgs-lib";
+      url = "github:hercules-ci/flake-parts";
+    };
+    import-tree.url = "github:vic/import-tree";
+    nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
+    nixpkgs-lib.follows = "nixpkgs";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    flake-utils,
-    dagger,
-  }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      dag = dagger.packages.${system};
-      pkgs = nixpkgs.legacyPackages.${system};
-      pyPkgs = pkgs.python312Packages;
-    in {
-      # enable `nix fmt`
-      formatter = pkgs.nixpkgs-fmt;
-
-      devShell = pkgs.mkShell {
-        buildInputs = [
-          dag.dagger
-          pyPkgs.kubernetes
-
-          pkgs.age
-          pkgs.argocd
-          pkgs.cilium-cli
-          pkgs.jq
-          pkgs.jsonnet
-          pkgs.jsonnet-bundler
-          pkgs.just
-          pkgs.k9s
-          pkgs.kubectl
-          pkgs.kubernetes-helm
-          pkgs.kubeseal
-          pkgs.mdbook
-          pkgs.nmap
-          pkgs.opentofu
-          pkgs.sops
-          pkgs.talosctl
-          pkgs.yq-go
-
-          # pyPkgs.pulumi
-          # pyPkgs.pulumi-aws
-          # pkgs.pulumi
-          # pkgs.pulumiPackages.pulumi-language-python
-        ];
-      };
-    });
 }
