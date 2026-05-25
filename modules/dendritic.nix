@@ -5,7 +5,12 @@
     (inputs.den.flakeModules.dendritic or { })
   ];
 
-  # other inputs may be defined at a module using them.
+  perSystem =
+    { pkgs, ... }:
+    {
+      formatter = pkgs.nixfmt-tree;
+    };
+
   flake-file.inputs = {
     den.url = "github:denful/den";
     flake-file.url = "github:vic/flake-file";
