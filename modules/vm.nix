@@ -1,20 +1,23 @@
-# enables `nix run .#vm-ophiuchus`. it is very useful to have a VM
+# enables `nix run .#vm-<host>`. it is very useful to have a VM
 { inputs, den, ... }:
 {
   den.aspects.ophiuchus.includes = [ (den.batteries.tty-autologin "kgb33") ];
+  den.aspects.targe.includes = [ (den.batteries.tty-autologin "kgb33") ];
 
   perSystem =
     { pkgs, ... }:
-    {
-      packages.vm-ophiuchus = pkgs.writeShellApplication {
-        name = "vm-ophiuchus";
-        text =
-          let
-            host = inputs.self.nixosConfigurations.ophiuchus.config;
-          in
-          ''
+    let
+      mkVm =
+        host:
+        pkgs.writeShellApplication {
+          name = "vm-${host.networking.hostName}";
+          text = ''
             ${host.system.build.vm}/bin/run-${host.networking.hostName}-vm "$@"
           '';
-      };
+        };
+    in
+    {
+      packages.vm-ophiuchus = mkVm inputs.self.nixosConfigurations.ophiuchus.config;
+      packages.vm-targe = mkVm inputs.self.nixosConfigurations.targe.config;
     };
 }
