@@ -6,7 +6,7 @@
   perSystem =
     { pkgs, ... }:
     {
-      packages.vm = pkgs.writeShellApplication {
+      packages.vm-ophiuchus = pkgs.writeShellApplication {
         name = "vm-ophiuchus";
         text =
           let

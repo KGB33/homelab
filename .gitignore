@@ -33,6 +33,4 @@ sdk/
 result
 repl-result-out
 .nixos-test-history
-
-# Keep Original nixos config in file-tree for easy referane
-nixos-og
+*.qcow2
