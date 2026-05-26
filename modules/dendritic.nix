@@ -1,5 +1,8 @@
 { inputs, ... }:
 {
+
+  # flake.den = den; # Uncomment for repl access.
+
   imports = [
     (inputs.flake-file.flakeModules.dendritic or { })
     (inputs.den.flakeModules.dendritic or { })
