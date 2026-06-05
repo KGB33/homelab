@@ -10,6 +10,7 @@
       hickory-dns
 
       caddy
+      couchdb
       mealie
       sops
       roboshpee

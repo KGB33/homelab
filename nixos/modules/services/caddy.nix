@@ -48,6 +48,8 @@
           reverseProxy config.services.grafana.settings.server.http_port;
         "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}".extraConfig =
           reverseProxy 9925;
+        "obsidian.kgb33.dev".extraConfig =
+          reverseProxy config.services.couchdb.port;
       };
     };
 
