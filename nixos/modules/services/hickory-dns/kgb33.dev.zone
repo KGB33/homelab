@@ -1,0 +1,15 @@
+$ORIGIN kgb33.dev.
+$TTL 30 ; Seconds
+
+@ IN SOA ns1.kgb33.dev. dnsadmin.kgb33.dev. (
+         0      ; Serial
+         28800  ; Refresh
+         7200   ; Retry
+         604800 ; Expire
+         86400  ; Min TTL
+)
+
+blog     IN A 10.0.9.100
+graf     IN A 10.0.9.100
+mealie   IN A 10.0.9.100
+obsidian IN A 10.0.9.100

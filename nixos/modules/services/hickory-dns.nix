@@ -10,6 +10,11 @@
             file = ./hickory-dns/internal.zone;
           }
           {
+            zone = "kgb33.dev.";
+            zone_type = "Primary";
+            file = ./hickory-dns/kgb33.dev.zone;
+          }
+          {
             zone = ".";
             zone_type = "External";
             stores = {
