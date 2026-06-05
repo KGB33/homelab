@@ -16,24 +16,23 @@
       bindAddress = "127.0.0.1";
       port = 5984;
       extraConfigFiles = [config.sops.secrets.couchdb_admin_ini.path];
-      extraConfig = ''
-        [httpd]
-        enable_cors = true
-
-        [chttpd]
-        enable_cors = true
-        bind_address = 127.0.0.1
-
-        [cors]
-        origins = app://obsidian.md,capacitor://localhost,http://localhost
-        credentials = true
-        headers = accept, authorization, content-type, origin, referer
-        methods = GET, PUT, POST, HEAD, DELETE
-
-        [cluster]
-        n = 1
-        q = 1
-      '';
+      extraConfig = {
+        httpd.enable_cors = "true";
+        chttpd = {
+          enable_cors = "true";
+          bind_address = "127.0.0.1";
+        };
+        cors = {
+          origins = "app://obsidian.md,capacitor://localhost,http://localhost";
+          credentials = "true";
+          headers = "accept, authorization, content-type, origin, referer";
+          methods = "GET, PUT, POST, HEAD, DELETE";
+        };
+        cluster = {
+          n = "1";
+          q = "1";
+        };
+      };
     };
   };
 }
