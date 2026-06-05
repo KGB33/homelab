@@ -3,6 +3,8 @@
     networking.firewall.allowedTCPPorts = [53];
     networking.firewall.allowedUDPPorts = [53];
 
+    services.resolved.settings.Resolve.DNSStubListener = "no";
+
     services.hickory-dns = {
       enable = true;
       settings = {
