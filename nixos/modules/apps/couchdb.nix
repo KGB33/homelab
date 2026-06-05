@@ -3,8 +3,7 @@
     imports = with self.modules.nixos; [sops];
 
     sops.secrets.couchdb_admin_ini = {
-      sopsFile = ../../secrets/couchdbAdmin.ini;
-      format = "binary";
+      sopsFile = ../../secrets/couchdbAdmin.yaml;
       owner = config.services.couchdb.user;
       group = config.services.couchdb.group;
       mode = "0600";
