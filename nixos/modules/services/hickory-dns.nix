@@ -1,5 +1,8 @@
 {self, ...}: {
   flake.modules.nixos.hickory-dns = {...}: {
+    networking.firewall.allowedTCPPorts = [53];
+    networking.firewall.allowedUDPPorts = [53];
+
     services.hickory-dns = {
       enable = true;
       settings = {
