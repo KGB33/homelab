@@ -3,3 +3,13 @@ authors = ["Kelton Bassingthwaite"]
 language = "en"
 src = "src"
 title = "KGB33's Homelab Docs"
+
+[preprocessor]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output]
+
+[output.html]
+additional-js = ["mermaid-init.js"]

@@ -1,13 +1,13 @@
-{ den, lib, ... }:
+{ den, lib, inputs, ... }:
 let
-  inherit (den.lib) diag;
+  diagram = inputs.den-diagram.lib;
 in
 {
   perSystem =
     { pkgs, ... }:
     let
-      rc = diag.renderContext { inherit pkgs; };
-      fleetCapture = diag.captureFleet { };
+      rc = diagram.renderContext { inherit pkgs; };
+      fleetCapture = den.lib.capture.captureFleet { };
 
       stripFrontmatter =
         source:
@@ -31,7 +31,10 @@ in
 
       namespaceSection =
         let
-          namespaceGraph = diag.graph.ofNamespace { };
+          namespaceGraph = diagram.graph.ofNamespace {
+            aspects = den.aspects or { };
+            filter = v: v.name != "wsl-host-aspect";
+          };
           source = stripFrontmatter (rc.renderDense.toMermaid namespaceGraph);
         in
         ''
@@ -45,7 +48,7 @@ in
       fleetSummarySection = ''
         ## Fleet Summary
 
-        ${diag.text.fleetSummary fleetCapture}
+        ${diagram.text.fleetSummary fleetCapture}
       '';
 
       mkViewFile = name: content: {
@@ -65,11 +68,11 @@ in
 
     in
     {
-      packages = diag.export.entriesToPackages everyEntry // {
-        write-diagrams = diag.export.mkWriteScript pkgs {
+      packages = diagram.export.entriesToPackages everyEntry // {
+        write-diagrams = diagram.export.mkWriteScript pkgs {
           entries = everyEntry;
           galleries = [ ];
-          destExpr = ''"$(${pkgs.git}/bin/git rev-parse --show-toplevel)"'';
+          destExpr = ''"$(${pkgs.git}/bin/git rev-parse --show-toplevel)/docs/src"'';
         };
       };
     };

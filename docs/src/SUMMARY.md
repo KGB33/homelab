@@ -14,3 +14,8 @@
   - [Uptime Kuma](./cloud/UptimeKuma.md)
 
 - [Kubernetes](./k8s/README.md)
+
+- [Fleet Diagrams]()
+  - [Scope Topology](./diagrams/fleet/scope-topology.md)
+  - [Aspect Namespace](./diagrams/fleet/namespace.md)
+  - [Fleet Summary](./diagrams/fleet/summary.md)

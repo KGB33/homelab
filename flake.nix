@@ -5,6 +5,7 @@
 
   inputs = {
     den.url = "github:denful/den";
+    den-diagram.url = "github:denful/den-diagram";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
