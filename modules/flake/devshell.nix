@@ -15,7 +15,7 @@
 
       packages.docs = pkgs.stdenv.mkDerivation {
         name = "docs";
-        src = ../docs;
+        src = ../../docs;
         nativeBuildInputs = mdbook-packages;
         buildPhase = ''
           mdbook-mermaid install .

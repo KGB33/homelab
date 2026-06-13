@@ -1,4 +1,9 @@
-{ den, lib, inputs, ... }:
+{
+  den,
+  lib,
+  inputs,
+  ...
+}:
 let
   diagram = inputs.den-diagram.lib;
 in
@@ -66,13 +71,13 @@ in
         > deletes and recreates the whole directory, including this README.
       '';
 
-      mkViewFile = name: content: {
+      mkViewFile = view: content: {
         name = "fleet";
-        view = name;
+        inherit view;
         dir = "fleet";
         ext = "md";
         tool = null;
-        drv = pkgs.writeText "${name}.md" content;
+        drv = pkgs.writeText "${view}.md" content;
       };
 
       everyEntry = [
