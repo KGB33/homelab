@@ -25,6 +25,7 @@ vendor/
 
 # mdBook
 book/
+docs/mermaid*
 
 # Dagger
 sdk/

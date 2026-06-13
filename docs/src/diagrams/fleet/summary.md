@@ -1,5 +1,3 @@
-## Fleet Summary
-
 # Fleet Summary
 
 ## Topology

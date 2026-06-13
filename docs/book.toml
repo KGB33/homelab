@@ -12,4 +12,4 @@ command = "mdbook-mermaid"
 [output]
 
 [output.html]
-additional-js = ["mermaid-init.js"]
+additional-js = ["mermaid-init.js", "mermaid.min.js"]

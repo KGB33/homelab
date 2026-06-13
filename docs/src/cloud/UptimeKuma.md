@@ -2,7 +2,7 @@
 
 ### [uptime.kgb33.dev](https://uptime.kgb33.dev/status/all)
 
-An off-site uptime monitoring solution hosted on AWS ECS.
+An off-site uptime monitoring solution hosted on Fly.io.
 
 Scripts to deploy to both AWS and Fly.io exist in the repo; However, due to cost,
 Uptime Kuma is only deployed to Fly.io. AWS documentation and Scrips are kept to
