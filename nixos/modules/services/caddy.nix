@@ -42,6 +42,7 @@ in {
             dns cloudflare {
               api_token {env.CF_API_TOKEN}
             }
+            resolvers 1.1.1.1 1.0.0.1
           }
         '';
       in {
