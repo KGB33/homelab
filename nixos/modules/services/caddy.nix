@@ -1,4 +1,9 @@
-{self, ...}: {
+{self, ...}: let
+  caddyPlugins = {
+    plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
+    hash = "sha256-I0FjQOfFaGlOEJlQECmYNBKjIY4CIg5aCCQ/ORmnrSU=";
+  };
+in {
   flake.modules.nixos.caddy = {
     config,
     pkgs,
@@ -22,10 +27,7 @@
 
     services.caddy = {
       enable = true;
-      package = pkgs.caddy.withPlugins {
-        plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
-        hash = "sha256-o0zYCp3h7E0L1cgmJwNtGNgzhmZk5BAVoWQA+eL+zqc=";
-      };
+      package = pkgs.caddy.withPlugins caddyPlugins;
       environmentFile = config.sops.secrets.cloudflare_dns.path;
       globalConfig = ''
         admin
@@ -60,5 +62,18 @@
         static_configs = [{targets = ["localhost:2019"];}];
       }
     ];
+  };
+
+  perSystem = {
+    pkgs,
+    lib,
+    ...
+  }: {
+    checks.caddy-cloudflare-plugin =
+      pkgs.runCommand "caddy-cloudflare-plugin" {} ''
+        modules="$(${lib.getExe (pkgs.caddy.withPlugins caddyPlugins)} list-modules)"
+        echo "$modules" | grep -q '^dns.providers.cloudflare$'
+        touch $out
+      '';
   };
 }
