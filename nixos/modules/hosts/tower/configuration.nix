@@ -1,5 +1,8 @@
 {inputs, ...}: {
-  flake.modules.nixos.tower = {...}: {
+  flake.modules.nixos.tower = {lib, ...}: {
+    nixpkgs.config.allowUnfreePredicate = pkg:
+      builtins.elem (lib.getName pkg) ["surrealdb"];
+
     imports = with inputs.self.modules.nixos; [
       system-default
       minecraft-base
@@ -12,6 +15,7 @@
       caddy
       couchdb
       mealie
+      npwd
       sops
       roboshpee
     ];

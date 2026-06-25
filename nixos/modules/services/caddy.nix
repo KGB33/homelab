@@ -50,6 +50,7 @@
           reverseProxy 9925;
         "obsidian.kgb33.dev".extraConfig =
           reverseProxy config.services.couchdb.port;
+        "npwd.kgb33.dev".extraConfig = reverseProxy 3000;
       };
     };
 
