@@ -15,11 +15,10 @@
     flake-file.url = "github:vic/flake-file";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
-      inputs.nixpkgs-lib.follows = "nixpkgs-lib";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
     };
     import-tree.url = "github:vic/import-tree";
     nixpkgs.url = "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.xz";
-    nixpkgs-lib.follows = "nixpkgs";
     npwd.url = "github:KGB33/npwd";
     roboshpee.url = "github:KGB33/RoboShpee";
     sops-nix = {

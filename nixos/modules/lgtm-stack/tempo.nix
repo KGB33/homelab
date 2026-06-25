@@ -20,6 +20,10 @@
           local.path = "/tmp/tempo/blocks";
           wal.path = "/tmp/tempo/wal";
         };
+        live_store = {
+          shutdown_marker_dir = "/tmp/tempo/live-store/shutdown-marker";
+          wal.path = "/tmp/tempo/live-store/traces";
+        };
       };
     };
   };

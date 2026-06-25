@@ -26,14 +26,18 @@
               type = "forward";
               name_servers = [
                 {
-                  socket_addr = "8.8.8.8:53";
-                  protocol = "udp";
+                  ip = "8.8.8.8";
                   trust_negative_responses = false;
-                }
-                {
-                  socket_addr = "8.8.8.8:53";
-                  protocol = "tcp";
-                  trust_negative_responses = false;
+                  connections = [
+                    {
+                      port = 53;
+                      protocol.type = "udp";
+                    }
+                    {
+                      port = 53;
+                      protocol.type = "tcp";
+                    }
+                  ];
                 }
               ];
             };
