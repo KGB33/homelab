@@ -4,7 +4,7 @@ The machine configs are synced every minute using [`comin`](https://github.com/n
 
 To see the status:
   - On machine, use `comin status`
-  - Prometheus metrics are exported on `<HOST_IP>:4343/metrics`
+  - Metrics are exported on `<HOST_IP>:4343/metrics`
 
 ## Rebuilding 
 
