@@ -1,8 +1,0 @@
-# vim: ft=yaml.ansible
----
-- name: Configure System Services
-  hosts: pve
-  become: true
-  roles:
-    - systemd-resolved
-    - systemd-logind
