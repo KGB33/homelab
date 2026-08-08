@@ -1,5 +1,0 @@
-namespace: roboshpee
-
-resources:
-  - ./deployment.yaml
-  - ./SealedToken.yaml

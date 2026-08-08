@@ -1,5 +1,0 @@
-namespace: argocd
-
-resources:
-  - ./install.yaml
-  - ./ingress.yaml

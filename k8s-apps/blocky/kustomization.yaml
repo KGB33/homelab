@@ -1,6 +1,0 @@
-namespace: blocky
-
-resources:
-  - ./deployment.yaml
-  - ./blocky-config.yaml
-  - ./service.yaml
