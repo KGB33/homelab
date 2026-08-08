@@ -2,7 +2,7 @@
 
 ### [uptime.kgb33.dev](https://uptime.kgb33.dev/status/all)
 
-An off-site uptime monitoring solution hosted on AWS ECS.
+An off-site uptime monitoring solution hosted on Fly.io.
 
 Scripts to deploy to both AWS and Fly.io exist in the repo; However, due to cost,
 Uptime Kuma is only deployed to Fly.io. AWS documentation and Scrips are kept to
@@ -34,6 +34,8 @@ dagger call \
 > [!note] For simple updates (no DNS certificate) you can just bump the image tag and run `flyctl deploy`.
 
 # AWS Deployment (Depreciated)
+
+This has been removed, please see `ff7a87d8` for the historical setup.
 
 Secrets required:
   - Cloudflare token (with write access to `kgb33.dev`) as `CLOUDFLARE_API_TOKEN`
