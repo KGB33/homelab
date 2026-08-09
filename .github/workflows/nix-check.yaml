@@ -4,11 +4,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - nixos/**
   pull_request:
-    paths:
-      - nixos/**
 
 jobs:
   check:
@@ -18,4 +14,3 @@ jobs:
       - uses: DeterminateSystems/determinate-nix-action@v3
       - name: Check flake
         run: nix flake check
-        working-directory: nixos

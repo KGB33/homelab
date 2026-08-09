@@ -3,7 +3,7 @@
 
 ## Hickory DNS
 
-The DNS server is Hickory; see `nixos/modules/services/hickory-dns.nix` for details.
+The DNS server is Hickory; see `nixos/services/hickory-dns.nix` for details.
 
 
 ## Legacy Networking
