@@ -6,9 +6,8 @@
     ++ (with den.aspects; [
       system-default
       minecraft-base
-      minecraft-ftb-stoneblock-4
+      minecraft-ftb-evolution
       minecraft-monifactory
-      minecraft-silas-origins
 
       hickory-dns
 

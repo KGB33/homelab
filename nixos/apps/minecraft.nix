@@ -73,12 +73,12 @@ in
       };
   };
 
-  den.aspects.minecraft-ftb-stoneblock-4 = minecraft-server {
-    slug = "ftb-stoneblock-4";
+  den.aspects.minecraft-ftb-evolution = minecraft-server {
+    slug = "ftb-evolution";
     ports = [ 25568 ];
     extraEnv = {
       MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-      CF_SLUG = "ftb-stoneblock-4";
+      CF_SLUG = "ftb-evolution";
     };
   };
 
@@ -102,39 +102,6 @@ in
     };
   };
 
-  den.aspects.minecraft-silas-origins = {
-    includes = with den.aspects; [
-      podman
-      minecraft-base
-    ];
-
-    nixos = {
-      networking.firewall = {
-        allowedTCPPorts = [
-          25567
-          24454
-        ];
-        allowedUDPPorts = [ 24454 ];
-      };
-
-      virtualisation.oci-containers.containers.minecraft-shenannigains = {
-        image = "ghcr.io/itzg/minecraft-server";
-        pull = "newer";
-        environment = {
-          EULA = "TRUE";
-          MAX_MEMORY = "20G";
-          TYPE = "NEOFORGE";
-          VERSION = "1.21.1";
-          PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShenannigainsPack/refs/heads/main/pack.toml";
-        };
-        ports = [
-          "25567:25565"
-          "24454:24454/udp"
-        ];
-        volumes = [ "/home/kgb33/Minecraft/shenannigains/:/data" ];
-      };
-    };
-  };
 
   den.hosts.x86_64-linux = {
     check-minecraft-base = {
