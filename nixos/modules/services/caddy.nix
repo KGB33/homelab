@@ -1,68 +1,70 @@
-{self, ...}: let
+{den, ...}: let
   caddyPlugins = {
     plugins = ["github.com/caddy-dns/cloudflare@v0.2.1"];
-    hash = "sha256-I0FjQOfFaGlOEJlQECmYNBKjIY4CIg5aCCQ/ORmnrSU=";
+    hash = "sha256-pNIRthmPf+J6BPfJ51afBCWt66evnRs1+f9wv09EvK0=";
   };
 in {
-  flake.modules.nixos.caddy = {
-    config,
-    pkgs,
-    ...
-  }: {
-    imports = with self.modules.nixos; [sops podman];
+  den.aspects.caddy = {
+    includes = with den.aspects; [sops podman];
 
-    networking.firewall.allowedTCPPorts = [443];
+    nixos = {
+      config,
+      pkgs,
+      ...
+    }: {
+      networking.firewall.allowedTCPPorts = [443];
 
-    sops.secrets."cloudflare_dns" = {
-      sopsFile = ../../secrets/cloudflareSecrets.env;
-      format = "dotenv";
-      restartUnits = ["caddy.service"];
-    };
-
-    virtualisation.oci-containers.containers.blog = {
-      image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
-      pull = "newer";
-      ports = ["1313:1313"];
-    };
-
-    services.caddy = {
-      enable = true;
-      package = pkgs.caddy.withPlugins caddyPlugins;
-      environmentFile = config.sops.secrets.cloudflare_dns.path;
-      globalConfig = ''
-        admin
-
-        metrics
-      '';
-      virtualHosts = let
-        reverseProxy = port: ''
-          reverse_proxy localhost:${toString port}
-
-          tls {
-            dns cloudflare {
-              api_token {env.CF_API_TOKEN}
-            }
-            resolvers 1.1.1.1 1.0.0.1
-          }
-        '';
-      in {
-        "blog.kgb33.dev".extraConfig = reverseProxy 1313;
-        "${config.services.grafana.settings.server.domain}".extraConfig =
-          reverseProxy config.services.grafana.settings.server.http_port;
-        "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}".extraConfig =
-          reverseProxy 9925;
-        "obsidian.kgb33.dev".extraConfig =
-          reverseProxy config.services.couchdb.port;
-        "npwd.kgb33.dev".extraConfig = reverseProxy 3000;
+      sops.secrets."cloudflare_dns" = {
+        sopsFile = ../../secrets/cloudflareSecrets.env;
+        format = "dotenv";
+        restartUnits = ["caddy.service"];
       };
-    };
 
-    services.prometheus.scrapeConfigs = [
-      {
-        job_name = "caddy";
-        static_configs = [{targets = ["localhost:2019"];}];
-      }
-    ];
+      virtualisation.oci-containers.containers.blog = {
+        image = "ghcr.io/kgb33/blog.kgb33.dev:latest";
+        pull = "newer";
+        ports = ["1313:1313"];
+      };
+
+      services.caddy = {
+        enable = true;
+        package = pkgs.caddy.withPlugins caddyPlugins;
+        environmentFile = config.sops.secrets.cloudflare_dns.path;
+        globalConfig = ''
+          admin
+
+          metrics
+        '';
+        virtualHosts = let
+          reverseProxy = port: ''
+            reverse_proxy localhost:${toString port}
+
+            tls {
+              dns cloudflare {
+                api_token {env.CF_API_TOKEN}
+              }
+              resolvers 1.1.1.1 1.0.0.1
+            }
+          '';
+        in {
+          "blog.kgb33.dev".extraConfig = reverseProxy 1313;
+          "${config.services.grafana.settings.server.domain}".extraConfig =
+            reverseProxy config.services.grafana.settings.server.http_port;
+          "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}".extraConfig =
+            reverseProxy 9925;
+          "obsidian.kgb33.dev".extraConfig =
+            reverseProxy config.services.couchdb.port;
+          "npwd.kgb33.dev".extraConfig = reverseProxy 3000;
+        };
+      };
+
+      services.prometheus.scrapeConfigs = [
+        {
+          job_name = "caddy";
+          static_configs = [{targets = ["localhost:2019"];}];
+        }
+      ];
+    };
   };
 
   perSystem = {
@@ -70,11 +72,10 @@ in {
     lib,
     ...
   }: {
-    checks.caddy-cloudflare-plugin =
-      pkgs.runCommand "caddy-cloudflare-plugin" {} ''
-        modules="$(${lib.getExe (pkgs.caddy.withPlugins caddyPlugins)} list-modules)"
-        echo "$modules" | grep -q '^dns.providers.cloudflare$'
-        touch $out
-      '';
+    checks.caddy-cloudflare-plugin = pkgs.runCommand "caddy-cloudflare-plugin" {} ''
+      modules="$(${lib.getExe (pkgs.caddy.withPlugins caddyPlugins)} list-modules)"
+      echo "$modules" | grep -q '^dns.providers.cloudflare$'
+      touch $out
+    '';
   };
 }

@@ -1,127 +1,129 @@
-{self, ...}: {
-  flake.modules.nixos.terminus = {
-    config,
-    lib,
-    pkgs,
-    ...
-  }: {
-    imports = with self.modules.nixos; [sops podman];
+{den, ...}: {
+  den.aspects.terminus = {
+    includes = with den.aspects; [sops podman];
 
-    networking.firewall.allowedTCPPorts = [7000];
+    nixos = {
+      config,
+      pkgs,
+      ...
+    }: {
+      networking.firewall.allowedTCPPorts = [7000];
 
-    # --- All Secrets ---
-    sops.secrets = {
-      terminus_env = {
-        sopsFile = ../../secrets/terminus/secrets.env;
-        format = "dotenv";
-        restartUnits = [
-          "podman-terminus-web.service"
-          "podman-terminus-worker.service"
+      # --- All Secrets ---
+      sops.secrets = {
+        terminus_env = {
+          sopsFile = ../../secrets/terminus/secrets.env;
+          format = "dotenv";
+          restartUnits = [
+            "podman-terminus-web.service"
+            "podman-terminus-worker.service"
+          ];
+        };
+        terminus_db_password = {
+          sopsFile = ../../secrets/terminus/dbPassword;
+          format = "binary";
+          owner = "postgres";
+        };
+        terminus_keyvalue_password = {
+          sopsFile = ../../secrets/terminus/valkeyPassword;
+          format = "binary";
+          owner = "redis-terminus";
+        };
+      };
+
+      # --- PostgreSQL ---
+      services.postgresql = {
+        enable = true;
+        ensureDatabases = ["terminus"];
+        ensureUsers = [
+          {
+            name = "terminus";
+            ensureDBOwnership = true;
+          }
         ];
       };
-      terminus_db_password = {
-        sopsFile = ../../secrets/terminus/dbPassword;
-        format = "binary";
-        owner = "postgres";
+
+      # Set password from binary sops file after user is created by postgresql-setup.service
+      systemd.services.terminus-db-password-setup = {
+        description = "Set terminus database user password";
+        after = ["postgresql-setup.service"];
+        requires = ["postgresql.service"];
+        wantedBy = ["multi-user.target"];
+        path = [config.services.postgresql.package];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          User = "postgres";
+        };
+        script = ''
+          psql -tAc "ALTER USER terminus WITH PASSWORD '$(cat ${config.sops.secrets.terminus_db_password.path})';"
+        '';
       };
-      terminus_keyvalue_password = {
-        sopsFile = ../../secrets/terminus/valkeyPassword;
-        format = "binary";
-        owner = "redis-terminus";
+
+      # --- Valkey (via redis module) ---
+      services.redis.package = pkgs.valkey;
+      services.redis.servers.terminus = {
+        enable = true;
+        port = 6379;
+        requirePassFile = config.sops.secrets.terminus_keyvalue_password.path;
       };
-    };
 
-    # --- PostgreSQL ---
-    services.postgresql = {
-      enable = true;
-      ensureDatabases = ["terminus"];
-      ensureUsers = [
-        {
-          name = "terminus";
-          ensureDBOwnership = true;
-        }
-      ];
-    };
-
-    # Set password from binary sops file after user is created by postgresql-setup.service
-    systemd.services.terminus-db-password-setup = {
-      description = "Set terminus database user password";
-      after = ["postgresql-setup.service"];
-      requires = ["postgresql.service"];
-      wantedBy = ["multi-user.target"];
-      path = [config.services.postgresql.package];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        User = "postgres";
+      # --- Web container ---
+      virtualisation.oci-containers.containers.terminus-web = {
+        image = "ghcr.io/usetrmnl/terminus:latest";
+        autoStart = true;
+        ports = ["7000:7000"];
+        volumes = ["terminus-uploads:/app/public/uploads"];
+        environment = {
+          HANAMI_PORT = "7000";
+          APP_SETUP = "true";
+        };
+        environmentFiles = [config.sops.secrets.terminus_env.path];
+        extraOptions = [
+          "--network=host"
+          "--memory=1g"
+          "--cpus=1.0"
+          "--init"
+        ];
       };
-      script = ''
-        psql -tAc "ALTER USER terminus WITH PASSWORD '$(cat ${config.sops.secrets.terminus_db_password.path})';"
-      '';
-    };
 
-    # --- Valkey (via redis module) ---
-    services.redis.package = pkgs.valkey;
-    services.redis.servers.terminus = {
-      enable = true;
-      port = 6379;
-      requirePassFile = config.sops.secrets.terminus_keyvalue_password.path;
-    };
-
-    # --- Web container ---
-    virtualisation.oci-containers.containers.terminus-web = {
-      image = "ghcr.io/usetrmnl/terminus:latest";
-      autoStart = true;
-      ports = ["7000:7000"];
-      volumes = ["terminus-uploads:/app/public/uploads"];
-      environment = {
-        HANAMI_PORT = "7000";
-        APP_SETUP = "true";
+      # --- Worker container ---
+      virtualisation.oci-containers.containers.terminus-worker = {
+        image = "ghcr.io/usetrmnl/terminus:latest";
+        autoStart = true;
+        cmd = ["bundle" "exec" "sidekiq" "-r" "./config/sidekiq.rb"];
+        volumes = ["terminus-uploads:/app/public/uploads"];
+        environment = {
+          HANAMI_PORT = "7000";
+        };
+        environmentFiles = [config.sops.secrets.terminus_env.path];
+        extraOptions = [
+          "--network=host"
+          "--memory=1g"
+          "--cpus=1.0"
+          "--init"
+        ];
       };
-      environmentFiles = [config.sops.secrets.terminus_env.path];
-      extraOptions = [
-        "--network=host"
-        "--memory=1g"
-        "--cpus=1.0"
-        "--init"
-      ];
-    };
 
-    # --- Worker container ---
-    virtualisation.oci-containers.containers.terminus-worker = {
-      image = "ghcr.io/usetrmnl/terminus:latest";
-      autoStart = true;
-      cmd = ["bundle" "exec" "sidekiq" "-r" "./config/sidekiq.rb"];
-      volumes = ["terminus-uploads:/app/public/uploads"];
-      environment = {
-        HANAMI_PORT = "7000";
+      # --- Systemd ordering ---
+      systemd.services.podman-terminus-web = {
+        after = ["postgresql.service" "redis-terminus.service" "terminus-db-password-setup.service"];
+        requires = ["postgresql.service" "redis-terminus.service" "terminus-db-password-setup.service"];
       };
-      environmentFiles = [config.sops.secrets.terminus_env.path];
-      extraOptions = [
-        "--network=host"
-        "--memory=1g"
-        "--cpus=1.0"
-        "--init"
-      ];
-    };
 
-    # --- Systemd ordering ---
-    systemd.services.podman-terminus-web = {
-      after = ["postgresql.service" "redis-terminus.service" "terminus-db-password-setup.service"];
-      requires = ["postgresql.service" "redis-terminus.service" "terminus-db-password-setup.service"];
-    };
-
-    systemd.services.podman-terminus-worker = {
-      after = ["podman-terminus-web.service"];
-      requires = ["podman-terminus-web.service"];
+      systemd.services.podman-terminus-worker = {
+        after = ["podman-terminus-web.service"];
+        requires = ["podman-terminus-web.service"];
+      };
     };
   };
 
-  perSystem = {
-    pkgs,
-    lib,
-    ...
-  }: {
+  den.hosts.x86_64-linux.check-terminus = {
+    intoAttr = [];
+    aspect = den.aspects.terminus;
+  };
+
+  perSystem = {pkgs, ...}: {
     checks.terminus = pkgs.testers.runNixOSTest {
       name = "terminus";
       nodes.machine = {
@@ -142,7 +144,7 @@
           ];
         };
       in {
-        imports = with self.modules.nixos; [terminus];
+        imports = [den.hosts.x86_64-linux.check-terminus.mainModule];
 
         # Create fake secret files before services start (sops can't decrypt without a key in tests)
         systemd.tmpfiles.rules = [

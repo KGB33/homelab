@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.alloy = {config, ...}: {
+{den, ...}: {
+  den.aspects.alloy.nixos = {config, ...}: {
     services.alloy = {
       enable = true;
     };
@@ -60,12 +60,15 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-alloy = {
+    intoAttr = [];
+    aspect = den.aspects.alloy;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.alloy-ingest = pkgs.testers.runNixOSTest {
       name = "Alloy exporter check";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [alloy];
-      };
+      nodes.machine = den.hosts.x86_64-linux.check-alloy.mainModule;
       testScript =
         # python
         ''

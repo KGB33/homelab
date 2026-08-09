@@ -1,11 +1,9 @@
-{
-  flake.modules.nixos.ghost = {config, ...}: {
-    # TODO: Use diskio?
-    fileSystems = {
-      "/" = {
-        device = "/dev/sda";
-        fsType = "ext4";
-      };
+{...}: {
+  # TODO: Use diskio?
+  den.aspects.ghost.nixos.fileSystems = {
+    "/" = {
+      device = "/dev/sda";
+      fsType = "ext4";
     };
   };
 }

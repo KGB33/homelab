@@ -1,16 +1,10 @@
-{
-  inputs,
-  self,
-  ...
-}: {
-  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "ghost";
+{den, ...}: {
+  den.hosts.x86_64-linux.ghost.users.kgb33 = {};
 
   perSystem = {pkgs, ...}: {
     checks.ghost = pkgs.testers.runNixOSTest {
       name = "Ghost Host Test";
-      nodes.ghost = {...}: {
-        imports = with self.modules.nixos; [ghost];
-      };
+      nodes.ghost = den.hosts.x86_64-linux.ghost.mainModule;
       testScript =
         # python
         ''

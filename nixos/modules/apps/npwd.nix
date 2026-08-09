@@ -1,5 +1,5 @@
 {
-  self,
+  den,
   inputs,
   ...
 }: {
@@ -7,73 +7,80 @@
     url = "github:KGB33/npwd";
   };
 
-  flake.modules.nixos.npwd = {
-    config,
-    lib,
-    ...
-  }: {
-    imports = with self.modules.nixos; [sops];
+  den.aspects.npwd = {
+    includes = with den.aspects; [sops];
 
-    sops.secrets = {
-      npwd_surrealdb_env = {
-        sopsFile = ../../secrets/npwd/surrealdb.env;
-        format = "dotenv";
-        restartUnits = ["surrealdb.service"];
-      };
-      npwd_env = {
-        sopsFile = ../../secrets/npwd/npwd.env;
-        format = "dotenv";
-        restartUnits = ["npwd.service"];
-      };
-    };
-
-    services.surrealdb = {
-      enable = true;
-      host = "127.0.0.1";
-      port = 8000;
-      dbPath = "rocksdb:///var/lib/surrealdb/npwd";
-    };
-
-    systemd.services.surrealdb.serviceConfig = {
-      EnvironmentFile = config.sops.secrets.npwd_surrealdb_env.path;
-      ProcSubset = lib.mkForce "all";
-    };
-
-    systemd.services.npwd = {
-      description = "NPWD server";
-      wantedBy = ["multi-user.target"];
-      after = ["network-online.target" "surrealdb.service"];
-      wants = ["network-online.target" "surrealdb.service"];
-
-      environment = {
-        PORT = "3000";
-        SURREAL_HOST = "127.0.0.1";
-        SURREAL_PORT = "8000";
-        SURREAL_NAMESPACE = "npwd";
-        SURREAL_DATABASE = "npwd";
+    nixos = {
+      config,
+      lib,
+      ...
+    }: {
+      sops.secrets = {
+        npwd_surrealdb_env = {
+          sopsFile = ../../secrets/npwd/surrealdb.env;
+          format = "dotenv";
+          restartUnits = ["surrealdb.service"];
+        };
+        npwd_env = {
+          sopsFile = ../../secrets/npwd/npwd.env;
+          format = "dotenv";
+          restartUnits = ["npwd.service"];
+        };
       };
 
-      serviceConfig = {
-        ExecStart = "${inputs.npwd.packages.x86_64-linux.npwd}/bin/server";
-        EnvironmentFile = config.sops.secrets.npwd_env.path;
+      services.surrealdb = {
+        enable = true;
+        host = "127.0.0.1";
+        port = 8000;
+        dbPath = "rocksdb:///var/lib/surrealdb/npwd";
+      };
 
-        DynamicUser = true;
-        Restart = "on-failure";
-        RestartSec = "5s";
+      systemd.services.surrealdb.serviceConfig = {
+        EnvironmentFile = config.sops.secrets.npwd_surrealdb_env.path;
+        ProcSubset = lib.mkForce "all";
+      };
 
-        NoNewPrivileges = true;
-        ProtectSystem = "strict";
-        ProtectHome = true;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        ProtectKernelTunables = true;
-        ProtectControlGroups = true;
-        RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
-        RestrictNamespaces = true;
-        LockPersonality = true;
-        MemoryDenyWriteExecute = false;
+      systemd.services.npwd = {
+        description = "NPWD server";
+        wantedBy = ["multi-user.target"];
+        after = ["network-online.target" "surrealdb.service"];
+        wants = ["network-online.target" "surrealdb.service"];
+
+        environment = {
+          PORT = "3000";
+          SURREAL_HOST = "127.0.0.1";
+          SURREAL_PORT = "8000";
+          SURREAL_NAMESPACE = "npwd";
+          SURREAL_DATABASE = "npwd";
+        };
+
+        serviceConfig = {
+          ExecStart = "${inputs.npwd.packages.x86_64-linux.npwd}/bin/server";
+          EnvironmentFile = config.sops.secrets.npwd_env.path;
+
+          DynamicUser = true;
+          Restart = "on-failure";
+          RestartSec = "5s";
+
+          NoNewPrivileges = true;
+          ProtectSystem = "strict";
+          ProtectHome = true;
+          PrivateTmp = true;
+          PrivateDevices = true;
+          ProtectKernelTunables = true;
+          ProtectControlGroups = true;
+          RestrictAddressFamilies = ["AF_INET" "AF_INET6" "AF_UNIX"];
+          RestrictNamespaces = true;
+          LockPersonality = true;
+          MemoryDenyWriteExecute = false;
+        };
       };
     };
+  };
+
+  den.hosts.x86_64-linux.check-npwd = {
+    intoAttr = [];
+    aspect = den.aspects.npwd;
   };
 
   perSystem = {
@@ -90,7 +97,7 @@
     checks.npwd = pkgs.testers.runNixOSTest {
       name = "npwd";
       nodes.machine = {lib, ...}: {
-        imports = with self.modules.nixos; [npwd];
+        imports = [den.hosts.x86_64-linux.check-npwd.mainModule];
 
         systemd.services.surrealdb.serviceConfig.EnvironmentFile = lib.mkForce (
           pkgs.writeText "surrealdb-test-env" ''

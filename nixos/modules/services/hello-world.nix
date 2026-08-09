@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.hello-world-server = {
+{den, ...}: {
+  den.aspects.hello-world-server.nixos = {
     pkgs,
     lib,
     ...
@@ -27,12 +27,15 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-hello-world-server = {
+    intoAttr = [];
+    aspect = den.aspects.hello-world-server;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.hello-world-server = pkgs.testers.runNixOSTest {
       name = "Check Hello World Server Index";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [hello-world-server];
-      };
+      nodes.machine = den.hosts.x86_64-linux.check-hello-world-server.mainModule;
       testScript =
         # python
         ''

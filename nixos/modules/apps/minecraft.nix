@@ -1,85 +1,133 @@
-{
-  inputs,
-  self,
-  lib,
-  ...
-}: let
-  baseDirectory = "/srv/minecraft";
-in {
-  flake.modules = lib.mkMerge [
-    (self.factory.minecraft-server {
-      slug = "ftb-stoneblock-4";
-      ports = [25568];
-      extraEnv = {
-        MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-        CF_SLUG = "ftb-stoneblock-4";
-      };
-    })
+{den, ...}: let
+  minecraft-server = {
+    slug,
+    ports,
+    extraEnv,
+  }: {
+    includes = with den.aspects; [minecraft-base sops];
 
-    (self.factory.minecraft-server {
-      slug = "monifactory";
-      ports = [25569];
-      extraEnv = {
-        MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-        CF_SLUG = "monifactory";
-        MAX_MEMORY = "28G";
-        MODRINTH_PROJECTS = "cc-tweaked";
-      };
-    })
+    nixos = {config, ...}: {
+      networking.firewall.allowedTCPPorts = ports;
 
-    {
-      nixos.minecraft-silas-origins = {config, ...}: {
-        imports = with self.modules.nixos; [podman minecraft-base];
-
-        networking.firewall = {
-          allowedTCPPorts = [25567 24454];
-          allowedUDPPorts = [24454];
+      sops.secrets = {
+        curseForgeToken = {
+          sopsFile = ../../secrets/curseForgeSecrets.env;
+          format = "dotenv";
+          restartUnits = [
+            config.virtualisation.oci-containers.containers."minecraft-server-${slug}".serviceName
+          ];
         };
+      };
 
-        virtualisation.oci-containers.containers.minecraft-shenannigains = {
-          image = "ghcr.io/itzg/minecraft-server";
-          pull = "newer";
-          environment = {
+      virtualisation.oci-containers.containers."minecraft-server-${slug}" = {
+        image = "ghcr.io/itzg/minecraft-server";
+        pull = "newer";
+        environment =
+          {
             EULA = "TRUE";
-            MAX_MEMORY = "20G";
-            TYPE = "NEOFORGE";
-            VERSION = "1.21.1";
-            PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShenannigainsPack/refs/heads/main/pack.toml";
-          };
-          ports = ["25567:25565" "24454:24454/udp"];
-          volumes = ["/home/kgb33/Minecraft/shenannigains/:/data"];
+            MAX_MEMORY = "16G";
+          }
+          // extraEnv;
+        environmentFiles = [
+          config.sops.secrets.curseForgeToken.path
+        ];
+        ports = map (p: "${toString p}:${toString p}") ports;
+        volumes = [
+          "/home/kgb33/Minecraft/${slug}/:/data"
+        ];
+      };
+    };
+  };
+in {
+  den.aspects.minecraft-base = {
+    includes = with den.aspects; [podman];
+
+    nixos = {
+      config,
+      lib,
+      ...
+    }: {
+      systemd.services =
+        lib.mapAttrs'
+        (name:
+          lib.const (lib.nameValuePair "podman-${name}" {
+            serviceConfig.Restart = lib.mkForce "always";
+          }))
+        (lib.filterAttrs (_: c: lib.hasPrefix "ghcr.io/itzg/minecraft-server" c.image)
+          config.virtualisation.oci-containers.containers);
+    };
+  };
+
+  den.aspects.minecraft-ftb-stoneblock-4 = minecraft-server {
+    slug = "ftb-stoneblock-4";
+    ports = [25568];
+    extraEnv = {
+      MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+      CF_SLUG = "ftb-stoneblock-4";
+    };
+  };
+
+  den.aspects.minecraft-monifactory = minecraft-server {
+    slug = "monifactory";
+    ports = [25569];
+    extraEnv = {
+      MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+      CF_SLUG = "monifactory";
+      MAX_MEMORY = "28G";
+      MODRINTH_PROJECTS = "cc-tweaked";
+    };
+  };
+
+  # Only used by the `minecraft-server` check below.
+  den.aspects.minecraft-vanilla = minecraft-server {
+    slug = "vanilla";
+    ports = [25565];
+    extraEnv = {
+      TYPE = "VANILLA";
+    };
+  };
+
+  den.aspects.minecraft-silas-origins = {
+    includes = with den.aspects; [podman minecraft-base];
+
+    nixos = {
+      networking.firewall = {
+        allowedTCPPorts = [25567 24454];
+        allowedUDPPorts = [24454];
+      };
+
+      virtualisation.oci-containers.containers.minecraft-shenannigains = {
+        image = "ghcr.io/itzg/minecraft-server";
+        pull = "newer";
+        environment = {
+          EULA = "TRUE";
+          MAX_MEMORY = "20G";
+          TYPE = "NEOFORGE";
+          VERSION = "1.21.1";
+          PACKWIZ_URL = "https://raw.githubusercontent.com/FrostyTacos/ShenannigainsPack/refs/heads/main/pack.toml";
         };
+        ports = ["25567:25565" "24454:24454/udp"];
+        volumes = ["/home/kgb33/Minecraft/shenannigains/:/data"];
       };
-    }
+    };
+  };
 
-    {
-      nixos.minecraft-base = {
-        config,
-        lib,
-        ...
-      }: let
-      in {
-        imports = with self.modules.nixos; [podman];
-
-        systemd.services =
-          lib.mapAttrs'
-          (name:
-            lib.const (lib.nameValuePair "podman-${name}" {
-              serviceConfig.Restart = lib.mkForce "always";
-            }))
-          (lib.filterAttrs (_: c: lib.hasPrefix "ghcr.io/itzg/minecraft-server" c.image)
-            config.virtualisation.oci-containers.containers);
-      };
-    }
-  ];
+  den.hosts.x86_64-linux = {
+    check-minecraft-base = {
+      intoAttr = [];
+      aspect = den.aspects.minecraft-base;
+    };
+    check-minecraft-vanilla = {
+      intoAttr = [];
+      aspect = den.aspects.minecraft-vanilla;
+    };
+  };
 
   perSystem = {pkgs, ...}: {
     checks = {
       minecraft-base = pkgs.testers.runNixOSTest {
         name = "Base minecraft-server test";
-        nodes.machine = {...}: {
-          imports = with self.modules.nixos; [minecraft-base];
-        };
+        nodes.machine = den.hosts.x86_64-linux.check-minecraft-base.mainModule;
         testScript =
           # python
           ''
@@ -88,17 +136,7 @@ in {
       };
       minecraft-server = pkgs.testers.runNixOSTest {
         name = "Simple server test";
-        nodes.machine = {...}: {
-          imports = [
-            (self.factory.minecraft-server {
-              slug = "vanilla";
-              ports = [25565];
-              extraEnv = {
-                TYPE = "VANILLA";
-              };
-            }).nixos.minecraft-vanilla
-          ];
-        };
+        nodes.machine = den.hosts.x86_64-linux.check-minecraft-vanilla.mainModule;
         testScript =
           # python
           ''

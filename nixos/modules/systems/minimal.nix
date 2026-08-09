@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.system-minimal = {...}: {
+  den.aspects.system-minimal.nixos = {
     system.stateVersion = "26.05";
     nix.settings = {
       substituters = [

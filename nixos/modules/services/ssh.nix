@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.ssh = {...}: {
+  den.aspects.ssh.nixos = {
     services.openssh = {
       enable = true;
       openFirewall = true;

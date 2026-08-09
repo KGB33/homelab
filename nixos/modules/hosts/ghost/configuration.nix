@@ -1,7 +1,5 @@
-{inputs, ...}: {
-  flake.modules.nixos.ghost = {...}: {
-    imports = with inputs.self.modules.nixos; [
-      system-default
-    ];
-  };
+{den, ...}: {
+  den.aspects.ghost.includes =
+    [den.batteries.hostname]
+    ++ (with den.aspects; [system-default]);
 }

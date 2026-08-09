@@ -4,7 +4,7 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  flake.modules.nixos.sops = {...}: {
+  den.aspects.sops.nixos = {
     imports = [inputs.sops-nix.nixosModules.sops];
 
     sops = {

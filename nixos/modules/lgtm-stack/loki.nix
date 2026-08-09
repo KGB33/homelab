@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.loki = {...}: {
+{den, ...}: {
+  den.aspects.loki.nixos = {
     networking.firewall.allowedTCPPorts = [3030 9096];
 
     services.loki = {
@@ -46,12 +46,15 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-loki = {
+    intoAttr = [];
+    aspect = den.aspects.loki;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.loki = pkgs.testers.runNixOSTest {
       name = "loki check";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [loki];
-      };
+      nodes.machine = den.hosts.x86_64-linux.check-loki.mainModule;
       testScript =
         # python
         ''

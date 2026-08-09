@@ -1,3 +1,3 @@
-{inputs, ...}: {
-  flake.nixosConfigurations = inputs.self.lib.mkNixos "x86_64-linux" "tower";
+{...}: {
+  den.hosts.x86_64-linux.tower.users.kgb33 = {};
 }

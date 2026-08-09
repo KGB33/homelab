@@ -6,7 +6,7 @@
     };
   };
 
-  flake.modules.nixos.comin = {config, ...}: {
+  den.aspects.comin.nixos = {config, ...}: {
     imports = [inputs.comin.nixosModules.comin];
 
     services.comin = {

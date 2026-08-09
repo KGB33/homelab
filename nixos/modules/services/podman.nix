@@ -1,5 +1,5 @@
 {...}: {
-  flake.modules.nixos.podman = {...}: {
+  den.aspects.podman.nixos = {
     virtualisation = {
       containers.enable = true;
       oci-containers.backend = "podman";

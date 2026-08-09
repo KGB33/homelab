@@ -1,8 +1,8 @@
-{inputs, ...}: {
-  flake.modules.nixos.targe = {...}: {
-    imports = with inputs.self.modules.nixos; [disko];
+{den, ...}: {
+  den.aspects.targe = {
+    includes = with den.aspects; [disko];
 
-    disko.devices.disk.main = {
+    nixos.disko.devices.disk.main = {
       device = "/dev/nvme0n1";
       type = "disk";
       content = {

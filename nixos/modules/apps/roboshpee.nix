@@ -1,5 +1,5 @@
 {
-  self,
+  den,
   inputs,
   ...
 }: {
@@ -7,38 +7,43 @@
     url = "github:KGB33/RoboShpee";
   };
 
-  flake.modules.nixos.roboshpee = {config, ...}: {
-    imports = with self.modules.nixos; [sops podman];
+  den.aspects.roboshpee = {
+    includes = with den.aspects; [sops podman];
 
-    sops.secrets = {
-      "DISCORD_TOKEN" = {
-        sopsFile = ../../secrets/roboShpeeSecrets.env;
-        format = "dotenv";
-        restartUnits = [
-          config.systemd.services.roboshpee.name
-        ];
+    nixos = {config, ...}: {
+      sops.secrets = {
+        "DISCORD_TOKEN" = {
+          sopsFile = ../../secrets/roboShpeeSecrets.env;
+          format = "dotenv";
+          restartUnits = [
+            config.systemd.services.roboshpee.name
+          ];
+        };
+      };
+
+      systemd.services.roboshpee = {
+        enable = true;
+        wants = ["network.target"];
+        serviceConfig = {
+          ExecStart = "${inputs.roboshpee.packages.x86_64-linux.roboshpee}/bin/roboshpee";
+          Type = "simple";
+          Restart = "on-failure";
+          EnvironmentFile = config.sops.secrets.DISCORD_TOKEN.path;
+          Environment = "RUST_LOG=info";
+        };
       };
     };
+  };
 
-    systemd.services.roboshpee = {
-      enable = true;
-      wants = ["network.target"];
-      serviceConfig = {
-        ExecStart = "${inputs.roboshpee.packages.x86_64-linux.roboshpee}/bin/roboshpee";
-        Type = "simple";
-        Restart = "on-failure";
-        EnvironmentFile = config.sops.secrets.DISCORD_TOKEN.path;
-        Environment = "RUST_LOG=info";
-      };
-    };
+  den.hosts.x86_64-linux.check-roboshpee = {
+    intoAttr = [];
+    aspect = den.aspects.roboshpee;
   };
 
   perSystem = {pkgs, ...}: {
     checks.roboshpee = pkgs.testers.runNixOSTest {
       name = "Basic RoboShpee test";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [roboshpee];
-      };
+      nodes.machine = den.hosts.x86_64-linux.check-roboshpee.mainModule;
       testScript =
         # python
         ''

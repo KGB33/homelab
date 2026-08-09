@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.tempo = {...}: {
+{den, ...}: {
+  den.aspects.tempo.nixos = {
     networking.firewall.allowedTCPPorts = [3031 9095 9878 9879];
 
     services.tempo = {
@@ -28,12 +28,15 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-tempo = {
+    intoAttr = [];
+    aspect = den.aspects.tempo;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.tempo = pkgs.testers.runNixOSTest {
       name = "tempo check";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [tempo];
-      };
+      nodes.machine = den.hosts.x86_64-linux.check-tempo.mainModule;
       testScript =
         # python
         ''

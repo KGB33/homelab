@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.hickory-dns = {...}: {
+{den, ...}: {
+  den.aspects.hickory-dns.nixos = {
     networking.firewall.allowedTCPPorts = [53];
     networking.firewall.allowedUDPPorts = [53];
 
@@ -47,11 +47,16 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-hickory-dns = {
+    intoAttr = [];
+    aspect = den.aspects.hickory-dns;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.hickory-dns = pkgs.testers.runNixOSTest {
       name = "Basic hickory-dns check";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [hickory-dns];
+      nodes.machine = {
+        imports = [den.hosts.x86_64-linux.check-hickory-dns.mainModule];
         environment.systemPackages = [pkgs.doggo];
       };
       testScript =

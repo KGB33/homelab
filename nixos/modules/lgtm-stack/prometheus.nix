@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.prometheus = {config, ...}: {
+{den, ...}: {
+  den.aspects.prometheus.nixos = {config, ...}: {
     networking.firewall.allowedTCPPorts = [9090];
 
     services.prometheus = {
@@ -32,11 +32,16 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-prometheus = {
+    intoAttr = [];
+    aspect = den.aspects.prometheus;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.prometheus = pkgs.testers.runNixOSTest {
       name = "prometheus exporter check";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [prometheus];
+      nodes.machine = {
+        imports = [den.hosts.x86_64-linux.check-prometheus.mainModule];
         environment.systemPackages = [pkgs.prometheus.cli]; # For promtool
       };
       testScript =

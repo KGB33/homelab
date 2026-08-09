@@ -1,5 +1,5 @@
-{self, ...}: {
-  flake.modules.nixos.mimir = {...}: {
+{den, ...}: {
+  den.aspects.mimir.nixos = {
     networking.firewall.allowedTCPPorts = [9009 9097];
 
     services.mimir = {
@@ -55,12 +55,15 @@
     };
   };
 
+  den.hosts.x86_64-linux.check-mimir = {
+    intoAttr = [];
+    aspect = den.aspects.mimir;
+  };
+
   perSystem = {pkgs, ...}: {
     checks.mimir = pkgs.testers.runNixOSTest {
       name = "mimir check";
-      nodes.machine = {...}: {
-        imports = with self.modules.nixos; [mimir];
-      };
+      nodes.machine = den.hosts.x86_64-linux.check-mimir.mainModule;
       testScript =
         # python
         ''

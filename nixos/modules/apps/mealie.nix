@@ -1,8 +1,8 @@
-{self, ...}: {
-  flake.modules.nixos.mealie = {...}: {
-    imports = with self.modules.nixos; [podman];
+{den, ...}: {
+  den.aspects.mealie = {
+    includes = with den.aspects; [podman];
 
-    virtualisation.oci-containers.containers.mealie = {
+    nixos.virtualisation.oci-containers.containers.mealie = {
       image = "ghcr.io/mealie-recipes/mealie:v3.14.0";
 
       autoStart = true;

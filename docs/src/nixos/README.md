@@ -7,7 +7,7 @@ To reload the config, see [here](/nixos/GitOps.html#rebuilding).
 
 ## Directory Layout
 
-NixOS is configured using the Dendritic pattern.
+NixOS is configured using the [den](https://den.denful.dev/) framework.
 
 ## Testing 
 
