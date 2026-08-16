@@ -9,4 +9,4 @@ $TTL 30 ; Seconds
          86400  ; Min TTL
 )
 
-nixos-test IN  TXT "A test record for assertions in runNixOSTest"
+signoz-ingest IN A   10.0.9.104

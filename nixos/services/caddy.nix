@@ -44,8 +44,8 @@ in
           '';
           virtualHosts =
             let
-              reverseProxy = port: ''
-                reverse_proxy localhost:${toString port}
+              reverseProxy = target: ''
+                reverse_proxy ${target}
 
                 tls {
                   dns cloudflare {
@@ -54,24 +54,17 @@ in
                   resolvers 1.1.1.1 1.0.0.1
                 }
               '';
+              localReverseProxy = port: reverseProxy "localhost:${toString port}";
             in
             {
-              "blog.kgb33.dev".extraConfig = reverseProxy 1313;
-              "${config.services.grafana.settings.server.domain}".extraConfig =
-                reverseProxy config.services.grafana.settings.server.http_port;
+              "blog.kgb33.dev".extraConfig = localReverseProxy 1313;
               "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}".extraConfig =
-                reverseProxy 9925;
-              "obsidian.kgb33.dev".extraConfig = reverseProxy config.services.couchdb.port;
-              "npwd.kgb33.dev".extraConfig = reverseProxy 3000;
+                localReverseProxy 9925;
+              "obsidian.kgb33.dev".extraConfig = localReverseProxy config.services.couchdb.port;
+              "npwd.kgb33.dev".extraConfig = localReverseProxy 3000;
+              "signoz.kgb33.dev".extraConfig = reverseProxy "10.0.9.104:8080";
             };
         };
-
-        services.prometheus.scrapeConfigs = [
-          {
-            job_name = "caddy";
-            static_configs = [ { targets = [ "localhost:2019" ]; } ];
-          }
-        ];
       };
   };
 

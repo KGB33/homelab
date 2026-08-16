@@ -63,8 +63,14 @@
         # python
         ''
           machine.wait_for_unit("hickory-dns.service")
-          doggo = machine.succeed("doggo -J nixos-test.internal.kgb33.dev TXT @localhost")
-          assert "A test record for assertions in runNixOSTest" in doggo
+
+          signoz_ingest = machine.succeed(
+              "doggo -J signoz-ingest.internal.kgb33.dev A @localhost"
+          )
+          assert "10.0.9.104" in signoz_ingest
+
+          signoz_ui = machine.succeed("doggo -J signoz.kgb33.dev A @localhost")
+          assert "10.0.9.100" in signoz_ui
         '';
     };
   };

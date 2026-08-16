@@ -10,7 +10,7 @@ $TTL 30 ; Seconds
 )
 
 blog     IN A 10.0.9.100
-graf     IN A 10.0.9.100
 mealie   IN A 10.0.9.100
 npwd     IN A 10.0.9.100
 obsidian IN A 10.0.9.100
+signoz   IN A 10.0.9.100
