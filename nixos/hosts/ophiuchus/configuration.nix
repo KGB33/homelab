@@ -1,19 +1,16 @@
-{ den, ... }: {
+{ den, o11y, ... }: {
   den.aspects.ophiuchus = {
     includes = [
       den.batteries.hostname
     ]
     ++ (with den.aspects; [
       system-default
-      # terminus
-      loki
-      mimir
-      tempo
-      grafana
-    ]);
+    ])
+    ++ [ o11y.signoz ];
 
     nixos = {
       networking = {
+        firewall.interfaces.vlan9.allowedTCPPorts = [ 8080 ];
         hostId = "e7ea22a6";
         useNetworkd = true;
       };

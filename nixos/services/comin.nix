@@ -6,7 +6,7 @@
     };
   };
 
-  den.aspects.comin.nixos = { config, ... }: {
+  den.aspects.comin.nixos = {
     imports = [ inputs.comin.nixosModules.comin ];
 
     services.comin = {
@@ -23,17 +23,5 @@
         }
       ];
     };
-
-    # TODO: Maybe replace w/ Grafana Mimir
-    services.prometheus.scrapeConfigs = [
-      {
-        job_name = "comin";
-        static_configs = [
-          {
-            targets = [ "localhost:${toString config.services.comin.exporter.port}" ];
-          }
-        ];
-      }
-    ];
   };
 }

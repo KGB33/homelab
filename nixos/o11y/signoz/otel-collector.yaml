@@ -1,0 +1,97 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+        tls:
+          cert_file: /var/lib/acme/signoz-ingest.internal.kgb33.dev/fullchain.pem
+          key_file: /var/lib/acme/signoz-ingest.internal.kgb33.dev/key.pem
+      http:
+        endpoint: 127.0.0.1:4318
+  prometheus/collector:
+    config:
+      scrape_configs:
+        - job_name: signoz-otel-collector
+          static_configs:
+            - targets:
+                - 127.0.0.1:8888
+
+processors:
+  batch:
+    send_batch_size: 10000
+    send_batch_max_size: 11000
+    timeout: 10s
+  signozspanmetrics/delta:
+    metrics_exporter: signozclickhousemetrics
+    latency_histogram_buckets:
+      - 100us
+      - 1ms
+      - 2ms
+      - 6ms
+      - 10ms
+      - 50ms
+      - 100ms
+      - 250ms
+      - 500ms
+      - 1s
+      - 1400ms
+      - 2s
+      - 5s
+      - 10s
+      - 20s
+      - 40s
+      - 60s
+    dimensions_cache_size: 100000
+    aggregation_temporality: AGGREGATION_TEMPORALITY_DELTA
+    enable_exp_histogram: true
+    dimensions:
+      - name: service.namespace
+        default: default
+      - name: deployment.environment
+        default: default
+      - name: signoz.collector.id
+      - name: service.version
+      - name: browser.platform
+      - name: browser.mobile
+      - name: k8s.cluster.name
+      - name: k8s.node.name
+      - name: k8s.namespace.name
+      - name: host.name
+      - name: host.type
+      - name: container.name
+
+exporters:
+  clickhousetraces:
+    datasource: tcp://localhost:9000/signoz_traces
+    use_new_schema: true
+  signozclickhousemetrics: {}
+  clickhouselogsexporter:
+    dsn: tcp://localhost:9000/signoz_logs
+    timeout: 10s
+    use_new_schema: true
+
+service:
+  pipelines:
+    traces:
+      receivers:
+        - otlp
+      processors:
+        - signozspanmetrics/delta
+        - batch
+      exporters:
+        - clickhousetraces
+    metrics:
+      receivers:
+        - otlp
+        - prometheus/collector
+      processors:
+        - batch
+      exporters:
+        - signozclickhousemetrics
+    logs:
+      receivers:
+        - otlp
+      processors:
+        - batch
+      exporters:
+        - clickhouselogsexporter
