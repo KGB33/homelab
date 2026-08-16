@@ -78,6 +78,7 @@ in
     ports = [ 25568 ];
     extraEnv = {
       MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+      MAX_MEMORY = "28G";
       CF_SLUG = "ftb-evolution";
     };
   };
@@ -88,7 +89,6 @@ in
     extraEnv = {
       MODPACK_PLATFORM = "AUTO_CURSEFORGE";
       CF_SLUG = "monifactory";
-      MAX_MEMORY = "28G";
       MODRINTH_PROJECTS = "cc-tweaked";
     };
   };
