@@ -80,7 +80,7 @@ in
       MODPACK_PLATFORM = "AUTO_CURSEFORGE";
       MAX_MEMORY = "28G";
       CF_SLUG = "ftb-evolution";
-      CF_FILE_ID = "8692655"; # Pin to 1.43.0, 1.43.1 will not launch
+      CF_FILE_ID = "100476"; # Pin to 1.43.0, 1.43.1 will not launch
     };
   };
 
