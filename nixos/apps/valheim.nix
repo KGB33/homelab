@@ -55,6 +55,7 @@ let
             // extraEnv;
             ports = map (p: "${toString p}:${toString p}/udp") gamePorts;
             volumes = [
+              "${config.sops.secrets.${passwordSecret}.path}:${config.sops.secrets.${passwordSecret}.path}:ro"
               "/home/kgb33/Valheim/${slug}/config:/config"
               "/home/kgb33/Valheim/${slug}/data:/opt/valheim"
             ];
