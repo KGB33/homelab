@@ -8,6 +8,7 @@
       minecraft-base
       minecraft-ftb-evolution
       minecraft-monifactory
+      valheim-main
 
       hickory-dns
 
