@@ -48,7 +48,7 @@ let
               SERVER_PORT = toString port;
               WORLD_NAME = worldName;
               SERVER_PASS_FILE = config.sops.secrets.${passwordSecret}.path;
-              SERVER_PUBLIC = "true";
+              SERVER_PUBLIC = "false";
               BACKUPS = "true";
               BACKUPS_ZIP = "true";
             }
