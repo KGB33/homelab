@@ -4,8 +4,6 @@
 
     nixos = { config, ... }: {
       sops = {
-        defaultSopsFile = ../../secrets/wireguard/keys.yaml;
-
         secrets =
           let
             permissions = {
@@ -15,9 +13,18 @@
             };
           in
           {
-            server-private-key = permissions;
-            geppetto-psk = permissions;
-            px10fold-psk = permissions;
+            server-private-key = permissions // {
+              sopsFile = ../../secrets/wireguard/keys.yaml;
+            };
+            blue-psk = permissions // {
+              sopsFile = ../../secrets/wireguard/keys.yaml;
+            };
+            geppetto-psk = permissions // {
+              sopsFile = ../../secrets/wireguard/keys.yaml;
+            };
+            px10fold-psk = permissions // {
+              sopsFile = ../../secrets/wireguard/keys.yaml;
+            };
           };
       };
 
@@ -53,6 +60,13 @@
               listenPort = 51823;
               privateKeyFile = config.sops.secrets.server-private-key.path;
               peers = [
+                # `blue` - Framework 13
+                {
+                  publicKey = "d2+H6dmDZABQ8wN4tCbBzDFed8e/HBHHYDZzISTgekI=";
+                  presharedKeyFile = config.sops.secrets.blue-psk.path;
+                  allowedIPs = [ "10.0.4.4/32" ];
+                }
+
                 # `geppetto` - Framework 16
                 {
                   publicKey = "5wpRiibXX/ODO0qKaZM2lDr07l5RBi/HKup2RGhR6RU=";
