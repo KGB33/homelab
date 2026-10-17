@@ -27,6 +27,7 @@
 
       systemd.services.roboshpee = {
         enable = true;
+        wantedBy = [ "multi-user.target" ];
         wants = [ "network.target" ];
         serviceConfig = {
           ExecStart = "${inputs.roboshpee.packages.x86_64-linux.roboshpee}/bin/roboshpee";
@@ -52,6 +53,7 @@
         # python
         ''
           machine.wait_for_file("/etc/systemd/system/roboshpee.service")
+          machine.succeed("systemctl is-enabled roboshpee.service")
         '';
     };
   };
