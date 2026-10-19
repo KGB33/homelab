@@ -53,6 +53,20 @@
           };
 
           service = {
+            telemetry = {
+              resource."host.name" = config.networking.hostName;
+              metrics = {
+                level = "normal";
+                readers = [
+                  {
+                    periodic.exporter.otlp = {
+                      protocol = "grpc";
+                      endpoint = "https://signoz-ingest.internal.kgb33.dev:4317";
+                    };
+                  }
+                ];
+              };
+            };
             extensions = [ "file_storage" ];
             pipelines = {
               metrics = {
