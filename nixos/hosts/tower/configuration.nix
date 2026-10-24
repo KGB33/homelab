@@ -6,8 +6,7 @@
     ++ (with den.aspects; [
       system-default
       minecraft-base
-      minecraft-ftb-evolution
-      minecraft-monifactory
+      minecraft-gtnh
       valheim-main
 
       hickory-dns

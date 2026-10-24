@@ -73,23 +73,32 @@ in
       };
   };
 
-  den.aspects.minecraft-ftb-evolution = minecraft-server {
-    slug = "ftb-evolution";
-    ports = [ 25568 ];
-    extraEnv = {
-      MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-      MAX_MEMORY = "28G";
-      CF_SLUG = "ftb-evolution";
-    };
-  };
+  # den.aspects.minecraft-ftb-evolution = minecraft-server {
+  #   slug = "ftb-evolution";
+  #   ports = [ 25568 ];
+  #   extraEnv = {
+  #     MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+  #     MAX_MEMORY = "28G";
+  #     CF_SLUG = "ftb-evolution";
+  #   };
+  # };
 
-  den.aspects.minecraft-monifactory = minecraft-server {
-    slug = "monifactory";
+  # den.aspects.minecraft-monifactory = minecraft-server {
+  #   slug = "monifactory";
+  #   ports = [ 25569 ];
+  #   extraEnv = {
+  #     MODPACK_PLATFORM = "AUTO_CURSEFORGE";
+  #     CF_SLUG = "monifactory";
+  #     MODRINTH_PROJECTS = "cc-tweaked";
+  #   };
+  # };
+
+  den.aspects.minecraft-gtnh = minecraft-server {
+    slug = "gtnh";
     ports = [ 25569 ];
     extraEnv = {
-      MODPACK_PLATFORM = "AUTO_CURSEFORGE";
-      CF_SLUG = "monifactory";
-      MODRINTH_PROJECTS = "cc-tweaked";
+      TYPE = "GTNH";
+      GTNH_PACK_VERSION = "2.9.0-RC-2";
     };
   };
 
