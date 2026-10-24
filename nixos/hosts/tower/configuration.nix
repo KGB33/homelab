@@ -23,6 +23,12 @@
     nixos = { lib, ... }: {
       nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "surrealdb" ];
 
+      services.hickory-dns.settings.listen_addrs_ipv4 = [
+        "127.0.0.1"
+        "10.0.9.100"
+        "10.0.4.1"
+      ];
+
       networking = {
         hostId = "fa635731";
         useNetworkd = true;
