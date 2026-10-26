@@ -58,6 +58,14 @@ in
             in
             {
               "blog.kgb33.dev".extraConfig = localReverseProxy 1313;
+              "gtnh.kgb33.dev".extraConfig = ''
+                route {
+                  basic_auth argon2id {
+                    gtnh-map {env.GTNH_MAP_PASSWORD_HASH}
+                  }
+                  request_header -Authorization
+                }
+              '' + localReverseProxy 8123;
               "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}".extraConfig =
                 localReverseProxy 9925;
               "obsidian.kgb33.dev".extraConfig = localReverseProxy config.services.couchdb.port;

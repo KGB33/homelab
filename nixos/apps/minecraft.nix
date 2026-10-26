@@ -93,13 +93,34 @@ in
   #   };
   # };
 
-  den.aspects.minecraft-gtnh = minecraft-server {
-    slug = "gtnh";
-    ports = [ 25569 ];
-    extraEnv = {
-      TYPE = "GTNH";
-      GTNH_PACK_VERSION = "2.9.0-RC-2";
-    };
+  den.aspects.minecraft-gtnh = {
+    includes = [
+      (minecraft-server {
+        slug = "gtnh";
+        ports = [ 25569 ];
+        extraEnv = {
+          TYPE = "GTNH";
+          GTNH_PACK_VERSION = "2.9.0-RC-2";
+        };
+      })
+    ];
+
+    nixos =
+      { pkgs, ... }:
+      let
+        webMap = pkgs.fetchurl {
+          url = "https://github.com/GTNewHorizons/GTNH-Web-Map/releases/download/0.4-beta-1/gtnh-web-map-0.4-beta-1.jar";
+          hash = "sha256-MfNpXlQzcGOpbOkGnzgo6tnUWDebt+R0EAv1zsaBRE0=";
+        };
+      in
+      {
+        virtualisation.oci-containers.containers.minecraft-server-gtnh = {
+          ports = [ "127.0.0.1:8123:8123" ];
+          volumes = [
+            "${webMap}:/mods/gtnh-web-map-0.4-beta-1.jar:ro"
+          ];
+        };
+      };
   };
 
   # Only used by the `minecraft-server` check below.
