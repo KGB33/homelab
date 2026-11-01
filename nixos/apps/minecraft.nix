@@ -100,7 +100,7 @@ in
         ports = [ 25569 ];
         extraEnv = {
           TYPE = "GTNH";
-          GTNH_PACK_VERSION = "2.9.0-RC-2";
+          GTNH_PACK_VERSION = "2.9.0";
         };
       })
     ];
