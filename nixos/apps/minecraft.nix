@@ -30,10 +30,7 @@ let
           pull = "newer";
           environment = {
             EULA = "TRUE";
-            USE_MEOWICE_FLAGS = "true";
             MAX_MEMORY = "16G";
-            # https://calif.io/java4shell/#recommendations
-            JVM_XX_OPTS = "XX:-UseBASE64Intrinsics XX:-UseAVX=2"; 
           }
           // extraEnv;
           environmentFiles = [
