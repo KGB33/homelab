@@ -65,7 +65,8 @@ in
                   }
                   request_header -Authorization
                 }
-              '' + localReverseProxy 8123;
+              ''
+              + localReverseProxy 8123;
               "${config.virtualisation.oci-containers.containers.mealie.environment.BASE_URL}".extraConfig =
                 localReverseProxy 9925;
               "obsidian.kgb33.dev".extraConfig = localReverseProxy config.services.couchdb.port;
